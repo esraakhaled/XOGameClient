@@ -20,29 +20,39 @@ public  class RecordedGameBase extends BorderPane {
     protected final RowConstraints rowConstraints;
     protected final RowConstraints rowConstraints0;
     protected final RowConstraints rowConstraints1;
+    protected final AnchorPane anchorPane;
     protected final Button cell_0_0;
+    protected final AnchorPane anchorPane0;
     protected final Button cell_0_1;
+    protected final AnchorPane anchorPane1;
     protected final Button cell_0_2;
-    protected final Button cell_1_0;
-    protected final Button cell_1_1;
+    protected final AnchorPane anchorPane2;
     protected final Button cell_1_2;
+    protected final AnchorPane anchorPane3;
+    protected final Button cell_1_1;
+    protected final AnchorPane anchorPane4;
+    protected final Button cell_1_0;
+    protected final AnchorPane anchorPane5;
     protected final Button cell_2_0;
+    protected final AnchorPane anchorPane6;
     protected final Button cell_2_1;
+    protected final AnchorPane anchorPane7;
     protected final Button cell_2_2;
     protected final BorderPane borderPane;
     protected final Text TitleOFScreen;
     protected final GridPane gridPane0;
     protected final ColumnConstraints columnConstraints2;
     protected final RowConstraints rowConstraints2;
+    protected final AnchorPane anchorPane8;
     protected final Text secondPlayerName;
     protected final GridPane gridPane1;
     protected final ColumnConstraints columnConstraints3;
     protected final RowConstraints rowConstraints3;
     protected final Text firstPlayerName;
-    protected final AnchorPane anchorPane;
+    protected final AnchorPane anchorPane9;
     protected final Accordion accordion;
-    protected final AnchorPane anchorPane0;
-    protected final AnchorPane anchorPane1;
+    protected final AnchorPane anchorPane10;
+    protected final AnchorPane anchorPane11;
     protected final Button BackButton;
 
     public RecordedGameBase() {
@@ -54,37 +64,47 @@ public  class RecordedGameBase extends BorderPane {
         rowConstraints = new RowConstraints();
         rowConstraints0 = new RowConstraints();
         rowConstraints1 = new RowConstraints();
+        anchorPane = new AnchorPane();
         cell_0_0 = new Button();
+        anchorPane0 = new AnchorPane();
         cell_0_1 = new Button();
+        anchorPane1 = new AnchorPane();
         cell_0_2 = new Button();
-        cell_1_0 = new Button();
-        cell_1_1 = new Button();
+        anchorPane2 = new AnchorPane();
         cell_1_2 = new Button();
+        anchorPane3 = new AnchorPane();
+        cell_1_1 = new Button();
+        anchorPane4 = new AnchorPane();
+        cell_1_0 = new Button();
+        anchorPane5 = new AnchorPane();
         cell_2_0 = new Button();
+        anchorPane6 = new AnchorPane();
         cell_2_1 = new Button();
+        anchorPane7 = new AnchorPane();
         cell_2_2 = new Button();
         borderPane = new BorderPane();
         TitleOFScreen = new Text();
         gridPane0 = new GridPane();
         columnConstraints2 = new ColumnConstraints();
         rowConstraints2 = new RowConstraints();
+        anchorPane8 = new AnchorPane();
         secondPlayerName = new Text();
         gridPane1 = new GridPane();
         columnConstraints3 = new ColumnConstraints();
         rowConstraints3 = new RowConstraints();
         firstPlayerName = new Text();
-        anchorPane = new AnchorPane();
+        anchorPane9 = new AnchorPane();
         accordion = new Accordion();
-        anchorPane0 = new AnchorPane();
-        anchorPane1 = new AnchorPane();
+        anchorPane10 = new AnchorPane();
+        anchorPane11 = new AnchorPane();
         BackButton = new Button();
 
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
-        setMinHeight(USE_PREF_SIZE);
-        setMinWidth(USE_PREF_SIZE);
+        setMinHeight(400.0);
+        setMinWidth(500.0);
         setPrefHeight(400.0);
-        setPrefWidth(600.0);
+        setPrefWidth(586.0);
 
         BorderPane.setAlignment(gridPane, javafx.geometry.Pos.CENTER);
         gridPane.setGridLinesVisible(true);
@@ -115,58 +135,137 @@ public  class RecordedGameBase extends BorderPane {
         rowConstraints1.setPrefHeight(30.0);
         rowConstraints1.setVgrow(javafx.scene.layout.Priority.SOMETIMES);
 
+        anchorPane.setPrefHeight(200.0);
+        anchorPane.setPrefWidth(200.0);
+
+        AnchorPane.setBottomAnchor(cell_0_0, 0.0);
+        AnchorPane.setLeftAnchor(cell_0_0, 0.0);
+        AnchorPane.setRightAnchor(cell_0_0, 0.0);
+        AnchorPane.setTopAnchor(cell_0_0, 0.0);
+        cell_0_0.setLayoutY(2.0);
         cell_0_0.setMnemonicParsing(false);
         cell_0_0.setPrefHeight(64.0);
         cell_0_0.setPrefWidth(90.0);
 
-        GridPane.setColumnIndex(cell_0_1, 1);
+        GridPane.setColumnIndex(anchorPane0, 1);
+        anchorPane0.setPrefHeight(200.0);
+        anchorPane0.setPrefWidth(200.0);
+
+        AnchorPane.setBottomAnchor(cell_0_1, 0.0);
+        AnchorPane.setLeftAnchor(cell_0_1, 1.0);
+        AnchorPane.setRightAnchor(cell_0_1, 1.0);
+        AnchorPane.setTopAnchor(cell_0_1, 0.0);
+        cell_0_1.setLayoutX(26.0);
+        cell_0_1.setLayoutY(-5.0);
         cell_0_1.setMnemonicParsing(false);
         cell_0_1.setPrefHeight(64.0);
         cell_0_1.setPrefWidth(90.0);
 
-        GridPane.setColumnIndex(cell_0_2, 2);
+        GridPane.setColumnIndex(anchorPane1, 2);
+        anchorPane1.setPrefHeight(200.0);
+        anchorPane1.setPrefWidth(200.0);
+
+        AnchorPane.setBottomAnchor(cell_0_2, 1.0);
+        AnchorPane.setLeftAnchor(cell_0_2, 0.0);
+        AnchorPane.setRightAnchor(cell_0_2, 0.0);
+        AnchorPane.setTopAnchor(cell_0_2, 0.0);
+        cell_0_2.setLayoutX(37.0);
+        cell_0_2.setLayoutY(-11.0);
         cell_0_2.setMnemonicParsing(false);
         cell_0_2.setPrefHeight(64.0);
         cell_0_2.setPrefWidth(90.0);
 
-        GridPane.setRowIndex(cell_1_0, 1);
-        cell_1_0.setMnemonicParsing(false);
-        cell_1_0.setPrefHeight(64.0);
-        cell_1_0.setPrefWidth(90.0);
+        GridPane.setColumnIndex(anchorPane2, 2);
+        GridPane.setRowIndex(anchorPane2, 1);
+        anchorPane2.setPrefHeight(200.0);
+        anchorPane2.setPrefWidth(200.0);
 
-        GridPane.setColumnIndex(cell_1_1, 1);
-        GridPane.setRowIndex(cell_1_1, 1);
-        cell_1_1.setMnemonicParsing(false);
-        cell_1_1.setPrefHeight(64.0);
-        cell_1_1.setPrefWidth(90.0);
-
-        GridPane.setColumnIndex(cell_1_2, 2);
-        GridPane.setRowIndex(cell_1_2, 1);
+        AnchorPane.setBottomAnchor(cell_1_2, 0.0);
+        AnchorPane.setLeftAnchor(cell_1_2, 0.0);
+        AnchorPane.setRightAnchor(cell_1_2, 0.0);
+        AnchorPane.setTopAnchor(cell_1_2, 0.0);
+        cell_1_2.setLayoutX(35.0);
         cell_1_2.setMnemonicParsing(false);
         cell_1_2.setPrefHeight(64.0);
         cell_1_2.setPrefWidth(90.0);
 
-        GridPane.setRowIndex(cell_2_0, 2);
+        GridPane.setColumnIndex(anchorPane3, 1);
+        GridPane.setRowIndex(anchorPane3, 1);
+        anchorPane3.setPrefHeight(200.0);
+        anchorPane3.setPrefWidth(200.0);
+
+        AnchorPane.setBottomAnchor(cell_1_1, 0.0);
+        AnchorPane.setLeftAnchor(cell_1_1, 0.0);
+        AnchorPane.setRightAnchor(cell_1_1, 0.0);
+        AnchorPane.setTopAnchor(cell_1_1, 0.0);
+        cell_1_1.setLayoutX(30.0);
+        cell_1_1.setLayoutY(-6.0);
+        cell_1_1.setMnemonicParsing(false);
+        cell_1_1.setPrefHeight(64.0);
+        cell_1_1.setPrefWidth(90.0);
+
+        GridPane.setRowIndex(anchorPane4, 1);
+        anchorPane4.setPrefHeight(200.0);
+        anchorPane4.setPrefWidth(200.0);
+
+        AnchorPane.setBottomAnchor(cell_1_0, 0.0);
+        AnchorPane.setLeftAnchor(cell_1_0, 0.0);
+        AnchorPane.setRightAnchor(cell_1_0, 0.0);
+        AnchorPane.setTopAnchor(cell_1_0, 0.0);
+        cell_1_0.setLayoutX(12.0);
+        cell_1_0.setLayoutY(-7.0);
+        cell_1_0.setMnemonicParsing(false);
+        cell_1_0.setPrefHeight(64.0);
+        cell_1_0.setPrefWidth(90.0);
+
+        GridPane.setRowIndex(anchorPane5, 2);
+        anchorPane5.setPrefHeight(200.0);
+        anchorPane5.setPrefWidth(200.0);
+
+        AnchorPane.setBottomAnchor(cell_2_0, 0.0);
+        AnchorPane.setLeftAnchor(cell_2_0, 0.0);
+        AnchorPane.setRightAnchor(cell_2_0, 0.0);
+        AnchorPane.setTopAnchor(cell_2_0, 0.0);
+        cell_2_0.setLayoutX(14.0);
+        cell_2_0.setLayoutY(-5.0);
         cell_2_0.setMnemonicParsing(false);
         cell_2_0.setPrefHeight(64.0);
         cell_2_0.setPrefWidth(90.0);
 
-        GridPane.setColumnIndex(cell_2_1, 1);
-        GridPane.setRowIndex(cell_2_1, 2);
+        GridPane.setColumnIndex(anchorPane6, 1);
+        GridPane.setRowIndex(anchorPane6, 2);
+        anchorPane6.setPrefHeight(200.0);
+        anchorPane6.setPrefWidth(200.0);
+
+        AnchorPane.setBottomAnchor(cell_2_1, 0.0);
+        AnchorPane.setLeftAnchor(cell_2_1, 0.0);
+        AnchorPane.setRightAnchor(cell_2_1, 0.0);
+        AnchorPane.setTopAnchor(cell_2_1, 0.0);
+        cell_2_1.setLayoutX(11.0);
+        cell_2_1.setLayoutY(5.0);
         cell_2_1.setMnemonicParsing(false);
         cell_2_1.setPrefHeight(64.0);
         cell_2_1.setPrefWidth(90.0);
 
-        GridPane.setColumnIndex(cell_2_2, 2);
-        GridPane.setRowIndex(cell_2_2, 2);
+        GridPane.setColumnIndex(anchorPane7, 2);
+        GridPane.setRowIndex(anchorPane7, 2);
+        anchorPane7.setPrefHeight(200.0);
+        anchorPane7.setPrefWidth(200.0);
+
+        AnchorPane.setBottomAnchor(cell_2_2, 0.0);
+        AnchorPane.setLeftAnchor(cell_2_2, 0.0);
+        AnchorPane.setRightAnchor(cell_2_2, 0.0);
+        AnchorPane.setTopAnchor(cell_2_2, 0.0);
+        cell_2_2.setLayoutX(25.0);
+        cell_2_2.setLayoutY(15.0);
         cell_2_2.setMnemonicParsing(false);
         cell_2_2.setPrefHeight(64.0);
         cell_2_2.setPrefWidth(90.0);
         setCenter(gridPane);
 
         BorderPane.setAlignment(borderPane, javafx.geometry.Pos.CENTER);
-        borderPane.setPrefHeight(151.0);
-        borderPane.setPrefWidth(600.0);
+        borderPane.setPrefHeight(117.0);
+        borderPane.setPrefWidth(699.0);
 
         BorderPane.setAlignment(TitleOFScreen, javafx.geometry.Pos.TOP_CENTER);
         TitleOFScreen.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
@@ -191,6 +290,15 @@ public  class RecordedGameBase extends BorderPane {
         rowConstraints2.setVgrow(javafx.scene.layout.Priority.SOMETIMES);
         BorderPane.setMargin(gridPane0, new Insets(60.0, 0.0, 0.0, 0.0));
 
+        anchorPane8.setPrefHeight(200.0);
+        anchorPane8.setPrefWidth(200.0);
+
+        AnchorPane.setBottomAnchor(secondPlayerName, 15.0);
+        AnchorPane.setLeftAnchor(secondPlayerName, 2.0);
+        AnchorPane.setRightAnchor(secondPlayerName, 10.0);
+        AnchorPane.setTopAnchor(secondPlayerName, 20.0);
+        secondPlayerName.setLayoutX(7.0);
+        secondPlayerName.setLayoutY(28.0);
         secondPlayerName.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         secondPlayerName.setStrokeWidth(0.0);
         secondPlayerName.setText(": player2Name");
@@ -219,21 +327,21 @@ public  class RecordedGameBase extends BorderPane {
         borderPane.setLeft(gridPane1);
         setTop(borderPane);
 
-        BorderPane.setAlignment(anchorPane, javafx.geometry.Pos.CENTER);
-        anchorPane.setPrefHeight(234.0);
-        anchorPane.setPrefWidth(168.0);
+        BorderPane.setAlignment(anchorPane9, javafx.geometry.Pos.CENTER);
+        anchorPane9.setPrefHeight(234.0);
+        anchorPane9.setPrefWidth(168.0);
 
         accordion.setLayoutY(7.0);
-        setLeft(anchorPane);
+        setLeft(anchorPane9);
 
-        BorderPane.setAlignment(anchorPane0, javafx.geometry.Pos.CENTER);
-        anchorPane0.setPrefHeight(234.0);
-        anchorPane0.setPrefWidth(161.0);
-        setRight(anchorPane0);
+        BorderPane.setAlignment(anchorPane10, javafx.geometry.Pos.CENTER);
+        anchorPane10.setPrefHeight(234.0);
+        anchorPane10.setPrefWidth(161.0);
+        setRight(anchorPane10);
 
-        BorderPane.setAlignment(anchorPane1, javafx.geometry.Pos.CENTER);
-        anchorPane1.setPrefHeight(59.0);
-        anchorPane1.setPrefWidth(600.0);
+        BorderPane.setAlignment(anchorPane11, javafx.geometry.Pos.CENTER);
+        anchorPane11.setPrefHeight(61.0);
+        anchorPane11.setPrefWidth(685.0);
 
         BackButton.setLayoutX(33.0);
         BackButton.setLayoutY(22.0);
@@ -241,7 +349,7 @@ public  class RecordedGameBase extends BorderPane {
         BackButton.setPrefHeight(25.0);
         BackButton.setPrefWidth(110.0);
         BackButton.setText("Back");
-        setBottom(anchorPane1);
+        setBottom(anchorPane11);
 
         gridPane.getColumnConstraints().add(columnConstraints);
         gridPane.getColumnConstraints().add(columnConstraints0);
@@ -249,23 +357,33 @@ public  class RecordedGameBase extends BorderPane {
         gridPane.getRowConstraints().add(rowConstraints);
         gridPane.getRowConstraints().add(rowConstraints0);
         gridPane.getRowConstraints().add(rowConstraints1);
-        gridPane.getChildren().add(cell_0_0);
-        gridPane.getChildren().add(cell_0_1);
-        gridPane.getChildren().add(cell_0_2);
-        gridPane.getChildren().add(cell_1_0);
-        gridPane.getChildren().add(cell_1_1);
-        gridPane.getChildren().add(cell_1_2);
-        gridPane.getChildren().add(cell_2_0);
-        gridPane.getChildren().add(cell_2_1);
-        gridPane.getChildren().add(cell_2_2);
+        anchorPane.getChildren().add(cell_0_0);
+        gridPane.getChildren().add(anchorPane);
+        anchorPane0.getChildren().add(cell_0_1);
+        gridPane.getChildren().add(anchorPane0);
+        anchorPane1.getChildren().add(cell_0_2);
+        gridPane.getChildren().add(anchorPane1);
+        anchorPane2.getChildren().add(cell_1_2);
+        gridPane.getChildren().add(anchorPane2);
+        anchorPane3.getChildren().add(cell_1_1);
+        gridPane.getChildren().add(anchorPane3);
+        anchorPane4.getChildren().add(cell_1_0);
+        gridPane.getChildren().add(anchorPane4);
+        anchorPane5.getChildren().add(cell_2_0);
+        gridPane.getChildren().add(anchorPane5);
+        anchorPane6.getChildren().add(cell_2_1);
+        gridPane.getChildren().add(anchorPane6);
+        anchorPane7.getChildren().add(cell_2_2);
+        gridPane.getChildren().add(anchorPane7);
         gridPane0.getColumnConstraints().add(columnConstraints2);
         gridPane0.getRowConstraints().add(rowConstraints2);
-        gridPane0.getChildren().add(secondPlayerName);
+        anchorPane8.getChildren().add(secondPlayerName);
+        gridPane0.getChildren().add(anchorPane8);
         gridPane1.getColumnConstraints().add(columnConstraints3);
         gridPane1.getRowConstraints().add(rowConstraints3);
         gridPane1.getChildren().add(firstPlayerName);
-        anchorPane.getChildren().add(accordion);
-        anchorPane1.getChildren().add(BackButton);
+        anchorPane9.getChildren().add(accordion);
+        anchorPane11.getChildren().add(BackButton);
 
     }
 }
