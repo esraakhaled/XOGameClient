@@ -19,7 +19,7 @@ public class XOGameClient extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        Parent root = new PlayWithComputerBase();
         
         Scene scene = new Scene(root);
         
