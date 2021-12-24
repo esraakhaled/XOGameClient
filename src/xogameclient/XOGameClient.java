@@ -19,8 +19,14 @@ public class XOGameClient extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
+<<<<<<< HEAD
         Parent root = new Login();
         
+=======
+
+        Parent root = new RegisterBase() ;
+        //Parent root = new playerProfileBase();
+>>>>>>> b9132431f2e9a1dbf7e2bbff06f1078263777601
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
