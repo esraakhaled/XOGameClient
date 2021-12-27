@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+<<<<<<< HEAD
+            <file>file:/D:/iti_material/java_course/javafxApps/XOGameClient/src/xogameclient/XOGameClient.java</file>
+            <file>file:/D:/iti_material/java_course/javafxApps/XOGameClient/src/xogameclient/PlayWithComputerBase.java</file>
+            <file>file:/D:/iti_material/java_course/javafxApps/XOGameClient/src/xogameclient/PlayWithComputerController.java</file>
+=======
+<<<<<<< HEAD
+            <file>file:/C:/Users/ahmed/Desktop/project/src/xogameclient/XOGameClient.java</file>
+            <file>file:/C:/Users/ahmed/Desktop/project/src/xogameclient/FXMLDocumentController.java</file>
+=======
+            <file>file:/D:/iti_material/java_course/javafxApps/XOGameClient/src/xogameclient/XOGameClient.java</file>
+            <file>file:/D:/iti_material/java_course/javafxApps/XOGameClient/src/xogameclient/FXMLDocument.fxml</file>
+            <file>file:/D:/iti_material/java_course/javafxApps/XOGameClient/src/xogameclient/FXMLDocumentController.java</file>
+>>>>>>> b9132431f2e9a1dbf7e2bbff06f1078263777601
+>>>>>>> master
+        </group>
+    </open-files>
+</project-private>
