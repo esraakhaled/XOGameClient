@@ -1,5 +1,7 @@
 package xogameclient;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
@@ -104,7 +106,9 @@ public  class WelcomeXO extends GridPane {
         button_local.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         button_local.setFont(new Font(15.0));
         button_local.setPadding(new Insets(25.0));
-
+        button_local.addEventFilter(ActionEvent.ACTION, (ActionEvent event) -> {
+            AlertDialog.display("JavaFX Custom Dialog Demo");
+        });
         GridPane.setRowIndex(gridPane, 1);
 
         columnConstraints0.setHgrow(javafx.scene.layout.Priority.SOMETIMES);
