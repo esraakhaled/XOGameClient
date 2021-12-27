@@ -25,6 +25,9 @@ public class XOGameClient extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
 
         
+
+       // Parent root = new playerProfileBase();
+
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
