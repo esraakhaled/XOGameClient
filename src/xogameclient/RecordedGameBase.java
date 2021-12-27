@@ -54,6 +54,7 @@ public  class RecordedGameBase extends BorderPane {
     protected final AnchorPane anchorPane10;
     protected final AnchorPane anchorPane11;
     protected final Button BackButton;
+    
 
     public RecordedGameBase() {
 

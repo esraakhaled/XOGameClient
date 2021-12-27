@@ -289,4 +289,6 @@ public  class playerProfileBase extends BorderPane {
         anchorPane1.getChildren().add(playerName);
 
     }
+    
+    
 }

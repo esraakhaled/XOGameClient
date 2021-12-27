@@ -211,7 +211,7 @@ public  class Login extends GridPane {
      @FXML
     public void signUp(ActionEvent event) throws IOException{
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("sign_Up.Fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("Sign_Up.fxml"));
         //stage.setTitle("Log in");
         Scene scene=new Scene(root);
         stage.setScene(scene);
