@@ -4,6 +4,7 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/D:/iti_material/java_course/javafxApps/XOGameClient/src/xogameclient/XOGameClient.java</file>
+<<<<<<< HEAD
             <file>file:/D:/iti_material/java_course/javafxApps/XOGameClient/src/xogameclient/PlayWithComputerBase.java</file>
             <file>file:/D:/iti_material/java_course/javafxApps/XOGameClient/src/xogameclient/PlayWithComputerController.java</file>
 
@@ -12,6 +13,8 @@
             <file>file:/D:/iti_material/java_course/javafxApps/XOGameClient/src/xogameclient/XOGameClient.java</file>
             <file>file:/D:/iti_material/java_course/javafxApps/XOGameClient/src/xogameclient/FXMLDocument.fxml</file>
             <file>file:/D:/iti_material/java_course/javafxApps/XOGameClient/src/xogameclient/FXMLDocumentController.java</file>
+=======
+>>>>>>> master
         </group>
     </open-files>
 </project-private>
