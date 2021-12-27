@@ -22,12 +22,18 @@ public class XOGameClient extends Application {
 
         //Parent root = new playerProfileBase();
 
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        //Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
 
         
 
        // Parent root = new playerProfileBase();
+       // Parent root = new Login();
+        //Parent root = new SignUpBase();
+        //Parent root = new PlayWithComputerBase();
+        Parent root = new WelcomeXO();
+       // Parent root = new RegisterBase() ;
 
+        //Parent root = new playerProfileBase();
         Scene scene = new Scene(root);
         
         stage.setScene(scene);
