@@ -22,4 +22,5 @@
 *.zip
 *.tar.gz
 *.rar
+/nbproject/private
 
