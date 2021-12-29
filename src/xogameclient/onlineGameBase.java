@@ -1,14 +1,23 @@
 package xogameclient;
 
+import java.awt.Image;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Group;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaView;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public  class onlineGameBase extends BorderPane {
 
@@ -57,7 +66,7 @@ public  class onlineGameBase extends BorderPane {
     protected final Button recordButton;
     protected final Button restartButton;
     protected final Button backButton;
-
+    AlertDialog vedio = new AlertDialog();
     public onlineGameBase() {
 
         gridPane = new GridPane();
@@ -422,6 +431,24 @@ public  class onlineGameBase extends BorderPane {
         anchorPane10.getChildren().add(recordButton);
         anchorPane10.getChildren().add(restartButton);
         anchorPane10.getChildren().add(backButton);
+        backButton.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>(){
+            
 
+            @Override
+            public void handle(ActionEvent event) {
+                vedio.vedioDialog();
+//                final Stage dialog = new Stage();
+//    Group popup = new Group();
+//    Image image = new Image("file:resources/images/bender.gif") {};
+//    ImageView view = new ImageView(image);
+//    popup.getChildren().add(view);
+//    Scene dialogScene = new Scene(popup);
+//    dialog.setScene(dialogScene);
+//    dialog.show();
+                    
+            }
+            
+           
+        });
     }
 }

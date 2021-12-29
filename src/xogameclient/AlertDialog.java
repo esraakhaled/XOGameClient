@@ -5,12 +5,21 @@
  */
 package xogameclient;
 
+
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -53,6 +62,18 @@ public class AlertDialog {
         stage.setTitle("Dialog");
         stage.setScene(scene);
         stage.show();
+    }
+    public void vedioDialog(){
+
+        try {
+            Dialog dialog = new Dialog();
+            Parent root = FXMLLoader.load(getClass().getResource("winningVedio.fxml"));
+            dialog.getDialogPane().setContent(root);
+            dialog.show();
+        } catch (IOException ex) {
+            Logger.getLogger(AlertDialog.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
     
 }
