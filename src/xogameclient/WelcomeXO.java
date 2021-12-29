@@ -1,8 +1,14 @@
 package xogameclient;
 
+import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -11,6 +17,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public  class WelcomeXO extends GridPane {
 
@@ -109,6 +116,13 @@ public  class WelcomeXO extends GridPane {
         button_local.addEventFilter(ActionEvent.ACTION, (ActionEvent event) -> {
             AlertDialog.display("JavaFX Custom Dialog Demo");
         });
+      /* button_local.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Navigation nav = new Navigation();
+                nav.playGame(event);
+                    }
+        });*/
         GridPane.setRowIndex(gridPane, 1);
 
         columnConstraints0.setHgrow(javafx.scene.layout.Priority.SOMETIMES);
@@ -144,6 +158,13 @@ public  class WelcomeXO extends GridPane {
         button_computer.setText("Play with computer");
         button_computer.setFont(new Font(15.0));
         button_computer.setPadding(new Insets(25.0));
+        button_computer.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Navigation nav = new Navigation();
+                nav.playGame(event);
+                    }
+        });
         borderPane0.setCenter(anchorPane0);
 
         borderPane1.setPrefHeight(200.0);
@@ -166,6 +187,13 @@ public  class WelcomeXO extends GridPane {
         button_online.setText("Play Online");
         button_online.setFont(new Font(15.0));
         button_online.setPadding(new Insets(25.0));
+        button_online.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Navigation nav = new Navigation();
+                nav.loginScreen(event);
+                    }
+        });
         borderPane1.setCenter(anchorPane1);
 
         getColumnConstraints().add(columnConstraints);
@@ -183,6 +211,8 @@ public  class WelcomeXO extends GridPane {
         anchorPane1.getChildren().add(button_online);
         gridPane.getChildren().add(borderPane1);
         getChildren().add(gridPane);
+        
 
     }
+     
 }

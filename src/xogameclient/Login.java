@@ -2,6 +2,7 @@ package xogameclient;
 
 import java.io.IOException;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -162,6 +163,13 @@ public  class Login extends GridPane {
         login_btn.setPrefWidth(297.0);
         login_btn.setText("Log In");
         login_btn.setFont(new Font(14.0));
+        login_btn.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Navigation nav = new Navigation();
+                nav.loginButton(event);
+                    }
+        });
         borderPane2.setCenter(anchorPane2);
 
         GridPane.setRowIndex(borderPane3, 4);
@@ -180,6 +188,14 @@ public  class Login extends GridPane {
         sign_btn.setPrefWidth(114.0);
         sign_btn.setText("Sign Up");
         borderPane3.setCenter(anchorPane3);
+         sign_btn.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Navigation nav = new Navigation();
+                nav.signupScreen(event);
+                    }
+        });
+        
 
         getColumnConstraints().add(columnConstraints);
         getRowConstraints().add(rowConstraints);
@@ -199,24 +215,8 @@ public  class Login extends GridPane {
         getChildren().add(borderPane3);
 
     }
-     @FXML
-    public void login(ActionEvent event) throws IOException{
-        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("playerProfile.Fxml"));
-        //stage.setTitle("Log in");
-        Scene scene=new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
-     @FXML
-    public void signUp(ActionEvent event) throws IOException{
-        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("Sign_Up.fxml"));
-        //stage.setTitle("Log in");
-        Scene scene=new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-    }
+     
+    
 
 
    

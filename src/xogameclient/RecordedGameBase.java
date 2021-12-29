@@ -1,5 +1,7 @@
 package xogameclient;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
@@ -350,6 +352,13 @@ public  class RecordedGameBase extends BorderPane {
         BackButton.setPrefHeight(25.0);
         BackButton.setPrefWidth(110.0);
         BackButton.setText("Back");
+        BackButton.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Navigation nav = new Navigation();
+                nav.backGame(event);
+                    }
+        });
         setBottom(anchorPane11);
 
         gridPane.getColumnConstraints().add(columnConstraints);

@@ -1,6 +1,7 @@
 package xogameclient;
 
-import javafx.geometry.Insets;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
@@ -37,12 +38,15 @@ public  class playerProfileBase extends BorderPane {
     protected final Text text7;
     protected final Text text8;
     protected final Text text9;
-    protected final Button backButton;
     protected final BorderPane borderPane;
     protected final Text text10;
     protected final AnchorPane anchorPane1;
     protected final Text playerName;
     protected final AnchorPane anchorPane2;
+    protected final AnchorPane anchorPane3;
+    protected final Button backButton;
+    protected final Button signOutButton;
+    protected final Button recorderGameButton;
 
     public playerProfileBase() {
 
@@ -69,19 +73,22 @@ public  class playerProfileBase extends BorderPane {
         text7 = new Text();
         text8 = new Text();
         text9 = new Text();
-        backButton = new Button();
         borderPane = new BorderPane();
         text10 = new Text();
         anchorPane1 = new AnchorPane();
         playerName = new Text();
         anchorPane2 = new AnchorPane();
+        anchorPane3 = new AnchorPane();
+        backButton = new Button();
+        signOutButton = new Button();
+        recorderGameButton = new Button();
 
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
-        setMinHeight(400.0);
+        setMinHeight(208.0);
         setMinWidth(500.0);
-        setPrefHeight(394.0);
-        setPrefWidth(594.0);
+        setPrefHeight(400.0);
+        setPrefWidth(582.0);
 
         BorderPane.setAlignment(anchorPane, javafx.geometry.Pos.CENTER);
         anchorPane.setPrefHeight(292.0);
@@ -109,19 +116,19 @@ public  class playerProfileBase extends BorderPane {
         anchorPane0.setPrefHeight(312.0);
         anchorPane0.setPrefWidth(252.0);
 
-        AnchorPane.setBottomAnchor(recordedList, 0.0);
+        AnchorPane.setBottomAnchor(recordedList, 7.0);
         AnchorPane.setRightAnchor(recordedList, 35.0);
         AnchorPane.setTopAnchor(recordedList, 167.0);
         recordedList.setLayoutX(35.0);
         recordedList.setLayoutY(167.0);
-        recordedList.setPrefHeight(129.0);
+        recordedList.setPrefHeight(141.0);
         recordedList.setPrefWidth(182.0);
 
         text0.setLayoutX(21.0);
         text0.setLayoutY(159.0);
         text0.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         text0.setStrokeWidth(0.0);
-        text0.setText("Recorded List");
+        text0.setText("Top Players");
         text0.setFont(new Font(14.0));
 
         text1.setLayoutX(27.0);
@@ -229,13 +236,6 @@ public  class playerProfileBase extends BorderPane {
         text9.setWrappingWidth(96.46875);
         setLeft(anchorPane0);
 
-        BorderPane.setAlignment(backButton, javafx.geometry.Pos.CENTER);
-        backButton.setMnemonicParsing(false);
-        backButton.setPrefWidth(41.0);
-        backButton.setText("Back");
-        BorderPane.setMargin(backButton, new Insets(0.0, 0.0, 10.0, 0.0));
-        setBottom(backButton);
-
         BorderPane.setAlignment(borderPane, javafx.geometry.Pos.CENTER);
         borderPane.setPrefHeight(85.0);
         borderPane.setPrefWidth(594.0);
@@ -265,6 +265,52 @@ public  class playerProfileBase extends BorderPane {
         borderPane.setRight(anchorPane2);
         setTop(borderPane);
 
+        BorderPane.setAlignment(anchorPane3, javafx.geometry.Pos.CENTER);
+        anchorPane3.setPrefHeight(51.0);
+        anchorPane3.setPrefWidth(594.0);
+
+        AnchorPane.setBottomAnchor(backButton, 13.0);
+        AnchorPane.setRightAnchor(backButton, 128.0);
+        AnchorPane.setTopAnchor(backButton, 13.0);
+        backButton.setLayoutX(399.0);
+        backButton.setLayoutY(13.0);
+        backButton.setMnemonicParsing(false);
+        //backButton.setOnAction(this::back);
+        backButton.setPrefHeight(25.0);
+        backButton.setPrefWidth(52.0);
+        backButton.setText("Back");
+        backButton.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Navigation nav = new Navigation();
+                nav.backGame(event);
+                    }
+        });
+
+        AnchorPane.setBottomAnchor(signOutButton, 13.0);
+        AnchorPane.setRightAnchor(signOutButton, 20.0);
+        AnchorPane.setTopAnchor(signOutButton, 13.0);
+        signOutButton.setLayoutX(508.0);
+        signOutButton.setLayoutY(13.0);
+        signOutButton.setMnemonicParsing(false);
+        signOutButton.setText("sign out");
+
+        AnchorPane.setBottomAnchor(recorderGameButton, 13.0);
+        AnchorPane.setLeftAnchor(recorderGameButton, 20.0);
+        AnchorPane.setTopAnchor(recorderGameButton, 13.0);
+        recorderGameButton.setLayoutX(29.0);
+        recorderGameButton.setLayoutY(13.0);
+        recorderGameButton.setMnemonicParsing(false);
+        recorderGameButton.setText("recorded game");
+        recorderGameButton.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Navigation nav = new Navigation();
+                nav.signupProfile(event);
+                    }
+        });
+        setBottom(anchorPane3);
+
         anchorPane.getChildren().add(PlayerList);
         anchorPane.getChildren().add(text);
         anchorPane0.getChildren().add(recordedList);
@@ -287,8 +333,11 @@ public  class playerProfileBase extends BorderPane {
         gridPane.getChildren().add(text9);
         anchorPane0.getChildren().add(gridPane);
         anchorPane1.getChildren().add(playerName);
+        anchorPane3.getChildren().add(backButton);
+        anchorPane3.getChildren().add(signOutButton);
+        anchorPane3.getChildren().add(recorderGameButton);
 
     }
-    
-    
+
+
 }

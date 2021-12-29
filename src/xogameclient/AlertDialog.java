@@ -5,8 +5,11 @@
  */
 package xogameclient;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -36,8 +39,24 @@ public class AlertDialog {
         button.setOnAction(e -> {
              player1Name = player1.getText();
              player2Name = player2.getText();
-             stage.close();
+       /* Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource(".Fxml"));
+        //stage.setTitle("Log in");
+        Scene scene=new Scene(root);
+        stage.setScene(scene);
+        stage.show();*/
+              Navigation nav = new Navigation();
+                nav.playGame(e);
+                
+             //stage.close();
         });
+        /*button.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Navigation nav = new Navigation();
+                nav.playGame(event);
+                    }
+        });*/
         GridPane layout = new GridPane();
          
         layout.setPadding(new Insets(10, 10, 10, 10)); 
