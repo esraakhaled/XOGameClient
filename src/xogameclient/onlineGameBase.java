@@ -1,10 +1,20 @@
 package xogameclient;
 
+
 import java.util.Vector;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
+
+import java.io.IOException;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -13,6 +23,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class onlineGameBase extends BorderPane {
 
@@ -417,6 +428,13 @@ public class onlineGameBase extends BorderPane {
         recordButton.setPrefHeight(25.0);
         recordButton.setPrefWidth(110.0);
         recordButton.setText("Record Game");
+         recordButton.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Navigation nav = new Navigation();
+                nav.recordedGame(event);
+                    }
+        });
 
         AnchorPane.setBottomAnchor(restartButton, 12.0);
         AnchorPane.setRightAnchor(restartButton, 100.0);
@@ -425,6 +443,13 @@ public class onlineGameBase extends BorderPane {
         restartButton.setLayoutY(22.0);
         restartButton.setMnemonicParsing(false);
         restartButton.setText("Restart");
+        restartButton.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Navigation nav = new Navigation();
+                nav.restartGame(event);
+                    }
+        });
 
         AnchorPane.setBottomAnchor(backButton, 12.0);
         AnchorPane.setRightAnchor(backButton, 20.0);
@@ -436,6 +461,13 @@ public class onlineGameBase extends BorderPane {
         backButton.setPrefWidth(54.0);
         backButton.setText("Back");
         setBottom(anchorPane10);
+          backButton.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Navigation nav = new Navigation();
+                nav.backGame(event);
+                    }
+        });
 
         gridPane.getColumnConstraints().add(columnConstraints);
         gridPane.getColumnConstraints().add(columnConstraints0);
@@ -553,6 +585,7 @@ public class onlineGameBase extends BorderPane {
         backButton.setDisable(true);
 
     }
+
 
     public void setButtonID() {
         cell_0_0.setId("cell_0_0");

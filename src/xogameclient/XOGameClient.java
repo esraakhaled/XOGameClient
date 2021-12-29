@@ -15,20 +15,20 @@ import javafx.stage.Stage;
  * @author Raiaan
  */
 public class XOGameClient extends Application {
-    
+
     @Override
     public void start(Stage stage) throws Exception {
-       // Parent root = new Login();
-        
-
+        // Parent root = new Login();
+        //Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
         //Parent root = new SignUpBase();
         //Parent root = new PlayWithComputerBase();
-        Parent root = new onlineGameBase(new LocalGame("Ahmed", "mohamed"));
+       // Parent root = new onlineGameBase(new LocalGame("Ahmed", "mohamed"));
        // Parent root = new RegisterBase() ;
 
+        Parent root = new WelcomeXO();
+        // Parent root = new RegisterBase() ;
         //Parent root = new playerProfileBase();
         Scene scene = new Scene(root);
-        
         stage.setScene(scene);
         stage.show();
     }
@@ -39,5 +39,5 @@ public class XOGameClient extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
 }
