@@ -6,7 +6,6 @@
 package xogameclient;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -24,7 +23,7 @@ public class XOGameClient extends Application {
 
         //Parent root = new SignUpBase();
         //Parent root = new PlayWithComputerBase();
-        Parent root = new WelcomeXO();
+        Parent root = new onlineGameBase(new LocalGame("Ahmed", "mohamed"));
        // Parent root = new RegisterBase() ;
 
         //Parent root = new playerProfileBase();

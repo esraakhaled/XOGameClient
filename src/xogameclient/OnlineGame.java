@@ -9,6 +9,16 @@ package xogameclient;
  *
  * @author ahmed
  */
-public class OnlineGame {
+public class OnlineGame extends Game {
+
+    @Override
+    public void actionPlayerA(String cellPostion) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void actionPlayerB(String cellPostion) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

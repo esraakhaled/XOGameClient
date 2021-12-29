@@ -15,7 +15,25 @@ public class Player {
     private int numOfGames;
     private char XO;
     private String password;
-    
+    private boolean avaiable;
+    private boolean online;
+
+    public boolean isAvaiable() {
+        return avaiable;
+    }
+
+    public void setAvaiable(boolean avaiable) {
+        this.avaiable = avaiable;
+    }
+
+    public boolean isOnline() {
+        return online;
+    }
+
+    public void setOnline(boolean online) {
+        this.online = online;
+    }
+
     public Player(String name){
         this.name=name;
         score=0;
