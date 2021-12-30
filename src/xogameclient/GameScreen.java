@@ -1,6 +1,9 @@
 package xogameclient;
 
 
+import xogameclient.model.Game;
+import xogameclient.model.LocalGame;
+import xogameclient.model.OnlineGame;
 import java.util.Vector;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

@@ -5,6 +5,7 @@
  */
 package xogameclient;
 
+import xogameclient.model.Game;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.Parent;
