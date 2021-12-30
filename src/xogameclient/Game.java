@@ -5,6 +5,17 @@
  */
 package xogameclient;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.animation.PauseTransition;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.control.Dialog;
+import javafx.util.Duration;
+
 /**
  *
  * @author ahmed
@@ -62,6 +73,31 @@ public abstract class Game {
     }
 
     public void rest() {
+
+    }
+     public  void vedioDialog(){
+
+        try {
+            
+            Dialog dialog = new Dialog();
+            
+            Parent root = FXMLLoader.load(getClass().getResource("winningVedio.fxml"));
+            dialog.getDialogPane().setContent(root);
+            dialog.show();
+            PauseTransition pauseTransition =new PauseTransition(Duration.seconds(5));
+            pauseTransition.setOnFinished(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    
+                    dialog.hide();
+                    System.out.println("dhdhh");
+                }
+            });
+            pauseTransition.play();
+          
+        } catch (IOException ex) {
+            Logger.getLogger(AlertDialog.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 

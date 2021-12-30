@@ -9,6 +9,9 @@ package xogameclient;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.PauseTransition;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -24,6 +27,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  *
@@ -66,10 +70,35 @@ public class AlertDialog {
     public void vedioDialog(){
 
         try {
+            
             Dialog dialog = new Dialog();
+            
             Parent root = FXMLLoader.load(getClass().getResource("winningVedio.fxml"));
             dialog.getDialogPane().setContent(root);
             dialog.show();
+            PauseTransition pauseTransition =new PauseTransition(Duration.seconds(5));
+            pauseTransition.setOnFinished(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    dialog.hide();
+                    System.out.println("dhdhh");
+                }
+            });
+            pauseTransition.play();
+            /*
+             new Thread(){
+                 public void run(){
+                     try {
+                         sleep(3000);
+                         
+                        stop();
+                     } catch (InterruptedException ex) {
+                         Logger.getLogger(AlertDialog.class.getName()).log(Level.SEVERE, null, ex);
+                     }
+                 }
+                 
+             }.start();
+             */
         } catch (IOException ex) {
             Logger.getLogger(AlertDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
