@@ -25,7 +25,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class onlineGameBase extends BorderPane {
+public class GameScreen extends BorderPane {
 
     protected final GridPane gridPane;
     protected final ColumnConstraints columnConstraints;
@@ -83,7 +83,7 @@ public class onlineGameBase extends BorderPane {
     private String cellPostion = "";
     private Vector<Button> buttons = new Vector<>();
 
-    public onlineGameBase(Game g) {
+    public GameScreen(Game g) {
 
         // check for online only
         game = g;
@@ -443,6 +443,7 @@ public class onlineGameBase extends BorderPane {
         restartButton.setLayoutY(22.0);
         restartButton.setMnemonicParsing(false);
         restartButton.setText("Restart");
+        /*
         restartButton.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -450,7 +451,7 @@ public class onlineGameBase extends BorderPane {
                 nav.restartGame(event);
                     }
         });
-
+*/
         AnchorPane.setBottomAnchor(backButton, 12.0);
         AnchorPane.setRightAnchor(backButton, 20.0);
         AnchorPane.setTopAnchor(backButton, 22.0);

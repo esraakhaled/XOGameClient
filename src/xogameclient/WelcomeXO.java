@@ -17,7 +17,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 public  class WelcomeXO extends GridPane {
 
@@ -162,7 +161,7 @@ public  class WelcomeXO extends GridPane {
             @Override
             public void handle(ActionEvent event) {
                 Navigation nav = new Navigation();
-                nav.playGame(event);
+                nav.playGame(event,new PcGame());
                     }
         });
         borderPane0.setCenter(anchorPane0);

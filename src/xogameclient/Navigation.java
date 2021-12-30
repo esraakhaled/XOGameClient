@@ -17,14 +17,15 @@ import javafx.stage.Stage;
  */
 public class Navigation {
     //protected WelcomeXO welcomeScreen = new WelcomeXO();
-    protected onlineGameBase playScreen = new onlineGameBase();
+    protected GameScreen playScreen;
     protected WelcomeXO welcomeScreen = new WelcomeXO();
     protected playerProfileBase playerProfile=new playerProfileBase();
     protected SignUpBase signUp = new SignUpBase ();
     protected Login login = new Login ();
     protected RecordedGameBase record = new RecordedGameBase ();
 
-    public void playGame(ActionEvent event) {
+    public void playGame(ActionEvent event,Game g) {
+        playScreen = new GameScreen(g);
         Parent root = playScreen;
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root, 700, 500);
@@ -40,14 +41,7 @@ public class Navigation {
         stage.setScene(scene);
         stage.show();
     }
-      public void restartGame(ActionEvent event) {
-        Parent root = playScreen;
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 700, 500);
-        stage.setResizable(false);
-        stage.setScene(scene);
-        stage.show();
-    }
+      
        public void backGame(ActionEvent event) {
         Parent root = welcomeScreen;
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

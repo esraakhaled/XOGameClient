@@ -33,7 +33,6 @@ public class LocalGame extends Game {
         playerA = new Player(playerNameA);
         playerB = new Player(playerNameB);
     }
-    
 
     @Override
     public void actionPlayerA(String cellPostion) {
@@ -179,8 +178,7 @@ public class LocalGame extends Game {
         if (playerTurn) {
             actionPlayerA(cellPostion);
             b.setText("X");
-            if (!winningCases(X)) {
-            } else {
+            if (winningCases(X)) {
                 disableButtons();
                 winner = playerA.getName();
                 playerA.setScore(playerA.getScore() + 1);
@@ -188,20 +186,25 @@ public class LocalGame extends Game {
                 // endbale back
                 enableBack();
                 enableRestart();
+            } else if (endGame()) {
+                enableBack();
+                enableRestart();
+
+            } else {
             }
         } else {
             actionPlayerB(cellPostion);
             b.setText("O");
-            if (!winningCases(O)) {
-
-            } else {
+            if (winningCases(O)) {
                 disableButtons();
                 winner = playerB.getName();
                 playerB.setScore(playerB.getScore() + 1);
                 update();
+
+            } else if (endGame()) {
                 enableBack();
                 enableRestart();
-
+            } else {
             }
         }
     }
@@ -218,7 +221,8 @@ public class LocalGame extends Game {
     public void enableBack() {
         back.setDisable(false);
     }
-     public void enableRestart() {
+
+    public void enableRestart() {
         restart.setDisable(false);
     }
 }
