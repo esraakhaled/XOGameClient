@@ -7,35 +7,18 @@ package xogameclient;
 
 
 
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.animation.PauseTransition;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Parent;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import model.LocalGame;
+
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 /**
  *
@@ -57,24 +40,10 @@ public class AlertDialog {
         button.setOnAction(e -> {
              player1Name = player1.getText();
              player2Name = player2.getText();
-       /* Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource(".Fxml"));
-        //stage.setTitle("Log in");
-        Scene scene=new Scene(root);
-        stage.setScene(scene);
-        stage.show();*/
               Navigation nav = new Navigation();
-                nav.playGame(e);
-                
+                nav.playGame(e,new LocalGame(player1Name, player2Name));           
              //stage.close();
         });
-        /*button.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Navigation nav = new Navigation();
-                nav.playGame(event);
-                    }
-        });*/
         GridPane layout = new GridPane();
          
         layout.setPadding(new Insets(10, 10, 10, 10)); 
