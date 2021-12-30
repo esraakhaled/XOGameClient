@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package xogameclient;
+package xogameclient.model;
 
 import javafx.scene.control.Button;
-import static xogameclient.Game.O;
-import static xogameclient.Game.X;
+import static xogameclient.model.Game.O;
+import static xogameclient.model.Game.X;
 
 /**
  *

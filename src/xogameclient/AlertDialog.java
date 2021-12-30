@@ -5,6 +5,7 @@
  */
 package xogameclient;
 
+import xogameclient.model.LocalGame;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;

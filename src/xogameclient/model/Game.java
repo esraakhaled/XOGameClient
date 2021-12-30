@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package xogameclient;
+package xogameclient.model;
 
 import java.util.Vector;
 import javafx.scene.control.Button;
@@ -19,8 +19,8 @@ public abstract class Game implements Playable {
     public static final char O = 'O';
 // true means player A turn
     boolean playerTurn = true;
-    Player playerA;
-    Player playerB;
+    public Player playerA;
+    public Player playerB;
     protected char[][] board = new char[3][3];
     Playable playable;
     protected Vector<Button> buttons = new Vector<>();
