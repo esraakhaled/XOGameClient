@@ -5,12 +5,18 @@
  */
 package xogameclient;
 
+import javafx.scene.control.Button;
+
 /**
  *
  * @author ahmed
  */
-public interface Playable {
-   void actionPlayerA(String cellPostion);
-   void actionPlayerB(String cellPostion);
-    
+public class PcGame extends LocalGame{
+   
+ public PcGame() {
+     super("PlayerA","BOOT");
+       
+    }
+
+  
 }

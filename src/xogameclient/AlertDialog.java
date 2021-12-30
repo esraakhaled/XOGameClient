@@ -6,6 +6,7 @@
 package xogameclient;
 
 
+
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,6 +17,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
+
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Dialog;
@@ -49,8 +57,24 @@ public class AlertDialog {
         button.setOnAction(e -> {
              player1Name = player1.getText();
              player2Name = player2.getText();
-             stage.close();
+       /* Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        Parent root = FXMLLoader.load(getClass().getResource(".Fxml"));
+        //stage.setTitle("Log in");
+        Scene scene=new Scene(root);
+        stage.setScene(scene);
+        stage.show();*/
+              Navigation nav = new Navigation();
+                nav.playGame(e);
+                
+             //stage.close();
         });
+        /*button.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Navigation nav = new Navigation();
+                nav.playGame(event);
+                    }
+        });*/
         GridPane layout = new GridPane();
          
         layout.setPadding(new Insets(10, 10, 10, 10)); 
@@ -67,42 +91,6 @@ public class AlertDialog {
         stage.setScene(scene);
         stage.show();
     }
-    public void vedioDialog(){
-
-        try {
-            
-            Dialog dialog = new Dialog();
-            
-            Parent root = FXMLLoader.load(getClass().getResource("winningVedio.fxml"));
-            dialog.getDialogPane().setContent(root);
-            dialog.show();
-            PauseTransition pauseTransition =new PauseTransition(Duration.seconds(5));
-            pauseTransition.setOnFinished(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    dialog.hide();
-                    System.out.println("dhdhh");
-                }
-            });
-            pauseTransition.play();
-            /*
-             new Thread(){
-                 public void run(){
-                     try {
-                         sleep(3000);
-                         
-                        stop();
-                     } catch (InterruptedException ex) {
-                         Logger.getLogger(AlertDialog.class.getName()).log(Level.SEVERE, null, ex);
-                     }
-                 }
-                 
-             }.start();
-             */
-        } catch (IOException ex) {
-            Logger.getLogger(AlertDialog.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
+   
     
 }

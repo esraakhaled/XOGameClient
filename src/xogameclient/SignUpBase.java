@@ -1,5 +1,7 @@
 package xogameclient;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -166,6 +168,13 @@ public  class SignUpBase extends GridPane {
         signup_btn.setPrefWidth(301.0);
         signup_btn.setText("Sign Up");
         signup_btn.setFont(new Font(14.0));
+        signup_btn.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Navigation nav = new Navigation();
+                nav.signupProfile(event);
+                    }
+        });
         borderPane2.setCenter(anchorPane2);
 
         GridPane.setRowIndex(borderPane3, 4);
@@ -201,6 +210,13 @@ public  class SignUpBase extends GridPane {
         login_btn.setPrefHeight(25.0);
         login_btn.setPrefWidth(112.0);
         login_btn.setText("Login");
+        login_btn.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Navigation nav = new Navigation();
+                nav.loginButton(event);
+                    }
+        });
         borderPane4.setCenter(anchorPane4);
 
         getColumnConstraints().add(columnConstraints);

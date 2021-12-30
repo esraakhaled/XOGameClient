@@ -1,5 +1,13 @@
 package xogameclient;
 
+import java.io.IOException;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -9,8 +17,10 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public  class Login extends GridPane {
+    
 
     protected final ColumnConstraints columnConstraints;
     protected final RowConstraints rowConstraints;
@@ -48,11 +58,9 @@ public  class Login extends GridPane {
         borderPane0 = new BorderPane();
         anchorPane0 = new AnchorPane();
         user_text = new TextField();
-        user_text.setPromptText("enter user name");
         borderPane1 = new BorderPane();
         anchorPane1 = new AnchorPane();
         password_field = new TextField();
-        password_field.setPromptText("enter password");
         borderPane2 = new BorderPane();
         anchorPane2 = new AnchorPane();
         login_btn = new Button();
@@ -150,10 +158,18 @@ public  class Login extends GridPane {
         login_btn.setLayoutX(164.0);
         login_btn.setLayoutY(28.0);
         login_btn.setMnemonicParsing(false);
+        //login_btn.setOnAction(this::login);
         login_btn.setPrefHeight(25.0);
         login_btn.setPrefWidth(297.0);
         login_btn.setText("Log In");
         login_btn.setFont(new Font(14.0));
+        login_btn.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Navigation nav = new Navigation();
+                nav.loginButton(event);
+                    }
+        });
         borderPane2.setCenter(anchorPane2);
 
         GridPane.setRowIndex(borderPane3, 4);
@@ -167,10 +183,19 @@ public  class Login extends GridPane {
         sign_btn.setLayoutX(263.0);
         sign_btn.setLayoutY(28.0);
         sign_btn.setMnemonicParsing(false);
+        //sign_btn.setOnAction(this::ignup);
         sign_btn.setPrefHeight(25.0);
         sign_btn.setPrefWidth(114.0);
         sign_btn.setText("Sign Up");
         borderPane3.setCenter(anchorPane3);
+         sign_btn.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Navigation nav = new Navigation();
+                nav.signupScreen(event);
+                    }
+        });
+        
 
         getColumnConstraints().add(columnConstraints);
         getRowConstraints().add(rowConstraints);
@@ -190,4 +215,10 @@ public  class Login extends GridPane {
         getChildren().add(borderPane3);
 
     }
+     
+    
+
+
+   
+
 }

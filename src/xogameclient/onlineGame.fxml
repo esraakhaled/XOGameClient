@@ -10,7 +10,8 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="584.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="584.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="xogameclient.OnlineGame">
    <center>
       <GridPane gridLinesVisible="true" prefHeight="187.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -85,8 +86,9 @@
             </Text>
          </center>
          <right>
-            <GridPane prefHeight="73.0" prefWidth="153.0" BorderPane.alignment="CENTER">
+            <GridPane prefHeight="91.0" prefWidth="148.0" BorderPane.alignment="CENTER">
               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
@@ -97,23 +99,26 @@
                   <Insets top="60.0" />
                </BorderPane.margin>
                <children>
-                  <Text fx:id="secondPlayerName" strokeType="OUTSIDE" strokeWidth="0.0" text=": player2Nmae" textAlignment="RIGHT" wrappingWidth="141.37109375">
+                  <Text fx:id="playerBSymbol" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="RIGHT" wrappingWidth="72.37109375" GridPane.columnIndex="1">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <Text fx:id="secondPlayerScore" strokeType="OUTSIDE" strokeWidth="0.0" text=" : Score" textAlignment="RIGHT" wrappingWidth="130.13671875" GridPane.rowIndex="1">
+                  <Text fx:id="secondPlayerScore" strokeType="OUTSIDE" strokeWidth="0.0" text="Score :" wrappingWidth="74.13671875" GridPane.rowIndex="1">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Text>
+                  <Text fx:id="secondPlayerName" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="74.05078125" />
+                  <Text fx:id="scoreB" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="74.13671875" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
          </right>
          <left>
-            <GridPane prefHeight="83.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+            <GridPane prefHeight="91.0" prefWidth="148.0" BorderPane.alignment="CENTER">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -123,16 +128,18 @@
                   <Insets left="10.0" top="60.0" />
                </BorderPane.margin>
                <children>
-                  <Text fx:id="firstPlayerName" strokeType="OUTSIDE" strokeWidth="0.0" text="player1Name :">
+                  <Text fx:id="firstPlayerName" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="75.5576171875">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <Text fx:id="firstPlayerScore" strokeType="OUTSIDE" strokeWidth="0.0" text="score :" GridPane.rowIndex="1">
+                  <Text fx:id="firstPlayerScore" strokeType="OUTSIDE" strokeWidth="0.0" text="Score :" wrappingWidth="73.6689453125" GridPane.rowIndex="1">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Text>
+                  <Text fx:id="playerASymbol" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="75.13671875" GridPane.columnIndex="1" />
+                  <Text fx:id="scoreA" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="76.13671875" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                </children>
             </GridPane>
          </left>

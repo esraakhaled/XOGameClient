@@ -5,6 +5,7 @@
  */
 package xogameclient;
 
+
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,66 +17,140 @@ import javafx.scene.Parent;
 import javafx.scene.control.Dialog;
 import javafx.util.Duration;
 
+import java.util.Vector;
+import javafx.scene.control.Button;
+import javafx.scene.text.Text;
+
 /**
  *
  * @author ahmed
  */
-public abstract class Game {
-
+public abstract class Game implements Playable {
+    winningVedioBase vedio = new winningVedioBase();
     public static final char X = 'X';
     public static final char O = 'O';
 // true means player A turn
     boolean playerTurn = true;
     Player playerA;
     Player playerB;
-    private char[][] board = new char[3][3];
+    protected char[][] board = new char[3][3];
     Playable playable;
+    protected Vector<Button> buttons = new Vector<>();
+    protected Text ScoreA,ScoreB;
+    protected Button back;
+    protected Button restart;
+
+    public String winner;
 
     public void setCell(int x, int y) {
+
         board[x][y] = playerTurn ? X : O;
     }
-    private boolean checkRows(char c){
-        boolean win =false;
-          if((board[0][0] == c) && (board[1][0] == c && board[1][2] == c)){
-                        win = true;
-        }else if((board[0][1] == c) && (board[1][1] == c && board[2][1] == c)){
-                        win = true;
-        }else if((board[0][2] == c) && (board[1][2] == c && board[2][2] == c)){
-                        win = true;
+
+    private boolean checkColumns(char c) {
+        boolean win = false;
+        if ((board[0][0] == c) && (board[1][0] == c && board[2][0] == c)) {
+            win = true;
+        } else if ((board[0][1] == c) && (board[1][1] == c && board[2][1] == c)) {
+            win = true;
+        } else if ((board[0][2] == c) && (board[1][2] == c && board[2][2] == c)) {
+            win = true;
         }
-          return win;
+        return win;
     }
-     
-    private boolean checkColumns(char c){
-        boolean win =false;
-         if((board[0][0] == c) && (board[1][0] == c && board[1][2] == c)){
-                        win = true;
-        }else if((board[0][1] == c) && (board[1][1] == c && board[2][1] == c)){
-                        win = true;
-        }else if((board[0][2] == c) && (board[1][2] == c && board[2][2] == c)){
-                        win = true;
-        }
-        
-          return win;
-    }
-    private boolean checkDiagonl(char c){
-        boolean win =false;
-          if((board[0][0] == c) && (board[1][1] == c && board[2][2] == c)){
-                        win = true;
-        }else if((board[0][2] == c) && (board[1][1] == c && board[2][0] == c)){
-                        win = true;
+
+    private boolean checkRows(char c) {
+        boolean win = false;
+        if ((board[0][0] == c) && (board[0][1] == c && board[0][2] == c)) {
+            win = true;
+        } else if ((board[1][0] == c) && (board[1][1] == c && board[1][2] == c)) {
+            win = true;
+        } else if ((board[2][0] == c) && (board[2][1] == c && board[2][2] == c)) {
+            win = true;
         }
 
         return win;
     }
+
+    private boolean checkDiagonl(char c) {
+        boolean win = false;
+        if ((board[0][0] == c) && (board[1][1] == c && board[2][2] == c)) {
+            win = true;
+        } else if ((board[0][2] == c) && (board[1][1] == c && board[2][0] == c)) {
+            win = true;
+        }
+
+        return win;
+    }
+
     public boolean winningCases(char c) {
-        return(checkRows(c)||checkColumns(c)||checkDiagonl(c));
+        return (checkRows(c) || checkColumns(c) || checkDiagonl(c));
     }
 
-    public void rest() {
+    public void reset() {
+        //rest all
+        board = new char[3][3];
+        playerTurn = true;
+        for (int i = 0; i < buttons.size(); i++) {
+            buttons.get(i).setDisable(false);
+            buttons.get(i).setText("");
+
+        }
+    }
+
+    public boolean endGame() {
+        return (draw() || winningCases(X) || winningCases(O));
 
     }
-     public  void vedioDialog(){
+     
+    public boolean draw() {
+        boolean draw = false;
+        if (winningCases(X) || winningCases(O)) {
+            draw = false;
+        } else {
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    draw = (board[i][j] == X || board[i][j] == O);
+                }
+            }
+        }
+
+        return draw;
+    }
+
+    public void handleButton(Button b) {
+
+    }
+
+    public void disableButtons() {
+        for (int i = 0; i < buttons.size(); i++) {
+            buttons.get(i).setDisable(true);
+
+        }
+    }
+
+    public void update() {
+    }
+
+    public void getButtons(Vector<Button> b) {
+        for (int i = 0; i < b.size(); i++) {
+            buttons.add(b.get(i));
+
+        }
+    }
+     public void addScoreText(Text scoreA,Text scoreB){
+        ScoreA=scoreA;
+        ScoreB=scoreB;
+    }
+      public void addBack(Button back){
+          this.back=back;
+    }
+       public void addRestart(Button restart){
+          this.restart=restart;
+    }
+       
+       
+    public void vedioDialog(){
 
         try {
             
@@ -88,17 +163,16 @@ public abstract class Game {
             pauseTransition.setOnFinished(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
-                    
+                    vedio.imageView.getScene().getWindow().hide();
                     dialog.hide();
                     System.out.println("dhdhh");
                 }
             });
             pauseTransition.play();
-          
+            
         } catch (IOException ex) {
             Logger.getLogger(AlertDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
-
 }
