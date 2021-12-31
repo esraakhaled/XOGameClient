@@ -100,11 +100,6 @@ public class PcGame extends LocalGame{
             // endbale back
             enableBack();
             enableRestart();
-            if(endGame()) {
-                enableBack();
-                enableRestart();
-
-            }
         }Button buttonB=null;
         buttonB = playerB();
         buttonB.setDisable(true);
