@@ -75,7 +75,7 @@ public class LocalGame extends Game {
                 y = 2;
 
             }
-            ;
+           
             break;
             case CELL20: {
                 x = 2;
