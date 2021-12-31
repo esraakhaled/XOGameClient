@@ -152,27 +152,29 @@ public abstract class Game implements Playable {
     }
        
        
-    public void vedioDialog(){
-
+    public void vedioDialog(String p){
+        String path = p;
         Stage stage = new Stage();
         VBox vBox = new VBox();
         
         ImageView imageView = new ImageView();
-        Image image = new Image(getClass().getResourceAsStream("/Screens/win-victory.gif"));
+        Image image = new Image(getClass().getResourceAsStream(path));
         imageView.setImage(image);
         vBox.getChildren().add(imageView);
         Scene sceen = new Scene(vBox,600,500);
         stage.setScene(sceen);
         stage.show();
         
-PauseTransition pauseTransition =new PauseTransition(Duration.seconds(4));
-pauseTransition.setOnFinished(new EventHandler<ActionEvent>() {
-    @Override
-    public void handle(ActionEvent event) {
-        stage.close();
-    }
-});
-pauseTransition.play();
+        PauseTransition pauseTransition =new PauseTransition(Duration.seconds(4));
+        pauseTransition.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                stage.close();
+            }
+        });
+        pauseTransition.play();
 
     }
+    
+    
 }
