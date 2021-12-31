@@ -4,12 +4,13 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/E:/ITI/JavaProject/XOGameClient/src/xogameclient/XOGameClient.java</file>
-            <file>file:/E:/ITI/JavaProject/XOGameClient/src/model/Game.java</file>
-            <file>file:/E:/ITI/JavaProject/XOGameClient/src/xogameclient/winningVedioBase.java</file>
-            <file>file:/E:/ITI/JavaProject/XOGameClient/src/model/LocalGame.java</file>
-            <file>file:/E:/ITI/JavaProject/XOGameClient/src/xogameclient/AlertDialog.java</file>
+            <file>file:/E:/ITI/JavaProject/XOGameClient/src/model/PcGame.java</file>
+            <file>file:/E:/ITI/JavaProject/XOGameClient/src/xogameclient/RecordedGameBase.java</file>
             <file>file:/E:/ITI/JavaProject/XOGameClient/src/xogameclient/GameScreen.java</file>
+            <file>file:/E:/ITI/JavaProject/XOGameClient/src/xogameclient/IPScreenBase.java</file>
+            <file>file:/E:/ITI/JavaProject/XOGameClient/src/xogameclient/playerProfileBase.java</file>
             <file>file:/E:/ITI/JavaProject/XOGameClient/src/xogameclient/Navigation.java</file>
+            <file>file:/E:/ITI/JavaProject/XOGameClient/src/xogameclient/WelcomeXO.java</file>
         </group>
     </open-files>
 </project-private>

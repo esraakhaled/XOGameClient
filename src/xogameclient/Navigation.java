@@ -24,6 +24,7 @@ public class Navigation {
     protected SignUpBase signUp = new SignUpBase ();
     protected Login login = new Login ();
     protected RecordedGameBase record = new RecordedGameBase ();
+    protected IPScreenBase ipScreen = new IPScreenBase();
 
     public void playGame(ActionEvent event,Game g) {
         playScreen = new GameScreen(g);
@@ -70,7 +71,7 @@ public class Navigation {
      public void loginScreen(ActionEvent event) {
         Parent root = login ;
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 700, 500);
+        Scene scene = new Scene(root);
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
@@ -88,6 +89,14 @@ public class Navigation {
         Parent root = welcomeScreen;
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root, 700, 500);
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
+    }
+      public void goToIpScreen(ActionEvent event) {
+        Parent root = ipScreen;
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();

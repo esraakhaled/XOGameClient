@@ -191,7 +191,7 @@ public  class WelcomeXO extends GridPane {
             @Override
             public void handle(ActionEvent event) {
                 Navigation nav = new Navigation();
-                nav.loginScreen(event);
+                nav.goToIpScreen(event);
                     }
         });
         borderPane1.setCenter(anchorPane1);

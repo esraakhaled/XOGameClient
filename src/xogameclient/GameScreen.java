@@ -507,7 +507,7 @@ public class GameScreen extends BorderPane {
         gridPane1.getChildren().add(scoreA);
         if ((g instanceof OnlineGame)) {
             anchorPane10.getChildren().add(recordButton);
-        };
+        }
         anchorPane10.getChildren().add(restartButton);
 
         anchorPane10.getChildren().add(backButton);
@@ -524,10 +524,10 @@ public class GameScreen extends BorderPane {
         g.addRestart(restartButton);
 
         cell_0_0.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            if(g instanceof LocalGame){
+            
                         g.handleButton(cell_0_0);
 
-            }
+            
 
 
         });
@@ -599,13 +599,12 @@ public class GameScreen extends BorderPane {
 
     public void addButtons() {
         buttons.add(cell_0_0);
-        buttons.add(cell_2_0);
-        buttons.add(cell_1_2);
-        buttons.add(cell_1_1);
-        buttons.add(cell_1_0);
         buttons.add(cell_0_1);
         buttons.add(cell_0_2);
-        buttons.add(cell_0_1);
+        buttons.add(cell_1_0);
+        buttons.add(cell_1_1);
+        buttons.add(cell_1_2);
+        buttons.add(cell_2_0);
         buttons.add(cell_2_1);
         buttons.add(cell_2_2);
     }
