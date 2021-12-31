@@ -7,6 +7,7 @@ package model;
 
 
 
+import serialize.models.Player;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

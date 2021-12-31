@@ -210,6 +210,8 @@ public  class SignUpBase extends GridPane {
         login_btn.setPrefHeight(25.0);
         login_btn.setPrefWidth(112.0);
         login_btn.setText("Login");
+        // handle it  not delete it ya abdo
+        /*
         login_btn.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -217,6 +219,7 @@ public  class SignUpBase extends GridPane {
                 nav.loginButton(event);
                     }
         });
+*/
         borderPane4.setCenter(anchorPane4);
 
         getColumnConstraints().add(columnConstraints);

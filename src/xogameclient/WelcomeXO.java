@@ -2,6 +2,10 @@ package xogameclient;
 
 import model.PcGame;
 import java.io.IOException;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -19,7 +23,7 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-public  class WelcomeXO extends GridPane {
+public class WelcomeXO extends GridPane {
 
     protected final ColumnConstraints columnConstraints;
     protected final RowConstraints rowConstraints;
@@ -116,7 +120,7 @@ public  class WelcomeXO extends GridPane {
         button_local.addEventFilter(ActionEvent.ACTION, (ActionEvent event) -> {
             AlertDialog.display("JavaFX Custom Dialog Demo");
         });
-      /* button_local.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
+        /* button_local.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 Navigation nav = new Navigation();
@@ -158,12 +162,12 @@ public  class WelcomeXO extends GridPane {
         button_computer.setText("Play with computer");
         button_computer.setFont(new Font(15.0));
         button_computer.setPadding(new Insets(25.0));
-        button_computer.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
+        button_computer.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 Navigation nav = new Navigation();
-                nav.playGame(event,new PcGame());
-                    }
+                nav.playGame(event, new PcGame());
+            }
         });
         borderPane0.setCenter(anchorPane0);
 
@@ -187,12 +191,28 @@ public  class WelcomeXO extends GridPane {
         button_online.setText("Play Online");
         button_online.setFont(new Font(15.0));
         button_online.setPadding(new Insets(25.0));
-        button_online.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
+        button_online.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Navigation nav = new Navigation();
-                nav.loginScreen(event);
+
+                // will delete after insrting Ip page
+                Platform.runLater(new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            Navigation nav = new Navigation();
+                            Socket s = new Socket("127.0.0.1",5005);
+                            while(!s.isConnected()){
+                                System.out.println("555");
+                            }
+                            nav.loginScreen(event, s);
+                        } catch (IOException ex) {
+                            Logger.getLogger(WelcomeXO.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
+                });
+
+            }
         });
         borderPane1.setCenter(anchorPane1);
 
@@ -211,8 +231,7 @@ public  class WelcomeXO extends GridPane {
         anchorPane1.getChildren().add(button_online);
         gridPane.getChildren().add(borderPane1);
         getChildren().add(gridPane);
-        
 
     }
-     
+
 }

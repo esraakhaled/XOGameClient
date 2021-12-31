@@ -570,8 +570,8 @@ public class GameScreen extends BorderPane {
     }
 
     public void intialGame() {
-        firstPlayerName.setText(game.playerA.getName());
-        secondPlayerName.setText(game.playerB.getName());
+        firstPlayerName.setText(game.playerA.getUserName());
+        secondPlayerName.setText(game.playerB.getUserName());
 
         scoreA.setText(game.playerA.getScore() + "");
         scoreB.setText(game.playerB.getScore() + "");

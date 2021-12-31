@@ -5,6 +5,7 @@
  */
 package model;
 
+import serialize.models.Player;
 import javafx.scene.control.Button;
 import static model.Game.O;
 import static model.Game.X;
@@ -181,7 +182,7 @@ public class LocalGame extends Game {
             if (winningCases(X)) {
                 vedioDialog("/assets/win-victory.gif");
                 disableButtons();
-                winner = playerA.getName();
+                winner = playerA.getUserName();
                 playerA.setScore(playerA.getScore() + 1);
                 update();
                 // endbale back
@@ -199,7 +200,7 @@ public class LocalGame extends Game {
             if (winningCases(O)) {
                 vedioDialog("/assets/win-victory.gif");
                 disableButtons();
-                winner = playerB.getName();
+                winner = playerB.getUserName();
                 playerB.setScore(playerB.getScore() + 1);
                 update();
                 enableBack();
