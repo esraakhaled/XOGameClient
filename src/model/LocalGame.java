@@ -179,7 +179,7 @@ public class LocalGame extends Game {
             actionPlayerA(cellPostion);
             b.setText("X");
             if (winningCases(X)) {
-                vedioDialog();
+                vedioDialog("/assets/win-victory.gif");
                 disableButtons();
                 winner = playerA.getName();
                 playerA.setScore(playerA.getScore() + 1);
@@ -197,7 +197,7 @@ public class LocalGame extends Game {
             actionPlayerB(cellPostion);
             b.setText("O");
             if (winningCases(O)) {
-                vedioDialog();
+                vedioDialog("/assets/win-victory.gif");
                 disableButtons();
                 winner = playerB.getName();
                 playerB.setScore(playerB.getScore() + 1);
