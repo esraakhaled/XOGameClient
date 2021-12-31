@@ -28,6 +28,7 @@
 *.tar.gz
 *.rar
 /nbproject/private
+/build/
 
 <<<<<<< HEAD
 <<<<<<< HEAD
