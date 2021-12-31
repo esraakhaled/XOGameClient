@@ -3,17 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package xogameclient;
+package xogameclient.model;
 
 /**
  *
  * @author ahmed
  */
-public class LocalGame extends Game{
-    public LocalGame(String playerNameA,String playerNameB){
-        playerA =new Player(playerNameA);
-        playerB=new Player(playerNameB);
-    }
-    
+public interface Playable {
+   void actionPlayerA(String cellPostion);
+   void actionPlayerB(String cellPostion);
     
 }

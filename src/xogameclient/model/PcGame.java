@@ -3,14 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package xogameclient;
+package xogameclient.model;
+
+import javafx.scene.control.Button;
 
 /**
  *
  * @author ahmed
  */
-public interface Playable {
-   void actionPlayerA();
-   void actionPlayerB();
-    
+public class PcGame extends LocalGame{
+   
+ public PcGame() {
+     super("PlayerA","BOOT");
+       
+    }
+
+  
 }

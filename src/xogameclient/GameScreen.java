@@ -1,5 +1,14 @@
 package xogameclient;
 
+
+import xogameclient.model.Game;
+import xogameclient.model.LocalGame;
+import xogameclient.model.OnlineGame;
+import java.util.Vector;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
+
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -19,7 +28,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public  class onlineGameBase extends BorderPane {
+public class GameScreen extends BorderPane {
 
     protected final GridPane gridPane;
     protected final ColumnConstraints columnConstraints;
@@ -50,24 +59,37 @@ public  class onlineGameBase extends BorderPane {
     protected final Text TitleOFScreen;
     protected final GridPane gridPane0;
     protected final ColumnConstraints columnConstraints2;
+    protected final ColumnConstraints columnConstraints3;
     protected final RowConstraints rowConstraints2;
     protected final RowConstraints rowConstraints3;
-    protected final Text secondPlayerName;
+    protected final Text playerBSymbol;
     protected final Text secondPlayerScore;
+    protected final Text secondPlayerName;
+    protected final Text scoreB;
     protected final GridPane gridPane1;
-    protected final ColumnConstraints columnConstraints3;
+    protected final ColumnConstraints columnConstraints4;
+    protected final ColumnConstraints columnConstraints5;
     protected final RowConstraints rowConstraints4;
     protected final RowConstraints rowConstraints5;
     protected final Text firstPlayerName;
     protected final Text firstPlayerScore;
+    protected final Text playerASymbol;
+    protected final Text scoreA;
     protected final AnchorPane anchorPane8;
     protected final AnchorPane anchorPane9;
     protected final AnchorPane anchorPane10;
     protected final Button recordButton;
     protected final Button restartButton;
     protected final Button backButton;
+    //
+    protected final Game game;
+    private String cellPostion = "";
+    private Vector<Button> buttons = new Vector<>();
 
-    public onlineGameBase() {
+    public GameScreen(Game g) {
+
+        // check for online only
+        game = g;
 
         gridPane = new GridPane();
         columnConstraints = new ColumnConstraints();
@@ -98,16 +120,22 @@ public  class onlineGameBase extends BorderPane {
         TitleOFScreen = new Text();
         gridPane0 = new GridPane();
         columnConstraints2 = new ColumnConstraints();
+        columnConstraints3 = new ColumnConstraints();
         rowConstraints2 = new RowConstraints();
         rowConstraints3 = new RowConstraints();
-        secondPlayerName = new Text();
+        playerBSymbol = new Text();
         secondPlayerScore = new Text();
+        secondPlayerName = new Text();
+        scoreB = new Text();
         gridPane1 = new GridPane();
-        columnConstraints3 = new ColumnConstraints();
+        columnConstraints4 = new ColumnConstraints();
+        columnConstraints5 = new ColumnConstraints();
         rowConstraints4 = new RowConstraints();
         rowConstraints5 = new RowConstraints();
         firstPlayerName = new Text();
         firstPlayerScore = new Text();
+        playerASymbol = new Text();
+        scoreA = new Text();
         anchorPane8 = new AnchorPane();
         anchorPane9 = new AnchorPane();
         anchorPane10 = new AnchorPane();
@@ -115,8 +143,8 @@ public  class onlineGameBase extends BorderPane {
         restartButton = new Button();
         backButton = new Button();
 
-        setMaxHeight(USE_PREF_SIZE);
-        setMaxWidth(USE_PREF_SIZE);
+        setMaxHeight(Double.MAX_VALUE);
+        setMaxWidth(Double.MAX_VALUE);
         setMinHeight(400.0);
         setMinWidth(600.0);
         setPrefHeight(400.0);
@@ -291,12 +319,16 @@ public  class onlineGameBase extends BorderPane {
         borderPane.setCenter(TitleOFScreen);
 
         BorderPane.setAlignment(gridPane0, javafx.geometry.Pos.CENTER);
-        gridPane0.setPrefHeight(73.0);
-        gridPane0.setPrefWidth(153.0);
+        gridPane0.setPrefHeight(91.0);
+        gridPane0.setPrefWidth(148.0);
 
         columnConstraints2.setHgrow(javafx.scene.layout.Priority.SOMETIMES);
         columnConstraints2.setMinWidth(10.0);
         columnConstraints2.setPrefWidth(100.0);
+
+        columnConstraints3.setHgrow(javafx.scene.layout.Priority.SOMETIMES);
+        columnConstraints3.setMinWidth(10.0);
+        columnConstraints3.setPrefWidth(100.0);
 
         rowConstraints2.setMinHeight(10.0);
         rowConstraints2.setPrefHeight(30.0);
@@ -307,29 +339,42 @@ public  class onlineGameBase extends BorderPane {
         rowConstraints3.setVgrow(javafx.scene.layout.Priority.SOMETIMES);
         BorderPane.setMargin(gridPane0, new Insets(60.0, 0.0, 0.0, 0.0));
 
-        secondPlayerName.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
-        secondPlayerName.setStrokeWidth(0.0);
-        secondPlayerName.setText(": player2Nmae");
-        secondPlayerName.setTextAlignment(javafx.scene.text.TextAlignment.RIGHT);
-        secondPlayerName.setWrappingWidth(141.37109375);
-        secondPlayerName.setFont(new Font(14.0));
+        GridPane.setColumnIndex(playerBSymbol, 1);
+        playerBSymbol.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
+        playerBSymbol.setStrokeWidth(0.0);
+        playerBSymbol.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
+        playerBSymbol.setWrappingWidth(72.37109375);
+        playerBSymbol.setFont(new Font(14.0));
 
         GridPane.setRowIndex(secondPlayerScore, 1);
         secondPlayerScore.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         secondPlayerScore.setStrokeWidth(0.0);
-        secondPlayerScore.setText(" : Score");
-        secondPlayerScore.setTextAlignment(javafx.scene.text.TextAlignment.RIGHT);
-        secondPlayerScore.setWrappingWidth(130.13671875);
+        secondPlayerScore.setText("Score :");
+        secondPlayerScore.setWrappingWidth(74.13671875);
         secondPlayerScore.setFont(new Font(14.0));
+
+        secondPlayerName.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
+        secondPlayerName.setStrokeWidth(0.0);
+        secondPlayerName.setWrappingWidth(74.05078125);
+
+        GridPane.setColumnIndex(scoreB, 1);
+        GridPane.setRowIndex(scoreB, 1);
+        scoreB.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
+        scoreB.setStrokeWidth(0.0);
+        scoreB.setWrappingWidth(74.13671875);
         borderPane.setRight(gridPane0);
 
         BorderPane.setAlignment(gridPane1, javafx.geometry.Pos.CENTER);
-        gridPane1.setPrefHeight(83.0);
-        gridPane1.setPrefWidth(100.0);
+        gridPane1.setPrefHeight(91.0);
+        gridPane1.setPrefWidth(148.0);
 
-        columnConstraints3.setHgrow(javafx.scene.layout.Priority.SOMETIMES);
-        columnConstraints3.setMinWidth(10.0);
-        columnConstraints3.setPrefWidth(100.0);
+        columnConstraints4.setHgrow(javafx.scene.layout.Priority.SOMETIMES);
+        columnConstraints4.setMinWidth(10.0);
+        columnConstraints4.setPrefWidth(100.0);
+
+        columnConstraints5.setHgrow(javafx.scene.layout.Priority.SOMETIMES);
+        columnConstraints5.setMinWidth(10.0);
+        columnConstraints5.setPrefWidth(100.0);
 
         rowConstraints4.setMinHeight(10.0);
         rowConstraints4.setPrefHeight(30.0);
@@ -342,14 +387,26 @@ public  class onlineGameBase extends BorderPane {
 
         firstPlayerName.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         firstPlayerName.setStrokeWidth(0.0);
-        firstPlayerName.setText("player1Name :");
+        firstPlayerName.setWrappingWidth(75.5576171875);
         firstPlayerName.setFont(new Font(14.0));
 
         GridPane.setRowIndex(firstPlayerScore, 1);
         firstPlayerScore.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         firstPlayerScore.setStrokeWidth(0.0);
-        firstPlayerScore.setText("score :");
+        firstPlayerScore.setText("Score :");
+        firstPlayerScore.setWrappingWidth(73.6689453125);
         firstPlayerScore.setFont(new Font(14.0));
+
+        GridPane.setColumnIndex(playerASymbol, 1);
+        playerASymbol.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
+        playerASymbol.setStrokeWidth(0.0);
+        playerASymbol.setWrappingWidth(75.13671875);
+
+        GridPane.setColumnIndex(scoreA, 1);
+        GridPane.setRowIndex(scoreA, 1);
+        scoreA.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
+        scoreA.setStrokeWidth(0.0);
+        scoreA.setWrappingWidth(76.13671875);
         borderPane.setLeft(gridPane1);
         setTop(borderPane);
 
@@ -389,6 +446,7 @@ public  class onlineGameBase extends BorderPane {
         restartButton.setLayoutY(22.0);
         restartButton.setMnemonicParsing(false);
         restartButton.setText("Restart");
+        /*
         restartButton.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -396,7 +454,7 @@ public  class onlineGameBase extends BorderPane {
                 nav.restartGame(event);
                     }
         });
-
+*/
         AnchorPane.setBottomAnchor(backButton, 12.0);
         AnchorPane.setRightAnchor(backButton, 20.0);
         AnchorPane.setTopAnchor(backButton, 22.0);
@@ -440,21 +498,122 @@ public  class onlineGameBase extends BorderPane {
         anchorPane7.getChildren().add(cell_2_2);
         gridPane.getChildren().add(anchorPane7);
         gridPane0.getColumnConstraints().add(columnConstraints2);
+        gridPane0.getColumnConstraints().add(columnConstraints3);
         gridPane0.getRowConstraints().add(rowConstraints2);
         gridPane0.getRowConstraints().add(rowConstraints3);
-        gridPane0.getChildren().add(secondPlayerName);
+        gridPane0.getChildren().add(playerBSymbol);
         gridPane0.getChildren().add(secondPlayerScore);
-        gridPane1.getColumnConstraints().add(columnConstraints3);
+        gridPane0.getChildren().add(secondPlayerName);
+        gridPane0.getChildren().add(scoreB);
+        gridPane1.getColumnConstraints().add(columnConstraints4);
+        gridPane1.getColumnConstraints().add(columnConstraints5);
         gridPane1.getRowConstraints().add(rowConstraints4);
         gridPane1.getRowConstraints().add(rowConstraints5);
         gridPane1.getChildren().add(firstPlayerName);
         gridPane1.getChildren().add(firstPlayerScore);
-        anchorPane10.getChildren().add(recordButton);
+        gridPane1.getChildren().add(playerASymbol);
+        gridPane1.getChildren().add(scoreA);
+        if ((g instanceof OnlineGame)) {
+            anchorPane10.getChildren().add(recordButton);
+        };
         anchorPane10.getChildren().add(restartButton);
+
         anchorPane10.getChildren().add(backButton);
 
+        //
+        intialGame();
+        setButtonID();
+        addButtons();
+        g.getButtons(buttons);
+        g.addScoreText(scoreA, scoreB);
+        g.addBack(backButton);
+        // setDiable for back
+        g.addRestart(restartButton);
+
+        cell_0_0.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
+            if(g instanceof LocalGame){
+                        g.handleButton(cell_0_0);
+
+            }
+
+
+        });
+        cell_0_1.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
+            
+
+            g.handleButton(cell_0_1);
+
+        });
+        cell_0_2.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
+            g.handleButton(cell_0_2);
+
+        });
+        cell_1_0.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
+            g.handleButton(cell_1_0);
+        });
+        cell_1_1.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
+            g.handleButton(cell_1_1);
+        });
+        cell_1_2.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
+            g.handleButton(cell_1_2);
+        });
+        cell_2_0.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
+            g.handleButton(cell_2_0);
+        });
+        cell_2_1.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
+            g.handleButton(cell_2_1);
+        });
+        cell_2_2.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
+            g.handleButton(cell_2_2);
+        });
+
+        restartButton.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
+            g.reset();
+            restartButton.setDisable(true);
+            backButton.setDisable(true);
+        });
+
     }
-    
-    
-    
+
+    public void intialGame() {
+        firstPlayerName.setText(game.playerA.getName());
+        secondPlayerName.setText(game.playerB.getName());
+
+        scoreA.setText(game.playerA.getScore() + "");
+        scoreB.setText(game.playerB.getScore() + "");
+
+        playerASymbol.setText("X");
+        playerBSymbol.setText("O");
+
+        restartButton.setDisable(true);
+        backButton.setDisable(true);
+
+    }
+
+
+    public void setButtonID() {
+        cell_0_0.setId("cell_0_0");
+        cell_0_1.setId("cell_0_1");
+        cell_0_2.setId("cell_0_2");
+        cell_1_0.setId("cell_1_0");
+        cell_1_1.setId("cell_1_1");
+        cell_1_2.setId("cell_1_2");
+        cell_2_0.setId("cell_2_0");
+        cell_2_1.setId("cell_2_1");
+        cell_2_2.setId("cell_2_2");
+    }
+
+    public void addButtons() {
+        buttons.add(cell_0_0);
+        buttons.add(cell_2_0);
+        buttons.add(cell_1_2);
+        buttons.add(cell_1_1);
+        buttons.add(cell_1_0);
+        buttons.add(cell_0_1);
+        buttons.add(cell_0_2);
+        buttons.add(cell_0_1);
+        buttons.add(cell_2_1);
+        buttons.add(cell_2_2);
+    }
+
 }

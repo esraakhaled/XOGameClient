@@ -5,6 +5,7 @@
  */
 package xogameclient;
 
+import xogameclient.model.LocalGame;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -39,24 +40,10 @@ public class AlertDialog {
         button.setOnAction(e -> {
              player1Name = player1.getText();
              player2Name = player2.getText();
-       /* Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource(".Fxml"));
-        //stage.setTitle("Log in");
-        Scene scene=new Scene(root);
-        stage.setScene(scene);
-        stage.show();*/
               Navigation nav = new Navigation();
-                nav.playGame(e);
-                
+                nav.playGame(e,new LocalGame(player1Name, player2Name));           
              //stage.close();
         });
-        /*button.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Navigation nav = new Navigation();
-                nav.playGame(event);
-                    }
-        });*/
         GridPane layout = new GridPane();
          
         layout.setPadding(new Insets(10, 10, 10, 10)); 
