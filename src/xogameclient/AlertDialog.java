@@ -5,18 +5,16 @@
  */
 package xogameclient;
 
-import xogameclient.model.LocalGame;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+
+import model.LocalGame;
+
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -41,7 +39,7 @@ public class AlertDialog {
              player1Name = player1.getText();
              player2Name = player2.getText();
               Navigation nav = new Navigation();
-                nav.playGame(e,new LocalGame(player1Name, player2Name));           
+               nav.playGame(e,new LocalGame(player1Name, player2Name));           
              //stage.close();
         });
         GridPane layout = new GridPane();
@@ -60,5 +58,6 @@ public class AlertDialog {
         stage.setScene(scene);
         stage.show();
     }
+   
     
 }

@@ -1,6 +1,7 @@
 package xogameclient;
 
-import xogameclient.model.PcGame;
+import model.PcGame;
+
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

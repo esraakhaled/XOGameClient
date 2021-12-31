@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package xogameclient;
-
 import xogameclient.model.Game;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;

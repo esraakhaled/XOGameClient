@@ -1,23 +1,23 @@
 package xogameclient;
 
 
-import xogameclient.model.Game;
-import xogameclient.model.LocalGame;
-import xogameclient.model.OnlineGame;
+
+import model.Game;
+import model.LocalGame;
+import model.OnlineGame;
 import java.util.Vector;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 
 import java.io.IOException;
+
+
+import java.util.Vector;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -26,7 +26,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 public class GameScreen extends BorderPane {
 
@@ -86,10 +85,13 @@ public class GameScreen extends BorderPane {
     private String cellPostion = "";
     private Vector<Button> buttons = new Vector<>();
 
+    //
+
     public GameScreen(Game g) {
 
         // check for online only
         game = g;
+
 
         gridPane = new GridPane();
         columnConstraints = new ColumnConstraints();
@@ -519,6 +521,61 @@ public class GameScreen extends BorderPane {
         anchorPane10.getChildren().add(restartButton);
 
         anchorPane10.getChildren().add(backButton);
+       
+
+        //
+        intialGame();
+        setButtonID();
+        addButtons();
+        g.getButtons(buttons);
+        g.addScoreText(scoreA, scoreB);
+        g.addBack(backButton);
+        // setDiable for back
+        g.addRestart(restartButton);
+
+        cell_0_0.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
+            if(g instanceof LocalGame){
+                        g.handleButton(cell_0_0);
+
+            }
+
+
+        });
+        cell_0_1.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
+            
+
+            g.handleButton(cell_0_1);
+
+        });
+        cell_0_2.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
+            g.handleButton(cell_0_2);
+
+        });
+        cell_1_0.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
+            g.handleButton(cell_1_0);
+        });
+        cell_1_1.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
+            g.handleButton(cell_1_1);
+        });
+        cell_1_2.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
+            g.handleButton(cell_1_2);
+        });
+        cell_2_0.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
+            g.handleButton(cell_2_0);
+        });
+        cell_2_1.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
+            g.handleButton(cell_2_1);
+        });
+        cell_2_2.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
+            g.handleButton(cell_2_2);
+        });
+
+        restartButton.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
+            g.reset();
+            restartButton.setDisable(true);
+            backButton.setDisable(true);
+        });
+
 
         //
         intialGame();
@@ -605,13 +662,12 @@ public class GameScreen extends BorderPane {
 
     public void addButtons() {
         buttons.add(cell_0_0);
-        buttons.add(cell_2_0);
-        buttons.add(cell_1_2);
-        buttons.add(cell_1_1);
-        buttons.add(cell_1_0);
         buttons.add(cell_0_1);
         buttons.add(cell_0_2);
-        buttons.add(cell_0_1);
+        buttons.add(cell_1_0);
+        buttons.add(cell_1_1);
+        buttons.add(cell_1_2);
+        buttons.add(cell_2_0);
         buttons.add(cell_2_1);
         buttons.add(cell_2_2);
     }

@@ -4,6 +4,7 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
 <<<<<<< HEAD
         <group>
+<<<<<<< HEAD
             <file>file:/N:/XOGameClient/src/xogameclient/ConnectToServer.java</file>
             <file>file:/N:/XOGameClient/src/xogameclient/Login.java</file>
             <file>file:/N:/XOGameClient/src/xogameclient/RecordedGameBase.java</file>
@@ -15,6 +16,15 @@
             <file>file:/N:/XOGameClient/src/xogameclient/WelcomeXO.java</file>
             <file>file:/N:/XOGameClient/src/xogameclient/OnlineGame.java</file>
             <file>file:/N:/XOGameClient/src/xogameclient/playerProfileBase.java</file>
+=======
+            <file>file:/E:/ITI/JavaProject/XOGameClient/src/xogameclient/XOGameClient.java</file>
+            <file>file:/E:/ITI/JavaProject/XOGameClient/src/model/Game.java</file>
+            <file>file:/E:/ITI/JavaProject/XOGameClient/src/xogameclient/winningVedioBase.java</file>
+            <file>file:/E:/ITI/JavaProject/XOGameClient/src/model/LocalGame.java</file>
+            <file>file:/E:/ITI/JavaProject/XOGameClient/src/xogameclient/AlertDialog.java</file>
+            <file>file:/E:/ITI/JavaProject/XOGameClient/src/xogameclient/GameScreen.java</file>
+            <file>file:/E:/ITI/JavaProject/XOGameClient/src/xogameclient/Navigation.java</file>
+>>>>>>> master
         </group>
 =======
         <group/>
