@@ -87,6 +87,7 @@ public class PcGame extends LocalGame{
         b.setText("X");
         
         if (winningCases(X)) {
+            vedioDialog("/assets/win-victory.gif");
             disableButtons();
             winner = playerA.getName();
             playerA.setScore(playerA.getScore() + 1);
@@ -108,6 +109,7 @@ public class PcGame extends LocalGame{
         buttonB.setText("O");
         
         if (winningCases(O)) {
+            vedioDialog("/assets/gameOver.gif");
             disableButtons();
             winner = playerB.getName();
             playerB.setScore(playerB.getScore() + 1);
