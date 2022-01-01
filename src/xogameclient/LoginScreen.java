@@ -27,8 +27,10 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import model.SocketSingleton;
 import serialize.models.Login;
 import serialize.models.Player;
+import serialize.models.Register;
 
 public class LoginScreen extends GridPane {
 
@@ -59,12 +61,7 @@ public class LoginScreen extends GridPane {
     private ObjectInputStream objectInputStream;
     private ObjectOutputStream objectOutputStream;
 
-    public LoginScreen(Socket socket) {
-        // initiate
-        this.socket = socket;
-
-        // intiatate all
-        initiate();
+    public LoginScreen() {
 
         columnConstraints = new ColumnConstraints();
         rowConstraints = new RowConstraints();
@@ -219,18 +216,33 @@ public class LoginScreen extends GridPane {
         getChildren().add(borderPane2);
         anchorPane3.getChildren().add(sign_btn);
         getChildren().add(borderPane3);
+        socket = SocketSingleton.getInstanceOf("127.0.0.1");
 
+       
         sign_btn.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
             Navigation nav = new Navigation();
             nav.signupScreen(event);
         });
 
-        Platform.runLater(new Thread() {
-            public void run() {
-                login_btn.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-                    //must validate first
+        login_btn.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
+            //must validate first
 
-                    Login login = new Login(user_text.getText(), password_field.getText());
+            Register login = new Register(user_text.getText(), password_field.getText());
+         
+                     try {
+            // intiatate all
+            //  initiate(socket);
+            inputStream = socket.getInputStream();
+            outputStream = socket.getOutputStream();
+            objectOutputStream=new ObjectOutputStream(outputStream);
+            // initiate Ois
+            objectOutputStream.writeObject(login);
+            objectOutputStream.flush();
+        } catch (IOException ex) {
+            Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
+                         System.out.println("error in register");
+        }
+                   /*  
                     try {
                         objectOutputStream.writeObject(login);
                         // read
@@ -238,23 +250,28 @@ public class LoginScreen extends GridPane {
                         System.out.println("sssssssssss");
                         // get from user after handling it
                         // handle if server is closed
+                        Platform.runLater(() -> {
+                            //  nav.loginScreen(event,s);
+                            nav.signupProfile(event);
+                        });
                     } catch (ConnectException ex) {
                         // show some pop 404
                     } catch (IOException ex) {
                         Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                    */
+                
 
-                });
-            }
-        });
+            });
 
+       
     }
 
-    public void initiate() {
+    public void initiate(Socket s) {
         try {
             // handle if server is closed
-            inputStream = socket.getInputStream();
-            outputStream = socket.getOutputStream();
+            inputStream = s.getInputStream();
+            outputStream = s.getOutputStream();
             objectInputStream = new ObjectInputStream(inputStream);
             objectOutputStream = new ObjectOutputStream(outputStream);
 

@@ -5,7 +5,6 @@
  */
 package xogameclient;
 
-import java.net.Socket;
 import model.Game;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
@@ -23,7 +22,7 @@ public class Navigation {
     protected WelcomeXO welcomeScreen = new WelcomeXO();
     protected playerProfileBase playerProfile=new playerProfileBase();
     protected SignUpBase signUp = new SignUpBase ();
-    protected LoginScreen login;
+    protected LoginScreen loginScreen;
     protected RecordedGameBase record = new RecordedGameBase ();
     protected IPScreenBase ipScreen = new IPScreenBase();
 
@@ -69,9 +68,9 @@ public class Navigation {
         stage.setScene(scene);
         stage.show();
     }
-     public void loginScreen(ActionEvent event,Socket s) {
-        login= new LoginScreen (s);
-        Parent root = login ;
+     public void loginScreen(ActionEvent event) {
+        loginScreen= new LoginScreen ();
+        Parent root = loginScreen ;
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setResizable(false);

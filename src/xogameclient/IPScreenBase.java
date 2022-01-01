@@ -15,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import model.SocketSingleton;
 
 public class IPScreenBase extends AnchorPane {
 
@@ -23,6 +24,7 @@ public class IPScreenBase extends AnchorPane {
     protected final Button connectButton;
     protected final Button backButton;
     protected final Text text;
+    protected Socket socket;
 
     public IPScreenBase() {
         ipImage = new ImageView();
@@ -80,20 +82,9 @@ public class IPScreenBase extends AnchorPane {
                     System.out.println("s7");
                     text.setText("");
                     Navigation nav = new Navigation();
-
-                    
-                    Platform.runLater(new Thread() {
-                        @Override
-                        public void run() {
-                            try {
-                              Socket  s = new Socket("127.0.0.1", 5005);
-                                nav.loginScreen(event, s);
-
-                            } catch (IOException ex) {
-                                Logger.getLogger(IPScreenBase.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        }
-                    });
+                    socket = SocketSingleton.getInstanceOf(ipTextField.getText());
+  
+                    nav.loginScreen(event);
 
                 } else {
 
