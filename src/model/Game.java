@@ -41,10 +41,11 @@ public abstract class Game implements Playable {
     protected Button restart;
 
     public String winner;
-
+    int count=0;
     public void setCell(int x, int y) {
 
         board[x][y] = playerTurn ? X : O;
+        count++;
     }
 
     private boolean checkColumns(char c) {
@@ -89,6 +90,7 @@ public abstract class Game implements Playable {
 
     public void reset() {
         //rest all
+        count=0;
         board = new char[3][3];
         playerTurn = true;
         for (int i = 0; i < buttons.size(); i++) {
@@ -103,21 +105,13 @@ public abstract class Game implements Playable {
 
     }
      
-    public boolean draw() {
-        boolean draw = false;
-        int count=0;
-        if (winningCases(X) || winningCases(O)) {
-            draw = false;
-        } else {
+    public boolean draw(){
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 3; j++) {
                     count=(board[i][j] == X || board[i][j] == O)?count++:count;
                 }
             }
-            return(count==9?true:false);
-        }
-
-        return draw;
+            return(count==9?true:false); 
     }
 
     public void handleButton(Button b) {
@@ -137,7 +131,6 @@ public abstract class Game implements Playable {
     public void getButtons(Vector<Button> b) {
         for (int i = 0; i < b.size(); i++) {
             buttons.add(b.get(i));
-
         }
     }
      public void addScoreText(Text scoreA,Text scoreB){
