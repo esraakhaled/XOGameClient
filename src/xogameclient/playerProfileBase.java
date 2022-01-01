@@ -283,7 +283,7 @@ public  class playerProfileBase extends BorderPane {
             @Override
             public void handle(ActionEvent event) {
                 Navigation nav = new Navigation();
-                nav.backGame(event);
+                nav.goToIpScreen(event);
                     }
         });
 

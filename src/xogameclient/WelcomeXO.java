@@ -195,22 +195,8 @@ public class WelcomeXO extends GridPane {
             @Override
             public void handle(ActionEvent event) {
 
-                // will delete after insrting Ip page
-                Platform.runLater(new Thread() {
-                    @Override
-                    public void run() {
-                        try {
-                            Navigation nav = new Navigation();
-                            Socket s = new Socket("127.0.0.1",5005);
-                            while(!s.isConnected()){
-                                System.out.println("555");
-                            }
-                            nav.loginScreen(event, s);
-                        } catch (IOException ex) {
-                            Logger.getLogger(WelcomeXO.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                });
+                Navigation nav = new Navigation();
+                nav.goToIpScreen(event);
 
             }
         });
