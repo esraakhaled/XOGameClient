@@ -75,9 +75,9 @@ public class Navigation {
         stage.show();
     }
 
-    public void loginScreen(ActionEvent event) {
-        loginScreen = new LoginScreen();
-        Parent root = loginScreen;
+     public void loginScreen(ActionEvent event,String ip) {
+        loginScreen= new LoginScreen (ip);
+        Parent root = loginScreen ;
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setResizable(false);

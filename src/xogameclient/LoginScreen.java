@@ -61,7 +61,7 @@ public class LoginScreen extends GridPane {
     private ObjectInputStream objectInputStream;
     private ObjectOutputStream objectOutputStream;
 
-    public LoginScreen() {
+    public LoginScreen(String ip) {
 
         columnConstraints = new ColumnConstraints();
         rowConstraints = new RowConstraints();
@@ -216,8 +216,8 @@ public class LoginScreen extends GridPane {
         getChildren().add(borderPane2);
         anchorPane3.getChildren().add(sign_btn);
         getChildren().add(borderPane3);
-        //make
-        socket = SocketSingleton.getInstanceOf("127.0.0.1");
+
+        socket = SocketSingleton.getInstanceOf(ip);
 
         sign_btn.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
             Navigation nav = new Navigation();

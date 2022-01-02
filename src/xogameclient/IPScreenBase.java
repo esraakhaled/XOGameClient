@@ -1,11 +1,15 @@
 package xogameclient;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -15,7 +19,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 import model.SocketSingleton;
+import serialize.models.Connection;
 
 public class IPScreenBase extends AnchorPane {
 
@@ -25,6 +31,8 @@ public class IPScreenBase extends AnchorPane {
     protected final Button backButton;
     protected final Text text;
     protected Socket socket;
+    private ObjectInputStream objectInputStream;
+    private ObjectOutputStream objectOutputStream;
 
     public IPScreenBase() {
         ipImage = new ImageView();
@@ -83,8 +91,36 @@ public class IPScreenBase extends AnchorPane {
                     text.setText("");
                     Navigation nav = new Navigation();
                     socket = SocketSingleton.getInstanceOf(ipTextField.getText());
-  
-                    nav.loginScreen(event);
+                    new Thread() {
+                        public void run() {
+                            if (socket != null) {
+                                try {
+                                    Connection connection = new Connection(0, 0);
+                                    objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+                                    objectOutputStream.writeObject(connection);
+                                    //nav.loginScreen(event,ipTextField.getText());
+                                    objectInputStream = new ObjectInputStream(socket.getInputStream());
+                                    try {
+                                        connection = (Connection) objectInputStream.readObject();
+                                        if (connection.getAck() == 1) {
+
+                                            Platform.runLater(() -> {
+                                                nav.loginScreen(event, ipTextField.getText());
+                                            });
+                                        } 
+                                    } catch (ClassNotFoundException ex) {
+                                        Logger.getLogger(IPScreenBase.class.getName()).log(Level.SEVERE, null, ex);
+                                    }
+                                } catch (IOException ex) {
+                                    Logger.getLogger(IPScreenBase.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }else
+                            {
+                                text.setText("Not Found, Error 404!");
+                            }
+
+                        }
+                    }.start();
 
                 } else {
 
