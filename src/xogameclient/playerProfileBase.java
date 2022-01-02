@@ -1,5 +1,14 @@
 package xogameclient;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -12,7 +21,9 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import model.SocketSingleton;
 import serialize.models.Player;
+import serialize.models.RequestTopPlayers;
 
 public  class playerProfileBase extends BorderPane {
 
@@ -49,9 +60,15 @@ public  class playerProfileBase extends BorderPane {
     protected final Button signOutButton;
     protected final Button recorderGameButton;
     private  Player player;
-    public playerProfileBase(Player player) {
-       this.player=player;
-        
+    private Socket socket;
+    String ip;
+    private InputStream inputStream;
+    private OutputStream outputStream;
+    private ObjectInputStream objectInputStream;
+    private ObjectOutputStream objectOutputStream;
+    public playerProfileBase(Player _player,String _ip) {
+        player=_player;
+        ip = _ip;
         anchorPane = new AnchorPane();
         PlayerList = new ListView();
         text = new Text();
@@ -338,14 +355,29 @@ public  class playerProfileBase extends BorderPane {
         anchorPane3.getChildren().add(backButton);
         anchorPane3.getChildren().add(signOutButton);
         anchorPane3.getChildren().add(recorderGameButton);
-        
+        socket = SocketSingleton.getInstanceOf(ip);
         // set player
         initiatePlayerProfile(player);
-
+        Platform.runLater(() -> {
+            try {
+                RequestTopPlayers topPlayers = new RequestTopPlayers(player.getUserName(),null);
+                inputStream = socket.getInputStream();
+                outputStream = socket.getOutputStream();
+                objectOutputStream = new ObjectOutputStream(outputStream);
+                objectOutputStream.writeObject(topPlayers);
+                objectOutputStream.flush();
+                //get response
+                objectInputStream = new ObjectInputStream(inputStream);
+                Player playerDB = (Player) objectInputStream.readObject();
+            } catch (IOException ex) {
+                Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
+            }
+       });
     }
 public void initiatePlayerProfile(Player player){
-    playerName.setText(player.getUserName());
-    
+    playerName.setText(player.getUserName());  
 }
 
 }
