@@ -1,5 +1,14 @@
 package xogameclient;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -11,8 +20,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import model.SocketSingleton;
+import serialize.models.Login;
+import serialize.models.Player;
+import serialize.models.Register;
 
-public  class SignUpBase extends GridPane {
+public class SignUpBase extends GridPane {
 
     protected final ColumnConstraints columnConstraints;
     protected final RowConstraints rowConstraints;
@@ -39,8 +52,13 @@ public  class SignUpBase extends GridPane {
     protected final BorderPane borderPane4;
     protected final AnchorPane anchorPane4;
     protected final Button login_btn;
+    private Socket socket;
+    private InputStream inputStream;
+    private OutputStream outputStream;
+    private ObjectInputStream objectInputStream;
+    private ObjectOutputStream objectOutputStream;
 
-    public SignUpBase() {
+    public SignUpBase(String ip) {
 
         columnConstraints = new ColumnConstraints();
         rowConstraints = new RowConstraints();
@@ -168,13 +186,7 @@ public  class SignUpBase extends GridPane {
         signup_btn.setPrefWidth(301.0);
         signup_btn.setText("Sign Up");
         signup_btn.setFont(new Font(14.0));
-        signup_btn.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Navigation nav = new Navigation();
-                nav.signupProfile(event);
-                    }
-        });
+
         borderPane2.setCenter(anchorPane2);
 
         GridPane.setRowIndex(borderPane3, 4);
@@ -210,16 +222,7 @@ public  class SignUpBase extends GridPane {
         login_btn.setPrefHeight(25.0);
         login_btn.setPrefWidth(112.0);
         login_btn.setText("Login");
-        // handle it  not delete it ya abdo
-        /*
-        login_btn.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Navigation nav = new Navigation();
-                nav.loginButton(event);
-                    }
-        });
-*/
+
         borderPane4.setCenter(anchorPane4);
 
         getColumnConstraints().add(columnConstraints);
@@ -241,6 +244,46 @@ public  class SignUpBase extends GridPane {
         getChildren().add(borderPane3);
         anchorPane4.getChildren().add(login_btn);
         getChildren().add(borderPane4);
+        socket = SocketSingleton.getInstanceOf(ip);
+
+        signup_btn.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
+            //must validate first
+            Register register = new Register(user_field.getText(), password_field.getText());
+            new Thread() {
+                public void run() {
+                    try {
+                        inputStream = socket.getInputStream();
+                        outputStream = socket.getOutputStream();
+                        objectOutputStream = new ObjectOutputStream(outputStream);
+                        objectOutputStream.writeObject(register);
+                        objectOutputStream.flush();
+                        //get response
+                        objectInputStream = new ObjectInputStream(inputStream);
+                        Player playerDB = (Player) objectInputStream.readObject();
+
+                        if (playerDB != null) {
+                            Platform.runLater(() -> {
+                                Navigation nav = new Navigation();
+                                nav.loginButton(event, playerDB);
+                            });
+
+                        } else {
+                            // show pop --> go to register
+                        }
+
+                    } catch (IOException ex) {
+                        Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
+                        System.out.println("error in login");
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }.start();
+        });
+        login_btn.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
+            Navigation nav = new Navigation();
+            nav.signupScreen(event, ip);
+        });
 
     }
 }

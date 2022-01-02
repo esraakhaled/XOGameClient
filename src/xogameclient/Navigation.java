@@ -23,7 +23,7 @@ public class Navigation {
     protected GameScreen playScreen;
     protected WelcomeXO welcomeScreen = new WelcomeXO();
     protected playerProfileBase playerProfile;
-    protected SignUpBase signUp = new SignUpBase();
+    protected SignUpBase signUp ;
     protected LoginScreen loginScreen;
     protected RecordedGameBase record = new RecordedGameBase();
     protected IPScreenBase ipScreen = new IPScreenBase();
@@ -66,7 +66,8 @@ public class Navigation {
         stage.show();
     }
 
-    public void signupScreen(ActionEvent event) {
+    public void signupScreen(ActionEvent event ,String ip) {
+        signUp= new SignUpBase(ip);
         Parent root = signUp;
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root, 700, 500);

@@ -219,11 +219,6 @@ public class LoginScreen extends GridPane {
 
         socket = SocketSingleton.getInstanceOf(ip);
 
-        sign_btn.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            Navigation nav = new Navigation();
-            nav.signupScreen(event);
-        });
-
         login_btn.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
             //must validate first
             Login login = new Login(user_text.getText(), password_field.getText());
@@ -251,49 +246,17 @@ public class LoginScreen extends GridPane {
 
                     } catch (IOException ex) {
                         Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
-                        System.out.println("error in register");
+                        System.out.println("error in login");
                     } catch (ClassNotFoundException ex) {
                         Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }.start();
-
-            /*  
-                    try {
-                        objectOutputStream.writeObject(login);
-                        // read
-                        Navigation nav = new Navigation();
-                        System.out.println("sssssssssss");
-                        // get from user after handling it
-                        // handle if server is closed
-                        Platform.runLater(() -> {
-                            //  nav.loginScreen(event,s);
-                            nav.signupProfile(event);
-                        });
-                    } catch (ConnectException ex) {
-                        // show some pop 404
-                    } catch (IOException ex) {
-                        Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-             */
         });
-
-    }
-
-    public void initiate(Socket s) {
-        try {
-            // handle if server is closed
-            inputStream = s.getInputStream();
-            outputStream = s.getOutputStream();
-            objectInputStream = new ObjectInputStream(inputStream);
-            objectOutputStream = new ObjectOutputStream(outputStream);
-
-            // handle if exists any catches
-        } catch (ConnectException ex) {
-            // show some pop 404
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        sign_btn.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
+            Navigation nav = new Navigation();
+            nav.signupScreen(event, ip);
+        });
 
     }
 
