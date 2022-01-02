@@ -18,6 +18,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -48,7 +49,7 @@ public class LoginScreen extends GridPane {
     protected final TextField user_text;
     protected final BorderPane borderPane1;
     protected final AnchorPane anchorPane1;
-    protected final TextField password_field;
+    protected final PasswordField password_field;
     protected final BorderPane borderPane2;
     protected final AnchorPane anchorPane2;
     protected final Button login_btn;
@@ -77,14 +78,13 @@ public class LoginScreen extends GridPane {
         user_text = new TextField();
         borderPane1 = new BorderPane();
         anchorPane1 = new AnchorPane();
-        password_field = new TextField();
+        password_field = new PasswordField();
         borderPane2 = new BorderPane();
         anchorPane2 = new AnchorPane();
         login_btn = new Button();
         borderPane3 = new BorderPane();
         anchorPane3 = new AnchorPane();
         sign_btn = new Button();
-
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
         setMinHeight(USE_PREF_SIZE);
