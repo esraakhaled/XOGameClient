@@ -24,6 +24,10 @@ public class Player implements Serializable{
     private int lose;
     private int draw;
 
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     public boolean isAvailable() {
         return available;
     }
@@ -63,7 +67,6 @@ public class Player implements Serializable{
     public void setDraw(int draw) {
         this.draw = draw;
     }
-    // for local
     public Player(String userName){
         this.userName=userName;
     }
@@ -116,7 +119,5 @@ public class Player implements Serializable{
     public String getPassword(){
         return password;
     }
-
-    
    
 }

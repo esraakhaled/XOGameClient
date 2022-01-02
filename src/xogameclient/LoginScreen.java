@@ -216,9 +216,9 @@ public class LoginScreen extends GridPane {
         getChildren().add(borderPane2);
         anchorPane3.getChildren().add(sign_btn);
         getChildren().add(borderPane3);
+        //make
         socket = SocketSingleton.getInstanceOf("127.0.0.1");
 
-       
         sign_btn.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
             Navigation nav = new Navigation();
             nav.signupScreen(event);
@@ -226,23 +226,39 @@ public class LoginScreen extends GridPane {
 
         login_btn.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
             //must validate first
+            Login login = new Login(user_text.getText(), password_field.getText());
+            new Thread() {
+                public void run() {
+                    try {
+                        inputStream = socket.getInputStream();
+                        outputStream = socket.getOutputStream();
+                        objectOutputStream = new ObjectOutputStream(outputStream);
+                        objectOutputStream.writeObject(login);
+                        objectOutputStream.flush();
+                        //get response
+                        objectInputStream = new ObjectInputStream(inputStream);
+                        Player playerDB = (Player) objectInputStream.readObject();
 
-            Register login = new Register(user_text.getText(), password_field.getText());
-         
-                     try {
-            // intiatate all
-            //  initiate(socket);
-            inputStream = socket.getInputStream();
-            outputStream = socket.getOutputStream();
-            objectOutputStream=new ObjectOutputStream(outputStream);
-            // initiate Ois
-            objectOutputStream.writeObject(login);
-            objectOutputStream.flush();
-        } catch (IOException ex) {
-            Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
-                         System.out.println("error in register");
-        }
-                   /*  
+                        if (playerDB != null) {
+                            Platform.runLater(() -> {
+                                Navigation nav = new Navigation();
+                                nav.loginButton(event, playerDB);
+                            });
+
+                        } else {
+                            // show pop --> go to register
+                        }
+
+                    } catch (IOException ex) {
+                        Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
+                        System.out.println("error in register");
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }.start();
+
+            /*  
                     try {
                         objectOutputStream.writeObject(login);
                         // read
@@ -259,12 +275,9 @@ public class LoginScreen extends GridPane {
                     } catch (IOException ex) {
                         Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    */
-                
+             */
+        });
 
-            });
-
-       
     }
 
     public void initiate(Socket s) {
