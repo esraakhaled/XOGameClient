@@ -11,22 +11,24 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import serialize.models.Player;
 
 /**
  *
  * @author ELZAHBIA
  */
 public class Navigation {
+
     //protected WelcomeXO welcomeScreen = new WelcomeXO();
     protected GameScreen playScreen;
     protected WelcomeXO welcomeScreen = new WelcomeXO();
-    protected playerProfileBase playerProfile=new playerProfileBase();
-    protected SignUpBase signUp = new SignUpBase ();
+    protected playerProfileBase playerProfile;
+    protected SignUpBase signUp = new SignUpBase();
     protected LoginScreen loginScreen;
-    protected RecordedGameBase record = new RecordedGameBase ();
+    protected RecordedGameBase record = new RecordedGameBase();
     protected IPScreenBase ipScreen = new IPScreenBase();
 
-    public void playGame(ActionEvent event,Game g) {
+    public void playGame(ActionEvent event, Game g) {
         playScreen = new GameScreen(g);
         Parent root = playScreen;
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -34,8 +36,9 @@ public class Navigation {
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
-    }   
-     public void recordedGame(ActionEvent event) {
+    }
+
+    public void recordedGame(ActionEvent event) {
         Parent root = record;
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root, 700, 500);
@@ -43,8 +46,8 @@ public class Navigation {
         stage.setScene(scene);
         stage.show();
     }
-      
-       public void backGame(ActionEvent event) {
+
+    public void backGame(ActionEvent event) {
         Parent root = welcomeScreen;
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root, 700, 500);
@@ -52,15 +55,18 @@ public class Navigation {
         stage.setScene(scene);
         stage.show();
     }
-     public void loginButton(ActionEvent event) {
-        Parent root =playerProfile;
+
+    public void loginButton(ActionEvent event, Player playerDB) {
+        playerProfile = new playerProfileBase(playerDB);
+        Parent root = playerProfile;
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root, 700, 500);
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
     }
-      public void signupScreen(ActionEvent event) {
+
+    public void signupScreen(ActionEvent event) {
         Parent root = signUp;
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root, 700, 500);
@@ -68,6 +74,7 @@ public class Navigation {
         stage.setScene(scene);
         stage.show();
     }
+
      public void loginScreen(ActionEvent event,String ip) {
         loginScreen= new LoginScreen (ip);
         Parent root = loginScreen ;
@@ -77,7 +84,7 @@ public class Navigation {
         stage.setScene(scene);
         stage.show();
     }
-    
+
     public void signupProfile(ActionEvent event) {
         Parent root = playerProfile;
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -86,7 +93,8 @@ public class Navigation {
         stage.setScene(scene);
         stage.show();
     }
-     public void signoutProfile(ActionEvent event) {
+
+    public void signoutProfile(ActionEvent event) {
         Parent root = welcomeScreen;
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root, 700, 500);
@@ -94,7 +102,8 @@ public class Navigation {
         stage.setScene(scene);
         stage.show();
     }
-      public void goToIpScreen(ActionEvent event) {
+
+    public void goToIpScreen(ActionEvent event) {
         Parent root = ipScreen;
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
@@ -102,9 +111,5 @@ public class Navigation {
         stage.setScene(scene);
         stage.show();
     }
-    
-    
-   
-    
-    
+
 }

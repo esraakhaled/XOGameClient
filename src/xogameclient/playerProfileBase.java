@@ -12,6 +12,7 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import serialize.models.Player;
 
 public  class playerProfileBase extends BorderPane {
 
@@ -47,9 +48,10 @@ public  class playerProfileBase extends BorderPane {
     protected final Button backButton;
     protected final Button signOutButton;
     protected final Button recorderGameButton;
-
-    public playerProfileBase() {
-
+    private  Player player;
+    public playerProfileBase(Player player) {
+       this.player=player;
+        
         anchorPane = new AnchorPane();
         PlayerList = new ListView();
         text = new Text();
@@ -336,8 +338,14 @@ public  class playerProfileBase extends BorderPane {
         anchorPane3.getChildren().add(backButton);
         anchorPane3.getChildren().add(signOutButton);
         anchorPane3.getChildren().add(recorderGameButton);
+        
+        // set player
+        initiatePlayerProfile(player);
 
     }
-
+public void initiatePlayerProfile(Player player){
+    playerName.setText(player.getUserName());
+    
+}
 
 }
