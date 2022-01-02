@@ -6,6 +6,7 @@
 package model;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +21,8 @@ public class SocketSingleton {
         if(socket==null){
             try {
                 socket=new Socket(ip,8080);
-            } catch (IOException ex) {
+            } catch(ConnectException ex ){}
+            catch (IOException ex) {
                 Logger.getLogger(SocketSingleton.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

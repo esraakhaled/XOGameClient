@@ -68,8 +68,8 @@ public class Navigation {
         stage.setScene(scene);
         stage.show();
     }
-     public void loginScreen(ActionEvent event) {
-        loginScreen= new LoginScreen ();
+     public void loginScreen(ActionEvent event,String ip) {
+        loginScreen= new LoginScreen (ip);
         Parent root = loginScreen ;
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
