@@ -1,5 +1,6 @@
 package xogameclient;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -7,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.ConnectException;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -218,43 +220,70 @@ public class LoginScreen extends GridPane {
         getChildren().add(borderPane3);
 
         socket = SocketSingleton.getInstanceOf(ip);
+        Navigation nav = new Navigation();
+
+        try {
+            inputStream = socket.getInputStream();
+            outputStream = socket.getOutputStream();
+
+        } catch (IOException ex) {
+            Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         login_btn.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
             //must validate first
             Login login = new Login(user_text.getText(), password_field.getText());
-            new Thread() {
-                public void run() {
-                    try {
-                        inputStream = socket.getInputStream();
-                        outputStream = socket.getOutputStream();
-                        objectOutputStream = new ObjectOutputStream(outputStream);
-                        objectOutputStream.writeObject(login);
-                        objectOutputStream.flush();
-                        //get response
-                        objectInputStream = new ObjectInputStream(inputStream);
-                        Player playerDB = (Player) objectInputStream.readObject();
 
-                        if (playerDB != null) {
-                            Platform.runLater(() -> {
-                                Navigation nav = new Navigation();
-                                nav.loginButton(event, playerDB);
-                            });
+            try {
 
-                        } else {
-                            // show pop --> go to register
-                        }
+                objectOutputStream = new ObjectOutputStream(outputStream);
+                objectOutputStream.writeObject(login);
+                objectOutputStream.flush();
+                //get response
+                objectInputStream = new ObjectInputStream(inputStream);
+                Player playerDB = (Player) objectInputStream.readObject();
 
-                    } catch (IOException ex) {
-                        Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
-                        System.out.println("error in login");
-                    } catch (ClassNotFoundException ex) {
-                        Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                if (playerDB != null) {
+                    //close theses streams
+                    inputStream.close();
+                    outputStream.close();
+
+                    nav.loginButton(event, playerDB);
+
+                } else {
+                    CustomPopup.display(" Invalid Login ");
                 }
-            }.start();
+
+            } catch (EOFException ex) {
+                try {
+                    inputStream.close();
+                    outputStream.close();
+                    socket.close();
+                    CustomPopup.display(" 404 NotFound ");
+                    nav.goToIpScreen(event);
+                } catch (IOException ex1) {
+                    Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex1);
+                }
+            } catch (SocketException ex) {
+                try {
+                    inputStream.close();
+                    outputStream.close();
+                    socket.close();
+                    CustomPopup.display(" 404 NotFound ");
+
+                    nav.goToIpScreen(event);
+                } catch (IOException ex1) {
+                    CustomPopup.display(" 404 NotFound ");
+                    nav.goToIpScreen(event);
+                }
+            } catch (IOException ex) {
+                CustomPopup.display(" 404 NotFound ");
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         });
         sign_btn.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            Navigation nav = new Navigation();
             nav.signupScreen(event, ip);
         });
 
