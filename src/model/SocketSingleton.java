@@ -8,6 +8,7 @@ package model;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -18,10 +19,13 @@ import java.util.logging.Logger;
 public class SocketSingleton {
     private static Socket socket;
     public static synchronized Socket getInstanceOf(String ip){
-        if(socket==null){
+        if(socket==null || socket.isClosed()){
+            
             try {
                 socket=new Socket(ip,8080);
-            } catch(ConnectException ex ){}
+            }  catch(SocketException ex ){
+                
+            }
             catch (IOException ex) {
                 Logger.getLogger(SocketSingleton.class.getName()).log(Level.SEVERE, null, ex);
             }

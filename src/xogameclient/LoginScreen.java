@@ -237,7 +237,7 @@ public class LoginScreen extends GridPane {
                         if (playerDB != null) {
                             Platform.runLater(() -> {
                                 Navigation nav = new Navigation();
-                                nav.loginButton(event, playerDB);
+                                nav.loginButton(event, playerDB,ip);
                             });
 
                         } else {
