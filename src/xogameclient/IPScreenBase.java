@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -107,15 +108,14 @@ public class IPScreenBase extends AnchorPane {
                                             Platform.runLater(() -> {
                                                 nav.loginScreen(event, ipTextField.getText());
                                             });
-                                        } 
+                                        }
                                     } catch (ClassNotFoundException ex) {
                                         Logger.getLogger(IPScreenBase.class.getName()).log(Level.SEVERE, null, ex);
                                     }
                                 } catch (IOException ex) {
                                     Logger.getLogger(IPScreenBase.class.getName()).log(Level.SEVERE, null, ex);
                                 }
-                            }else
-                            {
+                            } else {
                                 text.setText("Not Found, Error 404!");
                             }
 
