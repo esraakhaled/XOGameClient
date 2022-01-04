@@ -8,7 +8,24 @@ public class listItemBase extends AnchorPane {
 
     protected final Text userName;
     protected final Text scoreText;
+    public String userNameStr,scoreTextstr;
 
+    public String getUserNameStr() {
+        return userNameStr;
+    }
+
+    public void setUserNameStr(String userNameStr) {
+        this.userNameStr = userNameStr;
+    }
+
+    public String getScoreTextstr() {
+        return scoreTextstr;
+    }
+
+    public void setScoreTextstr(String scoreTextstr) {
+        this.scoreTextstr = scoreTextstr;
+    }
+    
     public listItemBase(String _userName , String _scoreText) {
 
         userName = new Text();

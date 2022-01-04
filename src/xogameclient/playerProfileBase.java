@@ -1,5 +1,6 @@
 package xogameclient;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -11,10 +12,19 @@ import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
@@ -25,10 +35,19 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import model.Game;
+import model.LocalGame;
+import model.OnlineGame;
 import model.SocketSingleton;
 import serialize.models.LogOut;
 import serialize.models.Player;
+
 import serialize.models.RequestProfileBase;
+
+import serialize.models.RequestGame;
+
 
 public class playerProfileBase extends BorderPane {
 
@@ -71,13 +90,24 @@ public class playerProfileBase extends BorderPane {
     private OutputStream outputStream;
     private ObjectInputStream objectInputStream;
     private ObjectOutputStream objectOutputStream;
+
     ObservableList<listItemBase> topPlayersNames;
     ObservableList<listItemBase> availablePlayer;
-   
-    public playerProfileBase(Player player, String _ip) {
+    
+    private RequestGame requestGame;
+    private Navigation nav;
+    public int acceptance = 0;
+    private ActionEvent e;
+    private Game g;
+    private Stage waittingStatge;
+    private Stage acceptanceStage;
+    private String playerOne;
+    private Thread thread;
+    
+    public playerProfileBase(Player player, String ip) {
         this.player = player;
         this.socket = SocketSingleton.getInstanceOf(ip);
-        ip = _ip;
+        this.ip = ip;
         anchorPane = new AnchorPane();
         
         topPlayersNames = FXCollections.observableArrayList();
@@ -308,13 +338,7 @@ public class playerProfileBase extends BorderPane {
         backButton.setPrefHeight(25.0);
         backButton.setPrefWidth(52.0);
         backButton.setText("Back");
-        backButton.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Navigation nav = new Navigation();
-                nav.goToIpScreen(event);
-            }
-        });
+        backButton.setVisible(false);
 
         AnchorPane.setBottomAnchor(signOutButton, 13.0);
         AnchorPane.setRightAnchor(signOutButton, 20.0);
@@ -365,11 +389,50 @@ public class playerProfileBase extends BorderPane {
         anchorPane3.getChildren().add(backButton);
         anchorPane3.getChildren().add(signOutButton);
         anchorPane3.getChildren().add(recorderGameButton);
+
+        try {
+            inputStream = socket.getInputStream();
+            outputStream = socket.getOutputStream();
+        } catch (IOException ex) {
+            Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        thread = new Thread() {
+            @Override
+            public void run() {
+
+                while (true) {
+                    try {
+                        ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
+
+                        requestGame = (RequestGame) objectInputStream.readObject();
+                        if (requestGame.getGameResponse() == 0) {
+                            acceptRequest(requestGame.getRequstedUserName() + "want to play with you !");
+                        } else if (requestGame.getGameResponse() == 1) {
+                            waittingStatge.close();
+                            g = new OnlineGame(new Player(requestGame.getRequstedUserName()), new Player(requestGame.getChoosePlayerUserName()));
+                            nav.playGame(e, g);
+                        } else if (requestGame.getGameResponse() == 2) {
+                            waittingStatge.close();
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+
+            }
+        };
+        thread.start();
         signOutButton.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
+
             @Override
             public void handle(ActionEvent event) {
+                thread.stop();
+
                 LogOut logOut = new LogOut(player.getUserName(), 0);
-                Navigation nav = new Navigation();
+                nav = new Navigation();
                 try {
                     inputStream = socket.getInputStream();
                     outputStream = socket.getOutputStream();
@@ -388,14 +451,12 @@ public class playerProfileBase extends BorderPane {
                         inputStream.close();
                         objectOutputStream.close();
                         outputStream.close();
-
                     } else {
                         objectInputStream = new ObjectInputStream(inputStream);
                     }
                     LogOut logOutDB = (LogOut) objectInputStream.readObject();
                     if (logOutDB.getAck() == 1) {
                         socket.close();
-                        
 
                         nav.goToWelcomScreen(event);
 
@@ -405,7 +466,6 @@ public class playerProfileBase extends BorderPane {
                 } catch (SocketException ex) {
                     try {
                         socket.close();
-                        
                     } catch (IOException ex1) {
                         Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex1);
                     }
@@ -414,6 +474,7 @@ public class playerProfileBase extends BorderPane {
                 } catch (ClassNotFoundException ex) {
                     Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                thread.stop();
 
             }
         });
@@ -422,6 +483,27 @@ public class playerProfileBase extends BorderPane {
         Platform.runLater(() -> {
             requestPlayers();
        });
+        availablePlayerList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<listItemBase>() {
+            @Override
+            public void changed(ObservableValue<? extends listItemBase> observable, listItemBase oldValue, listItemBase newValue) {
+                playerOne = player.getUserName();
+                requestGame = new RequestGame(playerOne, newValue.getUserNameStr(), 0);
+                try {
+
+                    outputStream = socket.getOutputStream();
+                    objectOutputStream = new ObjectOutputStream(outputStream);
+                    objectOutputStream.writeObject(requestGame);
+                    objectOutputStream.flush();
+                    waitingResponse("waiting response from " + " " + newValue);
+
+                } catch (IOException ex) {
+                    Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+        });
+
+        //}
     }
     public void initiatePlayerProfile(Player player){
         playerName.setText(player.getUserName());  
@@ -451,7 +533,12 @@ public class playerProfileBase extends BorderPane {
                     for(Player p :playersData.getOnlinePlayer())
                         availablePlayer.add(new listItemBase(p.getUserName(),String.valueOf(p.getScore())));
                     
-                } catch (IOException ex) {
+                }catch (EOFException ex) {
+                    Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
+                }catch (SocketException ex) {
+                    Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
+                }  
+                catch (IOException ex) {
                     Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (ClassNotFoundException ex) {
                     Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
@@ -459,5 +546,90 @@ public class playerProfileBase extends BorderPane {
             }
         });
         th.start();
+    }
+
+    public void acceptRequest(String waiting) {
+        acceptanceStage = new Stage();
+        acceptanceStage.initModality(Modality.APPLICATION_MODAL);
+        Text message = new Text(waiting);
+        Button sureButton = new Button("accept");
+
+        sureButton.setOnAction(e -> {
+
+            try {
+                requestGame.setGameResponse(RequestGame.acceptChallenge);
+                outputStream = socket.getOutputStream();
+                objectOutputStream = new ObjectOutputStream(outputStream);
+                objectOutputStream.writeObject(requestGame);
+            } catch (IOException ex) {
+                Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            g = new OnlineGame(new Player(requestGame.getRequstedUserName()), new Player(requestGame.getChoosePlayerUserName()));
+            acceptanceStage.close();
+            Stage r = (Stage) availablePlayerList.getScene().getWindow();
+            System.out.println("asdaskfk ");
+            Parent root = new GameScreen(g);
+            Scene scene = new Scene(root);
+            r.setScene(scene);
+            r.show();
+
+        });
+
+        Button refusButton = new Button("refuse");
+
+        refusButton.setOnAction(e -> {
+            acceptanceStage.close();
+            try {
+                requestGame.setGameResponse(RequestGame.refuseChallenge);
+                outputStream = socket.getOutputStream();
+                objectOutputStream = new ObjectOutputStream(outputStream);
+                objectOutputStream.writeObject(requestGame);
+            } catch (IOException ex) {
+                Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        });
+        GridPane layout = new GridPane();
+        GridPane subLayout = new GridPane();
+        layout.setPadding(new Insets(10, 10, 10, 10));
+        subLayout.setPadding(new Insets(10, 10, 10, 10));
+        layout.setVgap(5);
+        layout.setHgap(5);
+        subLayout.setVgap(5);
+        subLayout.setHgap(5);
+        layout.add(message, 0, 0);
+        subLayout.add(sureButton, 1, 0);
+        subLayout.add(refusButton, 2, 0);
+        layout.add(subLayout, 0, 1);
+        Scene scene = new Scene(layout, 250, 90);
+        acceptanceStage.setTitle("acceptance...");
+        acceptanceStage.setScene(scene);
+        acceptanceStage.showAndWait();
+    }
+
+    public void waitingResponse(String waiting) {
+        waittingStatge = new Stage();
+        waittingStatge.initModality(Modality.APPLICATION_MODAL);
+        Text message = new Text(waiting);
+        Button sureButton = new Button("cancel");
+
+        sureButton.setOnAction(e -> {
+            waittingStatge.close();
+        });
+        GridPane layout = new GridPane();
+        GridPane subLayout = new GridPane();
+        layout.setPadding(new Insets(10, 10, 10, 10));
+        subLayout.setPadding(new Insets(10, 10, 10, 10));
+        layout.setVgap(5);
+        layout.setHgap(5);
+        subLayout.setVgap(5);
+        subLayout.setHgap(5);
+        layout.add(message, 0, 0);
+        subLayout.add(sureButton, 1, 0);
+        layout.add(subLayout, 0, 1);
+        Scene scene = new Scene(layout, 250, 90);
+        waittingStatge.setTitle("waitting...");
+        waittingStatge.setScene(scene);
+        waittingStatge.showAndWait();
     }
 }
