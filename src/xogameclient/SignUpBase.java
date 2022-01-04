@@ -275,7 +275,7 @@ public class SignUpBase extends GridPane {
                     inputStream.close();
                     outputStream.close();
 
-                    nav.loginButton(event, playerDB);
+                    nav.loginButton(event, playerDB,ip);
 
                 } else {
                     CustomPopup.display(" Invalid registeration ");
@@ -290,6 +290,7 @@ public class SignUpBase extends GridPane {
                     nav.goToIpScreen(event);
                 } catch (IOException ex1) {
                     Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex1);
+
                 }
             } catch (SocketException ex) {
                 try {
@@ -311,7 +312,7 @@ public class SignUpBase extends GridPane {
 
         });
         login_btn.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            nav.signupScreen(event, ip);
+            nav.loginScreen(event, ip);
         });
 
     }

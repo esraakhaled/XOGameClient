@@ -1,9 +1,13 @@
 package xogameclient;
 
+import java.io.EOFException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.net.NoRouteToHostException;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.logging.Level;
@@ -34,6 +38,8 @@ public class IPScreenBase extends AnchorPane {
     protected Socket socket;
     private ObjectInputStream objectInputStream;
     private ObjectOutputStream objectOutputStream;
+    private InputStream inputStream;
+    private OutputStream outputStream;
 
     public IPScreenBase() {
         ipImage = new ImageView();
@@ -88,39 +94,40 @@ public class IPScreenBase extends AnchorPane {
             @Override
             public void handle(ActionEvent event) {
                 if (isValidIPAddress(ipTextField.getText())) {
-                    System.out.println("s7");
                     text.setText("");
                     Navigation nav = new Navigation();
                     socket = SocketSingleton.getInstanceOf(ipTextField.getText());
-                    new Thread() {
-                        public void run() {
-                            if (socket != null) {
-                                try {
-                                    Connection connection = new Connection(0, 0);
-                                    objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-                                    objectOutputStream.writeObject(connection);
-                                    //nav.loginScreen(event,ipTextField.getText());
-                                    objectInputStream = new ObjectInputStream(socket.getInputStream());
-                                    try {
-                                        connection = (Connection) objectInputStream.readObject();
-                                        if (connection.getAck() == 1) {
 
-                                            Platform.runLater(() -> {
-                                                nav.loginScreen(event, ipTextField.getText());
-                                            });
-                                        }
-                                    } catch (ClassNotFoundException ex) {
-                                        Logger.getLogger(IPScreenBase.class.getName()).log(Level.SEVERE, null, ex);
-                                    }
-                                } catch (IOException ex) {
-                                    Logger.getLogger(IPScreenBase.class.getName()).log(Level.SEVERE, null, ex);
+
+                    if (socket != null) {
+                        try {
+                            Connection connection = new Connection(0, 0);
+                            inputStream = socket.getInputStream();
+                            outputStream = socket.getOutputStream();
+                            objectOutputStream = new ObjectOutputStream(outputStream);
+                            objectOutputStream.writeObject(connection);
+                            //nav.loginScreen(event,ipTextField.getText());
+                            objectInputStream = new ObjectInputStream(inputStream);
+                            try {
+                                connection = (Connection) objectInputStream.readObject();
+                                if (connection.getAck() == 1) {
+
+                                    nav.loginScreen(event, ipTextField.getText());
+
                                 }
-                            } else {
-                                text.setText("Not Found, Error 404!");
+                            }  catch (ClassNotFoundException ex) {
+                                Logger.getLogger(IPScreenBase.class.getName()).log(Level.SEVERE, null, ex);
                             }
+                        }catch (SocketException ex) {
+                                text.setText("Not Found, Error 404!");
 
+                            }
+                        catch (IOException ex) {
+                            Logger.getLogger(IPScreenBase.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                    }.start();
+                    } else {
+                        text.setText("Not Found, Error 404!");
+                    }
 
                 } else {
 
