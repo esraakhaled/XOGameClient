@@ -1,11 +1,13 @@
 package xogameclient;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -244,10 +246,20 @@ public class SignUpBase extends GridPane {
         getChildren().add(borderPane3);
         anchorPane4.getChildren().add(login_btn);
         getChildren().add(borderPane4);
-        socket = SocketSingleton.getInstanceOf(ip);
+       socket = SocketSingleton.getInstanceOf(ip);
+        Navigation nav = new Navigation();
+
+        try {
+            inputStream = socket.getInputStream();
+            outputStream = socket.getOutputStream();
+
+        } catch (IOException ex) {
+            Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         signup_btn.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
             //must validate first
+<<<<<<< HEAD
             Register register = new Register(user_field.getText(), password_field.getText());
             new Thread() {
                 public void run() {
@@ -277,12 +289,62 @@ public class SignUpBase extends GridPane {
                     } catch (ClassNotFoundException ex) {
                         Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
                     }
+=======
+            Register login = new Register(user_field.getText(), password_field.getText());
+
+            try {
+
+                objectOutputStream = new ObjectOutputStream(outputStream);
+                objectOutputStream.writeObject(login);
+                objectOutputStream.flush();
+                //get response
+                objectInputStream = new ObjectInputStream(inputStream);
+                Player playerDB = (Player) objectInputStream.readObject();
+
+                if (playerDB != null) {
+                    //close theses streams
+                    inputStream.close();
+                    outputStream.close();
+
+                    nav.loginButton(event, playerDB,ip);
+
+                } else {
+                    CustomPopup.display(" Invalid registeration ");
                 }
-            }.start();
+
+            } catch (EOFException ex) {
+                try {
+                    inputStream.close();
+                    outputStream.close();
+                    socket.close();
+                    CustomPopup.display(" 404 NotFound ");
+                    nav.goToIpScreen(event);
+                } catch (IOException ex1) {
+                    Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex1);
+
+                }
+            } catch (SocketException ex) {
+                try {
+                    inputStream.close();
+                    outputStream.close();
+                    socket.close();
+                    CustomPopup.display(" 404 NotFound ");
+
+                    nav.goToIpScreen(event);
+                } catch (IOException ex1) {
+                    CustomPopup.display(" 404 NotFound ");
+                    nav.goToIpScreen(event);
+>>>>>>> master
+                }
+            } catch (IOException ex) {
+                CustomPopup.display(" 404 NotFound ");
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         });
         login_btn.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            Navigation nav = new Navigation();
-            nav.signupScreen(event, ip);
+            nav.loginScreen(event, ip);
         });
 
     }

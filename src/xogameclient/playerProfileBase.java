@@ -6,6 +6,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+
+import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -24,10 +26,11 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import model.SocketSingleton;
+import serialize.models.LogOut;
 import serialize.models.Player;
 import serialize.models.RequestProfileBase;
 
-public  class playerProfileBase extends BorderPane {
+public class playerProfileBase extends BorderPane {
 
     protected final AnchorPane anchorPane;
     protected final ListView <listItemBase>availablePlayerList;
@@ -70,8 +73,10 @@ public  class playerProfileBase extends BorderPane {
     private ObjectOutputStream objectOutputStream;
     ObservableList<listItemBase> topPlayersNames;
     ObservableList<listItemBase> availablePlayer;
-    public playerProfileBase(Player _player,String _ip) {
-        player=_player;
+   
+    public playerProfileBase(Player player, String _ip) {
+        this.player = player;
+        this.socket = SocketSingleton.getInstanceOf(ip);
         ip = _ip;
         anchorPane = new AnchorPane();
         
@@ -303,12 +308,12 @@ public  class playerProfileBase extends BorderPane {
         backButton.setPrefHeight(25.0);
         backButton.setPrefWidth(52.0);
         backButton.setText("Back");
-        backButton.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
+        backButton.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 Navigation nav = new Navigation();
                 nav.goToIpScreen(event);
-                    }
+            }
         });
 
         AnchorPane.setBottomAnchor(signOutButton, 13.0);
@@ -326,12 +331,12 @@ public  class playerProfileBase extends BorderPane {
         recorderGameButton.setLayoutY(13.0);
         recorderGameButton.setMnemonicParsing(false);
         recorderGameButton.setText("recorded game");
-        recorderGameButton.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
+        recorderGameButton.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 Navigation nav = new Navigation();
                 nav.signupProfile(event);
-                    }
+            }
         });
         setBottom(anchorPane3);
 
@@ -360,6 +365,58 @@ public  class playerProfileBase extends BorderPane {
         anchorPane3.getChildren().add(backButton);
         anchorPane3.getChildren().add(signOutButton);
         anchorPane3.getChildren().add(recorderGameButton);
+        signOutButton.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                LogOut logOut = new LogOut(player.getUserName(), 0);
+                Navigation nav = new Navigation();
+                try {
+                    inputStream = socket.getInputStream();
+                    outputStream = socket.getOutputStream();
+
+                } catch (IOException ex) {
+                    Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                try {
+                    objectOutputStream = new ObjectOutputStream(outputStream);
+                    objectOutputStream.writeObject(logOut);
+                    objectOutputStream.flush();
+                    if (inputStream == null) {
+
+                        objectInputStream.close();
+                        inputStream.close();
+                        objectOutputStream.close();
+                        outputStream.close();
+
+                    } else {
+                        objectInputStream = new ObjectInputStream(inputStream);
+                    }
+                    LogOut logOutDB = (LogOut) objectInputStream.readObject();
+                    if (logOutDB.getAck() == 1) {
+                        socket.close();
+                        
+
+                        nav.goToWelcomScreen(event);
+
+                    } else {
+                        System.out.println("fail");
+                    }
+                } catch (SocketException ex) {
+                    try {
+                        socket.close();
+                        
+                    } catch (IOException ex1) {
+                        Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex1);
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+        });
         // set player
         initiatePlayerProfile(player);
         Platform.runLater(() -> {

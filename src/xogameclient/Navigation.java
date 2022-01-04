@@ -56,7 +56,11 @@ public class Navigation {
         stage.show();
     }
 
+<<<<<<< HEAD
     public void loginButton(ActionEvent event, Player playerDB ,String ip) {
+=======
+    public void loginButton(ActionEvent event, Player playerDB,String ip) {
+>>>>>>> master
         playerProfile = new playerProfileBase(playerDB,ip);
         Parent root = playerProfile;
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -112,5 +116,15 @@ public class Navigation {
         stage.setScene(scene);
         stage.show();
     }
+    public void goToWelcomScreen(ActionEvent event) {
+        Parent root = welcomeScreen;
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    
 
 }
