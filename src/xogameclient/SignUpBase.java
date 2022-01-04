@@ -259,37 +259,6 @@ public class SignUpBase extends GridPane {
 
         signup_btn.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
             //must validate first
-<<<<<<< HEAD
-            Register register = new Register(user_field.getText(), password_field.getText());
-            new Thread() {
-                public void run() {
-                    try {
-                        inputStream = socket.getInputStream();
-                        outputStream = socket.getOutputStream();
-                        objectOutputStream = new ObjectOutputStream(outputStream);
-                        objectOutputStream.writeObject(register);
-                        objectOutputStream.flush();
-                        //get response
-                        objectInputStream = new ObjectInputStream(inputStream);
-                        Player playerDB = (Player) objectInputStream.readObject();
-
-                        if (playerDB != null) {
-                            Platform.runLater(() -> {
-                                Navigation nav = new Navigation();
-                                nav.loginButton(event, playerDB,ip);
-                            });
-
-                        } else {
-                            // show pop --> go to register
-                        }
-
-                    } catch (IOException ex) {
-                        Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
-                        System.out.println("error in login");
-                    } catch (ClassNotFoundException ex) {
-                        Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-=======
             Register login = new Register(user_field.getText(), password_field.getText());
 
             try {
@@ -329,12 +298,10 @@ public class SignUpBase extends GridPane {
                     outputStream.close();
                     socket.close();
                     CustomPopup.display(" 404 NotFound ");
-
                     nav.goToIpScreen(event);
                 } catch (IOException ex1) {
                     CustomPopup.display(" 404 NotFound ");
                     nav.goToIpScreen(event);
->>>>>>> master
                 }
             } catch (IOException ex) {
                 CustomPopup.display(" 404 NotFound ");

@@ -56,11 +56,7 @@ public class Navigation {
         stage.show();
     }
 
-<<<<<<< HEAD
-    public void loginButton(ActionEvent event, Player playerDB ,String ip) {
-=======
     public void loginButton(ActionEvent event, Player playerDB,String ip) {
->>>>>>> master
         playerProfile = new playerProfileBase(playerDB,ip);
         Parent root = playerProfile;
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
