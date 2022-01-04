@@ -375,54 +375,17 @@ public class playerProfileBase extends BorderPane {
         try {
             inputStream = socket.getInputStream();
             outputStream = socket.getOutputStream();
+
         } catch (IOException ex) {
             Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        thread
-                = new Thread() {
-            @Override
-            public void run() {
-
-                while (true) {
-                    try {
-                        ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
-
-                        requestGame = (RequestGame) objectInputStream.readObject();
-                        if (requestGame.getGameResponse() == 0) {
-                            acceptRequest(requestGame.getRequstedUserName() + "want to play with you !");
-                        } else if (requestGame.getGameResponse() == 1) {
-                            waittingStatge.close();
-                            g = new OnlineGame(new Player(requestGame.getRequstedUserName()), new Player(requestGame.getChoosePlayerUserName()));
-                            nav.playGame(e, g);
-                        } else if (requestGame.getGameResponse() == 2) {
-                            waittingStatge.close();
-                        }
-                    } catch (IOException ex) {
-                        Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (ClassNotFoundException ex) {
-                        Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-
-            }
-        };
-        thread.start();
         signOutButton.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent event) {
-                thread.stop();
 
                 LogOut logOut = new LogOut(player.getUserName(), 0);
                 nav = new Navigation();
-                try {
-                    inputStream = socket.getInputStream();
-                    outputStream = socket.getOutputStream();
-
-                } catch (IOException ex) {
-                    Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
-                }
 
                 try {
                     objectOutputStream = new ObjectOutputStream(outputStream);
@@ -436,6 +399,7 @@ public class playerProfileBase extends BorderPane {
                         outputStream.close();
                     } else {
                         objectInputStream = new ObjectInputStream(inputStream);
+                        System.out.println(objectInputStream.toString());
                     }
                     LogOut logOutDB = (LogOut) objectInputStream.readObject();
                     if (logOutDB.getAck() == 1) {
@@ -457,10 +421,16 @@ public class playerProfileBase extends BorderPane {
                 } catch (ClassNotFoundException ex) {
                     Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                thread.stop();
 
             }
         });
+        requestToPLay();
+        /*
+        if (!socket.isClosed()) {
+            Platform.runLater(() -> {
+            });}
+         */
+
         // set player
         initiatePlayerProfile(player);
 
@@ -470,6 +440,9 @@ public class playerProfileBase extends BorderPane {
                 playerOne = player.getUserName();
                 requestGame = new RequestGame(playerOne, newValue, 0);
                 try {
+
+                    inputStream = socket.getInputStream();
+                    outputStream = socket.getOutputStream();
 
                     outputStream = socket.getOutputStream();
                     objectOutputStream = new ObjectOutputStream(outputStream);
@@ -575,6 +548,54 @@ public class playerProfileBase extends BorderPane {
         waittingStatge.setTitle("waitting...");
         waittingStatge.setScene(scene);
         waittingStatge.showAndWait();
+    }
+
+    public void requestToPLay() {
+        if (socket.isClosed() || socket == null) {
+        } else {
+            thread = new Thread() {
+                @Override
+                public void run() {
+
+                    try {
+                        inputStream = socket.getInputStream();
+                        outputStream = socket.getOutputStream();
+                        objectInputStream = new ObjectInputStream(inputStream);
+                        System.out.println("1");
+                    } catch (IOException ex) {
+                        Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    while (!socket.isClosed()) {
+                        System.out.println("2");
+                        try {
+                            if (objectInputStream != null) {
+                                requestGame = (RequestGame) objectInputStream.readObject();
+                            }
+
+                            if (requestGame.getGameResponse() == 0) {
+                                acceptRequest(requestGame.getRequstedUserName() + "want to play with you !");
+                                break;
+                            } else if (requestGame.getGameResponse() == 1) {
+                                waittingStatge.close();
+                                g = new OnlineGame(new Player(requestGame.getRequstedUserName()), new Player(requestGame.getChoosePlayerUserName()));
+                                nav.playGame(e, g);
+                                break;
+                            } else if (requestGame.getGameResponse() == 2) {
+                                waittingStatge.close();
+                                break;
+                            }
+                        } catch (IOException ex) {
+                            Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (ClassNotFoundException ex) {
+                            Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+
+                }
+            };
+            thread.start();
+        }
+        thread.stop();
     }
 
 }
