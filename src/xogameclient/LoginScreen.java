@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -23,10 +24,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -218,7 +225,12 @@ public class LoginScreen extends GridPane {
         getChildren().add(borderPane2);
         anchorPane3.getChildren().add(sign_btn);
         getChildren().add(borderPane3);
-
+        user_text.setBorder(new Border(new BorderStroke(Color.CADETBLUE, 
+                    BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        password_field.setBorder(new Border(new BorderStroke(Color.CADETBLUE, 
+                    BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        login_btn.setBorder(new Border(new BorderStroke(Color.CADETBLUE, 
+                    BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         socket = SocketSingleton.getInstanceOf(ip);
         Navigation nav = new Navigation();
 
@@ -229,61 +241,80 @@ public class LoginScreen extends GridPane {
         } catch (IOException ex) {
             Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        user_text.setOnMouseClicked(e->{
+            user_text.setBorder(new Border(new BorderStroke(Color.ALICEBLUE, 
+                    BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        });
+        password_field.setOnMouseClicked(e->{
+            password_field.setBorder(new Border(new BorderStroke(Color.ALICEBLUE, 
+                    BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        });
+        
         login_btn.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            //must validate first
-            Login login = new Login(user_text.getText(), password_field.getText());
-
-            try {
-
-                objectOutputStream = new ObjectOutputStream(outputStream);
-                objectOutputStream.writeObject(login);
-                objectOutputStream.flush();
-                //get response
-                objectInputStream = new ObjectInputStream(inputStream);
-                Player playerDB = (Player) objectInputStream.readObject();
-
-                if (playerDB != null) {
-                    //close theses streams
-                    inputStream.close();
-                    outputStream.close();
-
-                    nav.loginButton(event, playerDB,ip);
-
-                } else {
-                    CustomPopup.display(" Invalid Login ");
-                }
-
-            } catch (EOFException ex) {
+            String regex = "^[aA-zZ]\\w{4,19}$";
+            Boolean checker = !(user_text.getText().matches(regex));
+            if(user_text.getText().isEmpty() ||checker ){
+                user_text.setBorder(new Border(new BorderStroke(Color.RED, 
+                    BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+            }
+            else if(password_field.getText().isEmpty()){
+                password_field.setBorder(new Border(new BorderStroke(Color.RED, 
+                    BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+            }else{
+                Login login = new Login(user_text.getText(), password_field.getText());
                 try {
-                    inputStream.close();
-                    outputStream.close();
-                    socket.close();
-                    CustomPopup.display(" 404 NotFound ");
-                    nav.goToIpScreen(event);
-                } catch (IOException ex1) {
-                    Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex1);
 
-                }
-            } catch (SocketException ex) {
-                try {
-                    inputStream.close();
-                    outputStream.close();
-                    socket.close();
-                    CustomPopup.display(" 404 NotFound ");
+                    objectOutputStream = new ObjectOutputStream(outputStream);
+                    objectOutputStream.writeObject(login);
+                    objectOutputStream.flush();
+                    //get response
+                    objectInputStream = new ObjectInputStream(inputStream);
+                    Player playerDB = (Player) objectInputStream.readObject();
 
-                    nav.goToIpScreen(event);
-                } catch (IOException ex1) {
+                    if (playerDB != null) {
+                        //close theses streams
+                        inputStream.close();
+                        outputStream.close();
+
+                        nav.loginButton(event, playerDB,ip);
+
+                    } else {
+                        CustomPopup.display(" Invalid Login ");
+                    }
+
+                } catch (EOFException ex) {
+                    try {
+                        inputStream.close();
+                        outputStream.close();
+                        socket.close();
+                        CustomPopup.display(" 404 NotFound ");
+                        nav.goToIpScreen(event);
+                    } catch (IOException ex1) {
+                        Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex1);
+
+                    }
+                } catch (SocketException ex) {
+                    try {
+                        inputStream.close();
+                        outputStream.close();
+                        socket.close();
+                        CustomPopup.display(" 404 NotFound ");
+
+                        nav.goToIpScreen(event);
+                    } catch (IOException ex1) {
+                        CustomPopup.display(" 404 NotFound ");
+                        nav.goToIpScreen(event);
+                    }
+                } catch (IOException ex) {
                     CustomPopup.display(" 404 NotFound ");
-                    nav.goToIpScreen(event);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } catch (IOException ex) {
-                CustomPopup.display(" 404 NotFound ");
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
             }
 
         });
+        sign_btn.setBorder(new Border(new BorderStroke(Color.CADETBLUE, 
+                    BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         sign_btn.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
             nav.signupScreen(event, ip);
         });

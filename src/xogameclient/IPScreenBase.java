@@ -111,16 +111,13 @@ public class IPScreenBase extends AnchorPane {
                             try {
                                 connection = (Connection) objectInputStream.readObject();
                                 if (connection.getAck() == 1) {
-
                                     nav.loginScreen(event, ipTextField.getText());
-
                                 }
                             }  catch (ClassNotFoundException ex) {
                                 Logger.getLogger(IPScreenBase.class.getName()).log(Level.SEVERE, null, ex);
                             }
                         }catch (SocketException ex) {
                                 text.setText("Not Found, Error 404!");
-
                             }
                         catch (IOException ex) {
                             Logger.getLogger(IPScreenBase.class.getName()).log(Level.SEVERE, null, ex);

@@ -16,10 +16,16 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import model.SocketSingleton;
@@ -256,58 +262,76 @@ public class SignUpBase extends GridPane {
         } catch (IOException ex) {
             Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        user_field.setOnMouseClicked(e->{
+            user_field.setBorder(new Border(new BorderStroke(Color.ALICEBLUE, 
+                    BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        });
+        password_field.setOnMouseClicked(e->{
+            password_field.setBorder(new Border(new BorderStroke(Color.ALICEBLUE, 
+                    BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        });
         signup_btn.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            //must validate first
-            Register login = new Register(user_field.getText(), password_field.getText());
-
-            try {
-
-                objectOutputStream = new ObjectOutputStream(outputStream);
-                objectOutputStream.writeObject(login);
-                objectOutputStream.flush();
-                //get response
-                objectInputStream = new ObjectInputStream(inputStream);
-                Player playerDB = (Player) objectInputStream.readObject();
-
-                if (playerDB != null) {
-                    //close theses streams
-                    inputStream.close();
-                    outputStream.close();
-
-                    nav.loginButton(event, playerDB,ip);
-
-                } else {
-                    CustomPopup.display(" Invalid registeration ");
-                }
-
-            } catch (EOFException ex) {
-                try {
-                    inputStream.close();
-                    outputStream.close();
-                    socket.close();
-                    CustomPopup.display(" 404 NotFound ");
-                    nav.goToIpScreen(event);
-                } catch (IOException ex1) {
-                    Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex1);
-
-                }
-            } catch (SocketException ex) {
-                try {
-                    inputStream.close();
-                    outputStream.close();
-                    socket.close();
-                    CustomPopup.display(" 404 NotFound ");
-                    nav.goToIpScreen(event);
-                } catch (IOException ex1) {
-                    CustomPopup.display(" 404 NotFound ");
-                    nav.goToIpScreen(event);
-                }
-            } catch (IOException ex) {
-                CustomPopup.display(" 404 NotFound ");
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
+            String regex = "^[aA-zZ]\\w{4,19}$";
+            boolean rgexChecker = user_field.getText().matches(regex);
+            if(rgexChecker || user_field.getText().isEmpty()){
+                user_field.setBorder(new Border(new BorderStroke(Color.RED, 
+                    BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
             }
+            else if(password_field.getText().isEmpty()){
+                password_field.setBorder(new Border(new BorderStroke(Color.RED, 
+                    BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+            }
+            else{
+                Register login = new Register(user_field.getText(), password_field.getText());
+
+                try {
+
+                    objectOutputStream = new ObjectOutputStream(outputStream);
+                    objectOutputStream.writeObject(login);
+                    objectOutputStream.flush();
+                    //get response
+                    objectInputStream = new ObjectInputStream(inputStream);
+                    Player playerDB = (Player) objectInputStream.readObject();
+
+                    if (playerDB != null) {
+                        //close theses streams
+                        inputStream.close();
+                        outputStream.close();
+
+                        nav.loginButton(event, playerDB,ip);
+
+                    } else {
+                        CustomPopup.display(" Invalid registeration ");
+                    }
+
+                } catch (EOFException ex) {
+                    try {
+                        inputStream.close();
+                        outputStream.close();
+                        socket.close();
+                        CustomPopup.display(" 404 NotFound ");
+                        nav.goToIpScreen(event);
+                    } catch (IOException ex1) {
+                        Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex1);
+
+                    }
+                } catch (SocketException ex) {
+                    try {
+                        inputStream.close();
+                        outputStream.close();
+                        socket.close();
+                        CustomPopup.display(" 404 NotFound ");
+                        nav.goToIpScreen(event);
+                    } catch (IOException ex1) {
+                        CustomPopup.display(" 404 NotFound ");
+                        nav.goToIpScreen(event);
+                    }
+                    } catch (IOException ex) {
+                        CustomPopup.display(" 404 NotFound ");
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
 
         });
         login_btn.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
