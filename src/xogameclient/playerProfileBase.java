@@ -9,6 +9,8 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -23,15 +25,15 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import model.SocketSingleton;
 import serialize.models.Player;
-import serialize.models.RequestTopPlayers;
+import serialize.models.RequestProfileBase;
 
 public  class playerProfileBase extends BorderPane {
 
     protected final AnchorPane anchorPane;
-    protected final ListView PlayerList;
+    protected final ListView <listItemBase>availablePlayerList;
     protected final Text text;
     protected final AnchorPane anchorPane0;
-    protected final ListView recordedList;
+    protected final ListView <listItemBase>TopPlayersList;
     protected final Text text0;
     protected final Text text1;
     protected final Rectangle rectangle;
@@ -66,14 +68,19 @@ public  class playerProfileBase extends BorderPane {
     private OutputStream outputStream;
     private ObjectInputStream objectInputStream;
     private ObjectOutputStream objectOutputStream;
+    ObservableList<listItemBase> topPlayersNames;
+    ObservableList<listItemBase> availablePlayer;
     public playerProfileBase(Player _player,String _ip) {
         player=_player;
         ip = _ip;
         anchorPane = new AnchorPane();
-        PlayerList = new ListView();
+        
+        topPlayersNames = FXCollections.observableArrayList();
+        availablePlayer = FXCollections.observableArrayList();
+        availablePlayerList = new ListView<listItemBase>(availablePlayer);
         text = new Text();
         anchorPane0 = new AnchorPane();
-        recordedList = new ListView();
+        TopPlayersList = new ListView<listItemBase>(topPlayersNames);
         text0 = new Text();
         text1 = new Text();
         rectangle = new Rectangle();
@@ -112,17 +119,15 @@ public  class playerProfileBase extends BorderPane {
         BorderPane.setAlignment(anchorPane, javafx.geometry.Pos.CENTER);
         anchorPane.setPrefHeight(292.0);
         anchorPane.setPrefWidth(203.0);
-
-        AnchorPane.setBottomAnchor(PlayerList, 6.0);
-        AnchorPane.setLeftAnchor(PlayerList, 14.0);
-        AnchorPane.setRightAnchor(PlayerList, 40.0);
-        AnchorPane.setTopAnchor(PlayerList, 44.0);
-        PlayerList.setEditable(true);
-        PlayerList.setLayoutX(14.0);
-        PlayerList.setLayoutY(44.0);
-        PlayerList.setPrefHeight(219.0);
-        PlayerList.setPrefWidth(149.0);
-
+        AnchorPane.setBottomAnchor(availablePlayerList, 6.0);
+        AnchorPane.setLeftAnchor(availablePlayerList, 14.0);
+        AnchorPane.setRightAnchor(availablePlayerList, 40.0);
+        AnchorPane.setTopAnchor(availablePlayerList, 44.0);
+        availablePlayerList.setEditable(true);
+        availablePlayerList.setLayoutX(14.0);
+        availablePlayerList.setLayoutY(44.0);
+        availablePlayerList.setPrefHeight(219.0);
+        availablePlayerList.setPrefWidth(149.0);
         text.setLayoutX(14.0);
         text.setLayoutY(34.0);
         text.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
@@ -135,13 +140,13 @@ public  class playerProfileBase extends BorderPane {
         anchorPane0.setPrefHeight(312.0);
         anchorPane0.setPrefWidth(252.0);
 
-        AnchorPane.setBottomAnchor(recordedList, 7.0);
-        AnchorPane.setRightAnchor(recordedList, 35.0);
-        AnchorPane.setTopAnchor(recordedList, 167.0);
-        recordedList.setLayoutX(35.0);
-        recordedList.setLayoutY(167.0);
-        recordedList.setPrefHeight(141.0);
-        recordedList.setPrefWidth(182.0);
+        AnchorPane.setBottomAnchor(TopPlayersList, 7.0);
+        AnchorPane.setRightAnchor(TopPlayersList, 35.0);
+        AnchorPane.setTopAnchor(TopPlayersList, 167.0);
+        TopPlayersList.setLayoutX(35.0);
+        TopPlayersList.setLayoutY(167.0);
+        TopPlayersList.setPrefHeight(141.0);
+        TopPlayersList.setPrefWidth(182.0);
 
         text0.setLayoutX(21.0);
         text0.setLayoutY(159.0);
@@ -330,9 +335,9 @@ public  class playerProfileBase extends BorderPane {
         });
         setBottom(anchorPane3);
 
-        anchorPane.getChildren().add(PlayerList);
+        anchorPane.getChildren().add(availablePlayerList);
         anchorPane.getChildren().add(text);
-        anchorPane0.getChildren().add(recordedList);
+        anchorPane0.getChildren().add(TopPlayersList);
         anchorPane0.getChildren().add(text0);
         anchorPane0.getChildren().add(text1);
         anchorPane0.getChildren().add(rectangle);
@@ -355,29 +360,47 @@ public  class playerProfileBase extends BorderPane {
         anchorPane3.getChildren().add(backButton);
         anchorPane3.getChildren().add(signOutButton);
         anchorPane3.getChildren().add(recorderGameButton);
-        socket = SocketSingleton.getInstanceOf(ip);
         // set player
         initiatePlayerProfile(player);
         Platform.runLater(() -> {
-            try {
-                RequestTopPlayers topPlayers = new RequestTopPlayers(player.getUserName(),null);
-                inputStream = socket.getInputStream();
-                outputStream = socket.getOutputStream();
-                objectOutputStream = new ObjectOutputStream(outputStream);
-                objectOutputStream.writeObject(topPlayers);
-                objectOutputStream.flush();
-                //get response
-                objectInputStream = new ObjectInputStream(inputStream);
-                Player playerDB = (Player) objectInputStream.readObject();
-            } catch (IOException ex) {
-                Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            requestPlayers();
        });
     }
-public void initiatePlayerProfile(Player player){
-    playerName.setText(player.getUserName());  
-}
-
+    public void initiatePlayerProfile(Player player){
+        playerName.setText(player.getUserName());  
+    }
+    public void requestPlayers(){
+        socket = SocketSingleton.getInstanceOf(ip);
+        Thread th = new Thread(new Runnable(){
+            @Override
+            public void run() {
+                try {
+                    RequestProfileBase playersData = new RequestProfileBase(player.getUserName(),null,null);
+                    inputStream = socket.getInputStream();
+                    outputStream = socket.getOutputStream();
+                    objectOutputStream = new ObjectOutputStream(outputStream);
+                    objectOutputStream.writeObject(playersData);
+                    objectOutputStream.flush();
+                    //get response
+                    objectInputStream = new ObjectInputStream(inputStream);
+                    playersData = (RequestProfileBase) objectInputStream.readObject();
+                    System.out.println(playersData.getPlayerUserName());
+                    topPlayersNames.clear();
+                    availablePlayer.clear();
+                    System.out.println(playersData.getTopPlayers().size());
+                    for(Player p :playersData.getTopPlayers() )
+                        topPlayersNames.add(new listItemBase(p.getUserName(),String.valueOf(p.getScore())));
+                    
+                    for(Player p :playersData.getOnlinePlayer())
+                        availablePlayer.add(new listItemBase(p.getUserName(),String.valueOf(p.getScore())));
+                    
+                } catch (IOException ex) {
+                    Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        th.start();
+    }
 }
