@@ -1,21 +1,25 @@
-.title{-fx-box-shadow: 45px;
--fx-text-decoration-style: wavy;
--fx-color:#2e423e;}
+.title{-fx-box-shadow: 45px;-fx-text-decoration-style: wavy;-fx-color:#2e423e;}
 .play_online, .play_local , .play_computer{
 -fx-padding:4px;
 -fx-background-radius: 10px;
 -fx-font-size:18px;
 -fx-font-weight:700;
--fx-color:#2e423e;
+-fx-color:#90f545;
 -fx-box-shadow: 45px;
+-fx-height:50px;
+}.play_online:focus, .play_local:focus , .play_computer:focus{
+	-fx-border:1px solid #90f545;
 }
-.screen{
-	-Fx-background:rgba(0, 128, 0, 0.1);
-	-fx-background-position: center;
-	-fx-background-size: cover;
-}
-.text_field{
-	-fx-padding:4px;
-	-fx-background-radius: 10px;
-	-fx-border-color:#2e423e;
+.text{-fx-color:#2e423e;-fx-box-shadow: 45px;-fx-padding:4px;-fx-background-radius: 10px;}
+.backButton , .connectBtn,.connectBtn{-fx-color:#2e423e;-fx-padding:4px;-fx-background-radius: 10px;-fx-box-shadow: 45px;}
+.screen{-Fx-background-image:url("Tic-Tac-XO-1.png");
+-Fx-background-repeat:no-repeat;
+-fx-background-position: center;
+-fx-position:relative;
+-fx-top:2px;
+-fx-background-size:300px 300px;}
+.text_field{-fx-padding:4px;-fx-background-radius: 10px;-fx-border-color:#2e423e;}
+.game_btn{
+	-fx-font-size:18px;
+	-fx-font-weight:700;
 }

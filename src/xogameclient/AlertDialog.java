@@ -12,6 +12,7 @@ import model.LocalGame;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -21,6 +22,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import model.Game;
 
 /**
  *
@@ -28,12 +30,10 @@ import javafx.stage.Stage;
  */
 public class AlertDialog {
     static String player1Name , player2Name;
-    static void display(String text) {
+    static void display(String text, Stage parentStage) {
         
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
-         
-        Label label = new Label(text);
         TextField player1 = new TextField();
         TextField player2 = new TextField();
         player1.setPromptText("Enter Player a");
@@ -42,11 +42,18 @@ public class AlertDialog {
         button.setAlignment(Pos.CENTER);
         button.setTextAlignment(TextAlignment.CENTER);
         button.setOnAction(e -> {
+             Game game = new LocalGame(player1Name, player2Name);
              player1Name = player1.getText();
              player2Name = player2.getText();
-              Navigation nav = new Navigation();
-                nav.playGame(e,new LocalGame(player1Name, player2Name));           
-             //stage.close();
+             stage.close();
+             parentStage.close();
+             Stage r = (Stage) player1.getScene().getWindow();
+             r.close();
+             Parent root = new GameScreen(game);
+             Scene scene = new Scene(root);
+             r.setScene(scene);
+             r.show();    
+             
         });
         GridPane layout = new GridPane();
          

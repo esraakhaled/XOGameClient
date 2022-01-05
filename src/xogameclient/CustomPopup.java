@@ -38,7 +38,13 @@ public class CustomPopup {
         layout.add(message, 0,0);
         subLayout.add(sureButton, 1,0);
         layout.add(subLayout,0,1);
-        Scene scene = new Scene(layout, 250, 90);          
+        Scene scene = new Scene(layout, 250, 90);        
+        scene.getStylesheets().add("assets/css/styling.css");
+        layout.getStyleClass().add("screen");
+        message.getStyleClass().add("text");
+        sureButton.getStyleClass().add("connectBtn");
+        
+        stage.setTitle("Dialog");
         stage.setTitle("closing...");
         stage.setScene(scene);
         stage.showAndWait();

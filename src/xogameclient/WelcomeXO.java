@@ -12,6 +12,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class WelcomeXO extends GridPane {
 
@@ -84,7 +85,7 @@ public class WelcomeXO extends GridPane {
         BorderPane.setAlignment(txt_name, javafx.geometry.Pos.CENTER);
         txt_name.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         txt_name.setStrokeWidth(0.0);
-        txt_name.setText("XO Game");
+      //  txt_name.setText("XO Game");
         txt_name.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         txt_name.setWrappingWidth(214.13671875);
         txt_name.setFont(new Font("System Bold", 27.0));
@@ -106,7 +107,7 @@ public class WelcomeXO extends GridPane {
         button_local.setFont(new Font(15.0));
         button_local.setPadding(new Insets(25.0));
         button_local.addEventFilter(ActionEvent.ACTION, (ActionEvent event) -> {
-            AlertDialog.display("JavaFX Custom Dialog Demo");
+            AlertDialog.display("JavaFX Custom Dialog Demo" ,(Stage)button_local.getScene().getWindow());
         });
         GridPane.setRowIndex(gridPane, 1);
 
@@ -131,18 +132,15 @@ public class WelcomeXO extends GridPane {
         anchorPane0.setPrefWidth(200.0);
 
         AnchorPane.setBottomAnchor(button_computer, 31.0);
-        AnchorPane.setLeftAnchor(button_computer, 58.0);
-        AnchorPane.setRightAnchor(button_computer, 58.0);
+        //AnchorPane.setLeftAnchor(button_computer, 100.0);
+        AnchorPane.setRightAnchor(button_computer, 20.0);
         AnchorPane.setTopAnchor(button_computer, 31.0);
         button_computer.setAlignment(javafx.geometry.Pos.CENTER);
         button_computer.setLayoutX(58.0);
         button_computer.setLayoutY(31.0);
         button_computer.setMnemonicParsing(false);
-        button_computer.setPrefHeight(31.0);
-        button_computer.setPrefWidth(184.0);
         button_computer.setText("Play with computer");
         button_computer.setFont(new Font(15.0));
-        button_computer.setPadding(new Insets(25.0));
         button_computer.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -160,8 +158,8 @@ public class WelcomeXO extends GridPane {
         anchorPane1.setPrefWidth(200.0);
 
         AnchorPane.setBottomAnchor(button_online, 31.0);
-        AnchorPane.setLeftAnchor(button_online, 58.0);
-        AnchorPane.setRightAnchor(button_online, 58.0);
+        AnchorPane.setLeftAnchor(button_online, 10.0);
+        //AnchorPane.setRightAnchor(button_online, 58.0);
         AnchorPane.setTopAnchor(button_online, 31.0);
         button_online.setAlignment(javafx.geometry.Pos.CENTER);
         button_online.setLayoutX(58.0);

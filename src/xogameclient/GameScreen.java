@@ -325,7 +325,7 @@ public class GameScreen extends BorderPane {
         rowConstraints2.setMinHeight(10.0);
         rowConstraints2.setPrefHeight(30.0);
         rowConstraints2.setVgrow(javafx.scene.layout.Priority.SOMETIMES);
-
+        
         rowConstraints3.setMinHeight(10.0);
         rowConstraints3.setPrefHeight(30.0);
         rowConstraints3.setVgrow(javafx.scene.layout.Priority.SOMETIMES);
@@ -376,7 +376,6 @@ public class GameScreen extends BorderPane {
         rowConstraints5.setPrefHeight(30.0);
         rowConstraints5.setVgrow(javafx.scene.layout.Priority.SOMETIMES);
         BorderPane.setMargin(gridPane1, new Insets(60.0, 0.0, 0.0, 10.0));
-
         firstPlayerName.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
         firstPlayerName.setStrokeWidth(0.0);
         firstPlayerName.setWrappingWidth(75.5576171875);
@@ -438,15 +437,6 @@ public class GameScreen extends BorderPane {
         restartButton.setLayoutY(22.0);
         restartButton.setMnemonicParsing(false);
         restartButton.setText("Restart");
-        /*
-        restartButton.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Navigation nav = new Navigation();
-                nav.restartGame(event);
-                    }
-        });
-*/
         AnchorPane.setBottomAnchor(backButton, 12.0);
         AnchorPane.setRightAnchor(backButton, 20.0);
         AnchorPane.setTopAnchor(backButton, 22.0);
@@ -511,8 +501,6 @@ public class GameScreen extends BorderPane {
         anchorPane10.getChildren().add(restartButton);
 
         anchorPane10.getChildren().add(backButton);
-       
-
         //
         intialGame();
         setButtonID();
@@ -522,24 +510,15 @@ public class GameScreen extends BorderPane {
         g.addBack(backButton);
         // setDiable for back
         g.addRestart(restartButton);
-
+        getStylesheets().add("assets/css/styling.css");
         cell_0_0.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-
                         g.handleButton(cell_0_0);
-
-            
-
-
         });
         cell_0_1.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            
-
             g.handleButton(cell_0_1);
-
         });
         cell_0_2.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
             g.handleButton(cell_0_2);
-
         });
         cell_1_0.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
             g.handleButton(cell_1_0);
@@ -565,8 +544,7 @@ public class GameScreen extends BorderPane {
             restartButton.setDisable(true);
             backButton.setDisable(true);
         });
-
-
+        
     }
 
     public void intialGame() {
@@ -597,6 +575,26 @@ public class GameScreen extends BorderPane {
         cell_2_2.setId("cell_2_2");
     }
 
+    public void addCssClasses(){
+        cell_0_0.getStyleClass().add("dark_button");
+        cell_0_0.getStyleClass().add("game_btn");
+        cell_0_1.getStyleClass().add("light_button");
+        cell_0_1.getStyleClass().add("game_btn");
+        cell_0_2.getStyleClass().add("dark_button");
+        cell_0_2.getStyleClass().add("game_btn");
+        cell_1_0.getStyleClass().add("light_button");
+        cell_1_0.getStyleClass().add("game_btn");
+        cell_1_1.getStyleClass().add("dark_button");
+        cell_1_1.getStyleClass().add("game_btn");
+        cell_1_2.getStyleClass().add("light_button");
+        cell_1_2.getStyleClass().add("game_btn");
+        cell_2_0.getStyleClass().add("dark_button");
+        cell_2_0.getStyleClass().add("game_btn");
+        cell_2_1.getStyleClass().add("light_button");
+        cell_2_1.getStyleClass().add("game_btn");
+        cell_2_2.getStyleClass().add("dark_button");
+        cell_2_2.getStyleClass().add("game_btn");
+    }
     public void addButtons() {
         buttons.add(cell_0_0);
         buttons.add(cell_0_1);
