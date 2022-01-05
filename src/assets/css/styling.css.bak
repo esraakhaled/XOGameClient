@@ -9,12 +9,6 @@
 -fx-color:#2e423e;
 -fx-box-shadow: 45px;
 }
-.backButton , .connectBtn{
-	-fx-color:#2e423e;
-	-fx-padding:4px;
-	-fx-background-radius: 10px;
-	-fx-box-shadow: 45px;
-}
 .screen{
 	-Fx-background:rgba(0, 128, 0, 0.1);
 	-fx-background-position: center;

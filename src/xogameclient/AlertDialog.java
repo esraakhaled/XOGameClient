@@ -11,12 +11,14 @@ package xogameclient;
 import model.LocalGame;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -37,6 +39,8 @@ public class AlertDialog {
         player1.setPromptText("Enter Player a");
         player2.setPromptText("Enter Player b");
         Button button = new Button("Play");
+        button.setAlignment(Pos.CENTER);
+        button.setTextAlignment(TextAlignment.CENTER);
         button.setOnAction(e -> {
              player1Name = player1.getText();
              player2Name = player2.getText();
@@ -47,15 +51,18 @@ public class AlertDialog {
         GridPane layout = new GridPane();
          
         layout.setPadding(new Insets(10, 10, 10, 10)); 
-        layout.setVgap(5); 
-        layout.setHgap(5); 
+        layout.setVgap(10); 
          
-        layout.add(player1, 1,1);
-        layout.add(player2, 1,2);
-        layout.add(button, 1,3);
-         
-        Scene scene = new Scene(layout, 250, 150);          
-         
+        layout.add(player1, 0,1);
+        layout.add(player2, 0,2);
+        layout.add(button, 0,3);
+        layout.setAlignment(Pos.CENTER);
+        Scene scene = new Scene(layout, 250, 150);
+        scene.getStylesheets().add("assets/css/styling.css");
+        layout.getStyleClass().add("screen");
+        player1.getStyleClass().add("text_field");
+        player2.getStyleClass().add("text_field");
+        button.getStyleClass().add("connectBtn");
         stage.setTitle("Dialog");
         stage.setScene(scene);
         stage.show();

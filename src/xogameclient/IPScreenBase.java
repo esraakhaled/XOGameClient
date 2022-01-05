@@ -89,7 +89,13 @@ public class IPScreenBase extends AnchorPane {
         getChildren().add(connectButton);
         getChildren().add(backButton);
         getChildren().add(text);
-
+        
+        getStylesheets().add("assets/css/styling.css");
+        getStyleClass().add("screen");
+        ipTextField.getStyleClass().add("text_field");
+        text.getStyleClass().add("title");
+        connectButton.getStyleClass().add("connectBtn");
+        backButton.getStyleClass().add("backButton");
         connectButton.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {

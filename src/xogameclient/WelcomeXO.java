@@ -1,19 +1,9 @@
 package xogameclient;
 
 import model.PcGame;
-import java.io.IOException;
-import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -111,8 +101,6 @@ public class WelcomeXO extends GridPane {
         button_local.setLayoutX(212.0);
         button_local.setLayoutY(51.0);
         button_local.setMnemonicParsing(false);
-        button_local.setPrefHeight(31.0);
-        button_local.setPrefWidth(153.0);
         button_local.setText("Play Local");
         button_local.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         button_local.setFont(new Font(15.0));
@@ -120,13 +108,6 @@ public class WelcomeXO extends GridPane {
         button_local.addEventFilter(ActionEvent.ACTION, (ActionEvent event) -> {
             AlertDialog.display("JavaFX Custom Dialog Demo");
         });
-        /* button_local.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                Navigation nav = new Navigation();
-                nav.playGame(event);
-                    }
-        });*/
         GridPane.setRowIndex(gridPane, 1);
 
         columnConstraints0.setHgrow(javafx.scene.layout.Priority.SOMETIMES);
@@ -217,7 +198,12 @@ public class WelcomeXO extends GridPane {
         anchorPane1.getChildren().add(button_online);
         gridPane.getChildren().add(borderPane1);
         getChildren().add(gridPane);
-
+        getStylesheets().add("assets/css/styling.css");
+        getStyleClass().add("screen");
+        button_online.getStyleClass().add("play_online");
+        txt_name.getStyleClass().add("title");
+        button_local.getStyleClass().add("play_local");
+        button_computer.getStyleClass().add("play_computer");
     }
 
 }
