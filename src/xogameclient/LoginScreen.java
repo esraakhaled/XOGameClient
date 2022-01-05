@@ -242,6 +242,7 @@ public class LoginScreen extends GridPane {
                 //get response
                 objectInputStream = new ObjectInputStream(inputStream);
                 Player playerDB = (Player) objectInputStream.readObject();
+                
 
                 if (playerDB != null) {
                     //close theses streams

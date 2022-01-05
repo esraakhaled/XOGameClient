@@ -298,7 +298,6 @@ public class SignUpBase extends GridPane {
                     outputStream.close();
                     socket.close();
                     CustomPopup.display(" 404 NotFound ");
-
                     nav.goToIpScreen(event);
                 } catch (IOException ex1) {
                     CustomPopup.display(" 404 NotFound ");

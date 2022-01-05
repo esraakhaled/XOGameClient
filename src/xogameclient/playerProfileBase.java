@@ -6,12 +6,21 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+
 import java.net.SocketException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -36,15 +45,18 @@ import model.OnlineGame;
 import model.SocketSingleton;
 import serialize.models.LogOut;
 import serialize.models.Player;
+
 import serialize.models.RequestGame;
+
+import serialize.models.RequestProfileBase;
 
 public class playerProfileBase extends BorderPane {
 
     protected final AnchorPane anchorPane;
-    protected final ListView PlayerList;
+    protected final ListView<listItemBase> availablePlayerList;
     protected final Text text;
     protected final AnchorPane anchorPane0;
-    protected final ListView recordedList;
+    protected final ListView<listItemBase> TopPlayersList;
     protected final Text text0;
     protected final Text text1;
     protected final Rectangle rectangle;
@@ -74,29 +86,38 @@ public class playerProfileBase extends BorderPane {
     protected final Button recorderGameButton;
     private Player player;
     private Socket socket;
+    String ip;
     private InputStream inputStream;
     private OutputStream outputStream;
     private ObjectInputStream objectInputStream;
     private ObjectOutputStream objectOutputStream;
+
     private RequestGame requestGame;
     private Navigation nav;
     public int acceptance = 0;
-    private ActionEvent e;
     private Game g;
     private Stage waittingStatge;
     private Stage acceptanceStage;
     private String playerOne;
     private Thread thread;
+    ObservableList<listItemBase> topPlayersNames;
+    ObservableList<listItemBase> availablePlayer;
+    private ActionEvent eventAction;
 
-    public playerProfileBase(Player player, String ip) {
+    public playerProfileBase(Player player, String _ip) {
+
         this.player = player;
+        ip = _ip;
         this.socket = SocketSingleton.getInstanceOf(ip);
-
+        System.out.println(socket);
         anchorPane = new AnchorPane();
-        PlayerList = new ListView();
+
+        topPlayersNames = FXCollections.observableArrayList();
+        availablePlayer = FXCollections.observableArrayList();
+        availablePlayerList = new ListView<listItemBase>(availablePlayer);
         text = new Text();
         anchorPane0 = new AnchorPane();
-        recordedList = new ListView();
+        TopPlayersList = new ListView<listItemBase>(topPlayersNames);
         text0 = new Text();
         text1 = new Text();
         rectangle = new Rectangle();
@@ -135,17 +156,15 @@ public class playerProfileBase extends BorderPane {
         BorderPane.setAlignment(anchorPane, javafx.geometry.Pos.CENTER);
         anchorPane.setPrefHeight(292.0);
         anchorPane.setPrefWidth(203.0);
-
-        AnchorPane.setBottomAnchor(PlayerList, 6.0);
-        AnchorPane.setLeftAnchor(PlayerList, 14.0);
-        AnchorPane.setRightAnchor(PlayerList, 40.0);
-        AnchorPane.setTopAnchor(PlayerList, 44.0);
-        PlayerList.setEditable(true);
-        PlayerList.setLayoutX(14.0);
-        PlayerList.setLayoutY(44.0);
-        PlayerList.setPrefHeight(219.0);
-        PlayerList.setPrefWidth(149.0);
-
+        AnchorPane.setBottomAnchor(availablePlayerList, 6.0);
+        AnchorPane.setLeftAnchor(availablePlayerList, 14.0);
+        AnchorPane.setRightAnchor(availablePlayerList, 40.0);
+        AnchorPane.setTopAnchor(availablePlayerList, 44.0);
+        availablePlayerList.setEditable(true);
+        availablePlayerList.setLayoutX(14.0);
+        availablePlayerList.setLayoutY(44.0);
+        availablePlayerList.setPrefHeight(219.0);
+        availablePlayerList.setPrefWidth(149.0);
         text.setLayoutX(14.0);
         text.setLayoutY(34.0);
         text.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
@@ -158,13 +177,13 @@ public class playerProfileBase extends BorderPane {
         anchorPane0.setPrefHeight(312.0);
         anchorPane0.setPrefWidth(252.0);
 
-        AnchorPane.setBottomAnchor(recordedList, 7.0);
-        AnchorPane.setRightAnchor(recordedList, 35.0);
-        AnchorPane.setTopAnchor(recordedList, 167.0);
-        recordedList.setLayoutX(35.0);
-        recordedList.setLayoutY(167.0);
-        recordedList.setPrefHeight(141.0);
-        recordedList.setPrefWidth(182.0);
+        AnchorPane.setBottomAnchor(TopPlayersList, 7.0);
+        AnchorPane.setRightAnchor(TopPlayersList, 35.0);
+        AnchorPane.setTopAnchor(TopPlayersList, 167.0);
+        TopPlayersList.setLayoutX(35.0);
+        TopPlayersList.setLayoutY(167.0);
+        TopPlayersList.setPrefHeight(141.0);
+        TopPlayersList.setPrefWidth(182.0);
 
         text0.setLayoutX(21.0);
         text0.setLayoutY(159.0);
@@ -347,9 +366,9 @@ public class playerProfileBase extends BorderPane {
         });
         setBottom(anchorPane3);
 
-        anchorPane.getChildren().add(PlayerList);
+        anchorPane.getChildren().add(availablePlayerList);
         anchorPane.getChildren().add(text);
-        anchorPane0.getChildren().add(recordedList);
+        anchorPane0.getChildren().add(TopPlayersList);
         anchorPane0.getChildren().add(text0);
         anchorPane0.getChildren().add(text1);
         anchorPane0.getChildren().add(rectangle);
@@ -372,6 +391,7 @@ public class playerProfileBase extends BorderPane {
         anchorPane3.getChildren().add(backButton);
         anchorPane3.getChildren().add(signOutButton);
         anchorPane3.getChildren().add(recorderGameButton);
+
         try {
             inputStream = socket.getInputStream();
             outputStream = socket.getOutputStream();
@@ -379,71 +399,127 @@ public class playerProfileBase extends BorderPane {
         } catch (IOException ex) {
             Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         signOutButton.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent event) {
-
+                eventAction = event;
                 LogOut logOut = new LogOut(player.getUserName(), 0);
-                nav = new Navigation();
-
                 try {
                     objectOutputStream = new ObjectOutputStream(outputStream);
                     objectOutputStream.writeObject(logOut);
                     objectOutputStream.flush();
-                    if (inputStream == null) {
-
-                        objectInputStream.close();
-                        inputStream.close();
-                        objectOutputStream.close();
-                        outputStream.close();
-                    } else {
-                        objectInputStream = new ObjectInputStream(inputStream);
-                        System.out.println(objectInputStream.toString());
-                    }
-                    LogOut logOutDB = (LogOut) objectInputStream.readObject();
-                    if (logOutDB.getAck() == 1) {
-                        socket.close();
-
-                        nav.goToWelcomScreen(event);
-
-                    } else {
-                        System.out.println("fail");
-                    }
-                } catch (SocketException ex) {
-                    try {
-                        socket.close();
-                    } catch (IOException ex1) {
-                        Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex1);
-                    }
                 } catch (IOException ex) {
-                    Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ClassNotFoundException ex) {
                     Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
+//                    if (inputStream == null) {
+//
+//                        objectInputStream.close();
+//                        inputStream.close();
+//                        objectOutputStream.close();
+//                        outputStream.close();
+//                    }
             }
         });
-        requestToPLay();
-        /*
-        if (!socket.isClosed()) {
-            Platform.runLater(() -> {
-            });}
-         */
+        if (socket == null || socket.isClosed()) {
+            thread.stop();
+        } else {
 
+            thread = new Thread() {
+                @Override
+                public void run() {
+                    System.out.println("runnnnnnnn");
+                    try {
+                        objectOutputStream = new ObjectOutputStream(outputStream);
+                        RequestProfileBase playersData = new RequestProfileBase(player.getUserName(), null, null);
+                        objectOutputStream.writeObject(playersData);
+                        objectOutputStream.flush();
+                        while (true) {
+                            try {
+                                objectInputStream = new ObjectInputStream(inputStream);
+                                Object obj = objectInputStream.readObject();
+                                if (obj instanceof LogOut) {
+                                    LogOut logOutDB = (LogOut) obj;
+                                    if (logOutDB.getAck() == 1) {
+                                        socket.close();
+                                        Platform.runLater(() -> {
+                                            Stage r = (Stage) availablePlayerList.getScene().getWindow();
+                                            Parent root = new IPScreenBase();
+                                            Scene scene = new Scene(root);
+                                            r.setScene(scene);
+                                            r.show();
+                                        });
+
+                                    } else {
+                                        System.out.println("fail");
+                                    }
+
+                                } else if (obj instanceof RequestProfileBase) {
+                                    playersData = (RequestProfileBase) obj;
+                                    topPlayersNames.clear();
+                                    availablePlayer.clear();
+//                                    System.out.println(playersData.getOnlinePlayer().size());
+                                    for (Player p : playersData.getTopPlayers()) {
+                                        topPlayersNames.add(new listItemBase(p.getUserName(), String.valueOf(p.getScore())));
+                                    }
+
+                                    for (Player p : playersData.getOnlinePlayer()) {
+                                        availablePlayer.add(new listItemBase(p.getUserName(), String.valueOf(p.getScore())));
+                                    }
+                                } else if (obj instanceof RequestGame) {
+                                    if (requestGame.getGameResponse() == 0) {
+                                        acceptRequest(requestGame.getRequstedUserName() + "want to play with you !");
+
+                                    } else if (requestGame.getGameResponse() == 1) {
+                                        waittingStatge.close();
+                                        g = new OnlineGame(new Player(requestGame.getRequstedUserName()), new Player(requestGame.getChoosePlayerUserName()));
+                                        Stage r = (Stage) availablePlayerList.getScene().getWindow();
+                                        g = new OnlineGame(new Player(requestGame.getRequstedUserName()), new Player(requestGame.getChoosePlayerUserName()));
+
+                                        Parent root = new GameScreen(g);
+                                        Scene scene = new Scene(root);
+                                        r.setScene(scene);
+                                        r.show();
+
+                                    } else if (requestGame.getGameResponse() == 2) {
+                                        waittingStatge.close();
+                                    }
+                                }
+
+                            } catch (SocketException ex) {
+                                try {
+                                    socket.close();
+                                } catch (IOException ex1) {
+                                    Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex1);
+                                }
+                            } catch (IOException | ClassNotFoundException ex) {
+                                Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }
+
+                //
+            };
+            thread.start();
+        }
+
+//        ScheduledExecutorService scedular = Executors.newScheduledThreadPool(1);
+//        scedular.scheduleAtFixedRate(thread, 1, 1, TimeUnit.MILLISECONDS);
         // set player
         initiatePlayerProfile(player);
 
-        PlayerList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+        availablePlayerList.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<listItemBase>() {
             @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+            public void changed(ObservableValue<? extends listItemBase> observable, listItemBase oldValue, listItemBase newValue) {
                 playerOne = player.getUserName();
-                requestGame = new RequestGame(playerOne, newValue, 0);
+                requestGame = new RequestGame(playerOne, newValue.getUserNameStr(), 0);
                 try {
-
-                    inputStream = socket.getInputStream();
-                    outputStream = socket.getOutputStream();
-
                     outputStream = socket.getOutputStream();
                     objectOutputStream = new ObjectOutputStream(outputStream);
                     objectOutputStream.writeObject(requestGame);
@@ -457,12 +533,10 @@ public class playerProfileBase extends BorderPane {
             }
         });
 
-        //}
     }
 
     public void initiatePlayerProfile(Player player) {
         playerName.setText(player.getUserName());
-
     }
 
     public void acceptRequest(String waiting) {
@@ -475,7 +549,6 @@ public class playerProfileBase extends BorderPane {
 
             try {
                 requestGame.setGameResponse(RequestGame.acceptChallenge);
-                outputStream = socket.getOutputStream();
                 objectOutputStream = new ObjectOutputStream(outputStream);
                 objectOutputStream.writeObject(requestGame);
             } catch (IOException ex) {
@@ -483,7 +556,7 @@ public class playerProfileBase extends BorderPane {
             }
             g = new OnlineGame(new Player(requestGame.getRequstedUserName()), new Player(requestGame.getChoosePlayerUserName()));
             acceptanceStage.close();
-            Stage r = (Stage) PlayerList.getScene().getWindow();
+            Stage r = (Stage) availablePlayerList.getScene().getWindow();
             System.out.println("asdaskfk ");
             Parent root = new GameScreen(g);
             Scene scene = new Scene(root);
@@ -498,7 +571,6 @@ public class playerProfileBase extends BorderPane {
             acceptanceStage.close();
             try {
                 requestGame.setGameResponse(RequestGame.refuseChallenge);
-                outputStream = socket.getOutputStream();
                 objectOutputStream = new ObjectOutputStream(outputStream);
                 objectOutputStream.writeObject(requestGame);
             } catch (IOException ex) {
@@ -550,52 +622,14 @@ public class playerProfileBase extends BorderPane {
         waittingStatge.showAndWait();
     }
 
+//    public void smallRouting() {
+//        while (!socket.isClosed()) {
+//
+//        }
+//    }
+    /*
     public void requestToPLay() {
-        if (socket.isClosed() || socket == null) {
-        } else {
-            thread = new Thread() {
-                @Override
-                public void run() {
+            }
 
-                    try {
-                        inputStream = socket.getInputStream();
-                        outputStream = socket.getOutputStream();
-                        objectInputStream = new ObjectInputStream(inputStream);
-                        System.out.println("1");
-                    } catch (IOException ex) {
-                        Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    while (!socket.isClosed()) {
-                        System.out.println("2");
-                        try {
-                            if (objectInputStream != null) {
-                                requestGame = (RequestGame) objectInputStream.readObject();
-                            }
-
-                            if (requestGame.getGameResponse() == 0) {
-                                acceptRequest(requestGame.getRequstedUserName() + "want to play with you !");
-                                break;
-                            } else if (requestGame.getGameResponse() == 1) {
-                                waittingStatge.close();
-                                g = new OnlineGame(new Player(requestGame.getRequstedUserName()), new Player(requestGame.getChoosePlayerUserName()));
-                                nav.playGame(e, g);
-                                break;
-                            } else if (requestGame.getGameResponse() == 2) {
-                                waittingStatge.close();
-                                break;
-                            }
-                        } catch (IOException ex) {
-                            Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (ClassNotFoundException ex) {
-                            Logger.getLogger(playerProfileBase.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-
-                }
-            };
-            thread.start();
-        }
-        thread.stop();
-    }
-
+     */
 }
