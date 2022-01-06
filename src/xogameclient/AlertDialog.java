@@ -5,9 +5,6 @@
  */
 package xogameclient;
 
-
-
-
 import model.LocalGame;
 
 import javafx.geometry.Insets;
@@ -25,12 +22,14 @@ import javafx.stage.Stage;
  * @author Raiaan
  */
 public class AlertDialog {
-    static String player1Name , player2Name;
+
+    static String player1Name, player2Name;
+
     static void display(String text) {
-        
+
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
-         
+
         Label label = new Label(text);
         TextField player1 = new TextField();
         TextField player2 = new TextField();
@@ -38,28 +37,26 @@ public class AlertDialog {
         player2.setPromptText("Enter Player b");
         Button button = new Button("Play");
         button.setOnAction(e -> {
-             player1Name = player1.getText();
-             player2Name = player2.getText();
-              Navigation nav = new Navigation();
-                nav.playGame(e,new LocalGame(player1Name, player2Name));           
-             //stage.close();
+            player1Name = player1.getText();
+            player2Name = player2.getText();
+            Navigation.goToGameScreen(new LocalGame(player1Name, player2Name));
+            //stage.close();
         });
         GridPane layout = new GridPane();
-         
-        layout.setPadding(new Insets(10, 10, 10, 10)); 
-        layout.setVgap(5); 
-        layout.setHgap(5); 
-         
-        layout.add(player1, 1,1);
-        layout.add(player2, 1,2);
-        layout.add(button, 1,3);
-         
-        Scene scene = new Scene(layout, 250, 150);          
-         
+
+        layout.setPadding(new Insets(10, 10, 10, 10));
+        layout.setVgap(5);
+        layout.setHgap(5);
+
+        layout.add(player1, 1, 1);
+        layout.add(player2, 1, 2);
+        layout.add(button, 1, 3);
+
+        Scene scene = new Scene(layout, 250, 150);
+
         stage.setTitle("Dialog");
         stage.setScene(scene);
         stage.show();
     }
-   
-    
+
 }

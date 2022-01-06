@@ -28,8 +28,8 @@ import javafx.util.Duration;
 import model.SocketSingleton;
 import serialize.models.Connection;
 
-public class IPScreenBase extends AnchorPane {
-
+public class IPScreen extends AnchorPane {
+    
     protected final ImageView ipImage;
     protected final TextField ipTextField;
     protected final Button connectButton;
@@ -41,7 +41,9 @@ public class IPScreenBase extends AnchorPane {
     private InputStream inputStream;
     private OutputStream outputStream;
 
-    public IPScreenBase() {
+    public IPScreen() {
+        // make socket equal null when navigate to ip screen
+      
         ipImage = new ImageView();
         ipTextField = new TextField();
         connectButton = new Button();
@@ -90,60 +92,55 @@ public class IPScreenBase extends AnchorPane {
         getChildren().add(backButton);
         getChildren().add(text);
 
-        connectButton.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if (isValidIPAddress(ipTextField.getText())) {
-                    text.setText("");
-                    Navigation nav = new Navigation();
-                    socket = SocketSingleton.getInstanceOf(ipTextField.getText());
-
-
-                    if (socket != null) {
-                        try {
-                            Connection connection = new Connection(0, 0);
-                            inputStream = socket.getInputStream();
-                            outputStream = socket.getOutputStream();
-                            objectOutputStream = new ObjectOutputStream(outputStream);
-                            objectOutputStream.writeObject(connection);
-                            //nav.loginScreen(event,ipTextField.getText());
-                            objectInputStream = new ObjectInputStream(inputStream);
-                            try {
-                                connection = (Connection) objectInputStream.readObject();
-                                if (connection.getAck() == 1) {
-
-                                    nav.loginScreen(event, ipTextField.getText());
-
-                                }
-                            }  catch (ClassNotFoundException ex) {
-                                Logger.getLogger(IPScreenBase.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        }catch (SocketException ex) {
-                                text.setText("Not Found, Error 404!");
-
-                            }
-                        catch (IOException ex) {
-                            Logger.getLogger(IPScreenBase.class.getName()).log(Level.SEVERE, null, ex);
+        connectButton.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
+            if (isValidIPAddress(ipTextField.getText())) {
+                text.setText("");
+                socket = SocketSingleton.getInstanceOf(ipTextField.getText());
+                
+                if (socket != null) {
+                    try {
+                        Connection connection = new Connection(0, 0);
+                        
+                        
+                        objectOutputStream = SocketSingleton.getObjectOutputStream();
+                        objectOutputStream.writeObject(connection);
+                        //nav.goToLoginScreen(event,ipTextField.getText());
+                        objectInputStream = SocketSingleton.getObjectInputStream();
+                        
+                        connection = (Connection) objectInputStream.readObject();
+                        System.out.println("connection before");
+                        if (connection.getAck() == 1) {
+                            System.out.println("conection done in client");
+                            
+                            Navigation.goToLoginScreen();
+                            
                         }
-                    } else {
+
+                    } catch (SocketException ex) {
                         text.setText("Not Found, Error 404!");
+                        ex.printStackTrace();
+                        
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(IPScreen.class.getName()).log(Level.SEVERE, null, ex);
                     }
-
                 } else {
-
-                    text.setText("Invalid ip, please enter valid ip");
+                    text.setText("Not Found, Error 404!");
                 }
 
+            } else {
+                
+                text.setText("Invalid ip, please enter valid ip");
             }
-
         });
 
         backButton.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
 
-                Navigation nav = new Navigation();
-                nav.backGame(event);
+                //  Navigation nav = new Navigation();
+                Navigation.goToWelcomeXoScreen();
             }
 
         });

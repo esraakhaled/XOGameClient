@@ -13,6 +13,9 @@ import serialize.models.Player;
  */
 public class OnlineGame extends Game {
     public OnlineGame(Player playerA,Player playerB){
+        this.playerA=playerA;
+        this.playerB=playerB;
+        
     
     }
 

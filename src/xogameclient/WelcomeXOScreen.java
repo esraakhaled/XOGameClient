@@ -1,19 +1,9 @@
 package xogameclient;
 
 import model.PcGame;
-import java.io.IOException;
-import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -22,8 +12,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
-public class WelcomeXO extends GridPane {
+public class WelcomeXOScreen extends GridPane {
 
     protected final ColumnConstraints columnConstraints;
     protected final RowConstraints rowConstraints;
@@ -44,8 +35,9 @@ public class WelcomeXO extends GridPane {
     protected final AnchorPane anchorPane1;
     protected final Button button_online;
 
-    public WelcomeXO() {
-
+    public WelcomeXOScreen(Stage stage) {
+        // initage stage
+        Navigation.stage=stage;
         columnConstraints = new ColumnConstraints();
         rowConstraints = new RowConstraints();
         rowConstraints0 = new RowConstraints();
@@ -117,16 +109,14 @@ public class WelcomeXO extends GridPane {
         button_local.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
         button_local.setFont(new Font(15.0));
         button_local.setPadding(new Insets(25.0));
-        button_local.addEventFilter(ActionEvent.ACTION, (ActionEvent event) -> {
-            AlertDialog.display("JavaFX Custom Dialog Demo");
-        });
-        /* button_local.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
+       
+        
+         button_local.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Navigation nav = new Navigation();
-                nav.playGame(event);
+            AlertDialog.display("JavaFX Custom Dialog Demo");
                     }
-        });*/
+        });
         GridPane.setRowIndex(gridPane, 1);
 
         columnConstraints0.setHgrow(javafx.scene.layout.Priority.SOMETIMES);
@@ -165,8 +155,7 @@ public class WelcomeXO extends GridPane {
         button_computer.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Navigation nav = new Navigation();
-                nav.playGame(event, new PcGame());
+                Navigation.goToGameScreen( new PcGame());
             }
         });
         borderPane0.setCenter(anchorPane0);
@@ -195,8 +184,7 @@ public class WelcomeXO extends GridPane {
             @Override
             public void handle(ActionEvent event) {
 
-                Navigation nav = new Navigation();
-                nav.goToIpScreen(event);
+                Navigation.goToIpScreen();
 
             }
         });
