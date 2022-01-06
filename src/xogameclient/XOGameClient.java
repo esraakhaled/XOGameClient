@@ -19,7 +19,7 @@ public class XOGameClient extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        Parent root = new WelcomeXO();
+        Parent root = new WelcomeXOScreen(stage);
         // Parent root = new RegisterBase() ;
         //Parent root = new playerProfileBase();
 

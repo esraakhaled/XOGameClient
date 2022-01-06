@@ -92,7 +92,7 @@
    <bottom>
       <AnchorPane prefHeight="51.0" prefWidth="594.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="backButton" layoutX="399.0" layoutY="13.0" mnemonicParsing="false" onAction="#back" prefHeight="25.0" prefWidth="52.0" text="Back" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="128.0" AnchorPane.topAnchor="13.0" />
+            <Button fx:id="backButton" layoutX="399.0" layoutY="13.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="52.0" text="Back" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="128.0" AnchorPane.topAnchor="13.0" />
             <Button fx:id="signOutButton" layoutX="508.0" layoutY="13.0" mnemonicParsing="false" text="sign out" AnchorPane.bottomAnchor="13.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="13.0" />
             <Button fx:id="recorderGameButton" layoutX="29.0" layoutY="13.0" mnemonicParsing="false" text="recorded game" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="13.0" />
          </children>

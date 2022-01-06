@@ -13,7 +13,7 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-public  class RecordedGameBase extends BorderPane {
+public  class RecordedGameScreen extends BorderPane {
 
     protected final GridPane gridPane;
     protected final ColumnConstraints columnConstraints;
@@ -58,7 +58,7 @@ public  class RecordedGameBase extends BorderPane {
     protected final Button BackButton;
     
 
-    public RecordedGameBase() {
+    public RecordedGameScreen() {
 
         gridPane = new GridPane();
         columnConstraints = new ColumnConstraints();
@@ -356,7 +356,7 @@ public  class RecordedGameBase extends BorderPane {
             @Override
             public void handle(ActionEvent event) {
                 Navigation nav = new Navigation();
-                nav.backGame(event);
+                nav.goToWelcomeXoScreen();
                     }
         });
         setBottom(anchorPane11);

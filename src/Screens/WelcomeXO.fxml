@@ -31,7 +31,7 @@
       </BorderPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
          <children>
-            <Button fx:id="button_local" layoutX="212.0" layoutY="51.0" mnemonicParsing="false" onAction="#playGame" prefHeight="31.0" prefWidth="153.0" text="Play Local" textAlignment="CENTER" AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="212.0" AnchorPane.rightAnchor="212.0" AnchorPane.topAnchor="51.0">
+            <Button fx:id="button_local" layoutX="212.0" layoutY="51.0" mnemonicParsing="false"  prefHeight="31.0" prefWidth="153.0" text="Play Local" textAlignment="CENTER" AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="212.0" AnchorPane.rightAnchor="212.0" AnchorPane.topAnchor="51.0">
                <font>
                   <Font size="15.0" />
                </font>
@@ -54,7 +54,7 @@
                <center>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <children>
-                        <Button fx:id="button_computer" alignment="CENTER" layoutX="58.0" layoutY="31.0" mnemonicParsing="false" onAction="#playGame" prefHeight="31.0" prefWidth="184.0" text="Play with computer" AnchorPane.bottomAnchor="31.0" AnchorPane.leftAnchor="58.0" AnchorPane.rightAnchor="58.0" AnchorPane.topAnchor="31.0">
+                        <Button fx:id="button_computer" alignment="CENTER" layoutX="58.0" layoutY="31.0" mnemonicParsing="false"  prefHeight="31.0" prefWidth="184.0" text="Play with computer" AnchorPane.bottomAnchor="31.0" AnchorPane.leftAnchor="58.0" AnchorPane.rightAnchor="58.0" AnchorPane.topAnchor="31.0">
                            <font>
                               <Font size="15.0" />
                            </font>
@@ -70,7 +70,7 @@
                <center>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                      <children>
-                        <Button fx:id="button_online" alignment="CENTER" layoutX="58.0" layoutY="31.0" mnemonicParsing="false" onAction="#playGame" prefHeight="31.0" prefWidth="184.0" text="Play Online" AnchorPane.bottomAnchor="31.0" AnchorPane.leftAnchor="58.0" AnchorPane.rightAnchor="58.0" AnchorPane.topAnchor="31.0">
+                        <Button fx:id="button_online" alignment="CENTER" layoutX="58.0" layoutY="31.0" mnemonicParsing="false"  prefHeight="31.0" prefWidth="184.0" text="Play Online" AnchorPane.bottomAnchor="31.0" AnchorPane.leftAnchor="58.0" AnchorPane.rightAnchor="58.0" AnchorPane.topAnchor="31.0">
                            <font>
                               <Font size="15.0" />
                            </font>

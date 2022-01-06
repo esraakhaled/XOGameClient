@@ -1,6 +1,8 @@
 package xogameclient;
 
 
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import model.Game;
 import model.LocalGame;
 import model.OnlineGame;
@@ -17,6 +19,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import model.SocketSingleton;
 
 public class GameScreen extends BorderPane {
 
@@ -76,7 +79,8 @@ public class GameScreen extends BorderPane {
     protected final Game game;
     private String cellPostion = "";
     private Vector<Button> buttons = new Vector<>();
-
+    private ObjectInputStream objectInputStream;
+    private ObjectOutputStream objectOutputStream;
     public GameScreen(Game g) {
 
         // check for online only
@@ -427,7 +431,7 @@ public class GameScreen extends BorderPane {
             @Override
             public void handle(ActionEvent event) {
                 Navigation nav = new Navigation();
-                nav.recordedGame(event);
+                nav.goToRecordGameScreen();
                     }
         });
 
@@ -461,7 +465,7 @@ public class GameScreen extends BorderPane {
             @Override
             public void handle(ActionEvent event) {
                 Navigation nav = new Navigation();
-                nav.backGame(event);
+                nav.goToWelcomeXoScreen();
                     }
         });
 
@@ -505,8 +509,11 @@ public class GameScreen extends BorderPane {
         gridPane1.getChildren().add(firstPlayerScore);
         gridPane1.getChildren().add(playerASymbol);
         gridPane1.getChildren().add(scoreA);
+        
         if ((g instanceof OnlineGame)) {
             anchorPane10.getChildren().add(recordButton);
+        this.objectInputStream = SocketSingleton.getObjectInputStream();
+        this.objectOutputStream = SocketSingleton.getObjectOutputStream();
         }
         anchorPane10.getChildren().add(restartButton);
 

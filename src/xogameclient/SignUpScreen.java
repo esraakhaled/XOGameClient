@@ -2,17 +2,10 @@ package xogameclient;
 
 import java.io.EOFException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.net.Socket;
 import java.net.SocketException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -23,11 +16,10 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import model.SocketSingleton;
-import serialize.models.Login;
 import serialize.models.Player;
 import serialize.models.Register;
 
-public class SignUpBase extends GridPane {
+public class SignUpScreen extends GridPane {
 
     protected final ColumnConstraints columnConstraints;
     protected final RowConstraints rowConstraints;
@@ -54,13 +46,14 @@ public class SignUpBase extends GridPane {
     protected final BorderPane borderPane4;
     protected final AnchorPane anchorPane4;
     protected final Button login_btn;
-    private Socket socket;
-    private InputStream inputStream;
-    private OutputStream outputStream;
+
     private ObjectInputStream objectInputStream;
     private ObjectOutputStream objectOutputStream;
 
-    public SignUpBase(String ip) {
+    public SignUpScreen() {
+        //
+        this.objectInputStream = SocketSingleton.getObjectInputStream();
+        this.objectOutputStream = SocketSingleton.getObjectOutputStream();
 
         columnConstraints = new ColumnConstraints();
         rowConstraints = new RowConstraints();
@@ -246,72 +239,46 @@ public class SignUpBase extends GridPane {
         getChildren().add(borderPane3);
         anchorPane4.getChildren().add(login_btn);
         getChildren().add(borderPane4);
-       socket = SocketSingleton.getInstanceOf(ip);
-        Navigation nav = new Navigation();
-
-        try {
-            inputStream = socket.getInputStream();
-            outputStream = socket.getOutputStream();
-
-        } catch (IOException ex) {
-            Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
         signup_btn.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
             //must validate first
-            Register login = new Register(user_field.getText(), password_field.getText());
+            Register register = new Register(user_field.getText(), password_field.getText());
 
             try {
-
-                objectOutputStream = new ObjectOutputStream(outputStream);
-                objectOutputStream.writeObject(login);
+                objectOutputStream.writeObject(register);
                 objectOutputStream.flush();
                 //get response
-                objectInputStream = new ObjectInputStream(inputStream);
+                //      objectInputStream = new ObjectInputStream(inputStream);
                 Player playerDB = (Player) objectInputStream.readObject();
 
                 if (playerDB != null) {
-                    //close theses streams
-                    inputStream.close();
-                    outputStream.close();
 
-                    nav.loginButton(event, playerDB,ip);
+                    Navigation.goToProfileScreen(playerDB);
 
                 } else {
                     CustomPopup.display(" Invalid registeration ");
                 }
 
             } catch (EOFException ex) {
-                try {
-                    inputStream.close();
-                    outputStream.close();
-                    socket.close();
-                    CustomPopup.display(" 404 NotFound ");
-                    nav.goToIpScreen(event);
-                } catch (IOException ex1) {
-                    Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex1);
-
-                }
-            } catch (SocketException ex) {
-                try {
-                    inputStream.close();
-                    outputStream.close();
-                    socket.close();
-                    CustomPopup.display(" 404 NotFound ");
-                    nav.goToIpScreen(event);
-                } catch (IOException ex1) {
-                    CustomPopup.display(" 404 NotFound ");
-                    nav.goToIpScreen(event);
-                }
-            } catch (IOException ex) {
+                SocketSingleton.closeStreams();
                 CustomPopup.display(" 404 NotFound ");
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(LoginScreen.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                Navigation.goToIpScreen();
 
+            } catch (SocketException ex) {
+                SocketSingleton.closeSocket();
+                CustomPopup.display(" 404 NotFound ");
+                Navigation.goToIpScreen();
+            } catch (IOException ex) {
+                SocketSingleton.closeStreams();
+                SocketSingleton.closeSocket();
+                CustomPopup.display(" 404 NotFound ");
+                Navigation.goToIpScreen();;
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
         });
         login_btn.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            nav.loginScreen(event, ip);
+            Navigation.goToLoginScreen();
         });
 
     }

@@ -19,108 +19,91 @@ import serialize.models.Player;
  */
 public class Navigation {
 
-    //protected WelcomeXO welcomeScreen = new WelcomeXO();
-    protected GameScreen playScreen;
-    protected WelcomeXO welcomeScreen = new WelcomeXO();
-    protected playerProfileBase playerProfile;
-    protected SignUpBase signUp ;
-    protected LoginScreen loginScreen;
-    protected RecordedGameBase record = new RecordedGameBase();
-    protected IPScreenBase ipScreen = new IPScreenBase();
-
-    public void playGame(ActionEvent event, Game g) {
-        playScreen = new GameScreen(g);
-        Parent root = playScreen;
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 700, 500);
+    //protected WelcomeXOScreen welcomeXoScreen = new WelcomeXOScreen();
+    protected static GameScreen gameScreen;
+    protected static WelcomeXOScreen welcomeXoScreen;
+    protected static playerProfileScreen playerProfileScreen;
+    protected static SignUpScreen signUpScreen;
+    protected static LoginScreen loginScreen;
+    protected static RecordedGameScreen recordGameScreen;
+    protected static IPScreen ipScreen;
+    protected static Parent root;
+    protected static Scene scene;
+    protected static Stage stage;
+    public static void goToGameScreen(Game g) {
+        gameScreen = new GameScreen(g);
+        root = gameScreen;
         stage.setResizable(false);
+        scene = new Scene(root, 700, 500);
         stage.setScene(scene);
         stage.show();
     }
 
-    public void recordedGame(ActionEvent event) {
-        Parent root = record;
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 700, 500);
+    public static void goToRecordGameScreen() {
+        recordGameScreen = new RecordedGameScreen();
+        root = recordGameScreen;
         stage.setResizable(false);
+        scene = new Scene(root, 700, 500);
+
         stage.setScene(scene);
         stage.show();
     }
 
-    public void backGame(ActionEvent event) {
-        Parent root = welcomeScreen;
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 700, 500);
+    public static void goToWelcomeXoScreen() {
+        welcomeXoScreen = new WelcomeXOScreen(stage);
+        root = welcomeXoScreen;
         stage.setResizable(false);
+        scene = new Scene(root, 700, 500);
+
         stage.setScene(scene);
         stage.show();
     }
 
-    public void loginButton(ActionEvent event, Player playerDB,String ip) {
-        playerProfile = new playerProfileBase(playerDB,ip);
-        Parent root = playerProfile;
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 700, 500);
+    public static void goToProfileScreen(Player playerDB) {
+        playerProfileScreen = new playerProfileScreen(playerDB);
+        root = playerProfileScreen;
         stage.setResizable(false);
+        scene = new Scene(root, 700, 500);
+
         stage.setScene(scene);
         stage.show();
     }
 
-    public void signupScreen(ActionEvent event ,String ip) {
-        signUp= new SignUpBase(ip);
-        Parent root = signUp;
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 700, 500);
+    public static void goToSignupScreen() {
+        signUpScreen = new SignUpScreen();
+        root = signUpScreen;
         stage.setResizable(false);
+        scene = new Scene(root, 700, 500);
+
         stage.setScene(scene);
         stage.show();
     }
 
-     public void loginScreen(ActionEvent event,String ip) {
-        loginScreen= new LoginScreen (ip);
-        Parent root = loginScreen ;
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
+    public static void goToLoginScreen() {
+        loginScreen = new LoginScreen();
+        root = loginScreen;
         stage.setResizable(false);
+        scene = new Scene(root, 700, 500);
         stage.setScene(scene);
         stage.show();
     }
 
-    public void signupProfile(ActionEvent event) {
-        Parent root = playerProfile;
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 700, 500);
+    public static void goToIpScreen() {
+        ipScreen = new IPScreen();
+        root = ipScreen;
         stage.setResizable(false);
+        scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
 
-    public void signoutProfile(ActionEvent event) {
-        Parent root = welcomeScreen;
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root, 700, 500);
+    public static void goToWelcomScreen() {
+        welcomeXoScreen=new WelcomeXOScreen(stage);
+        root = welcomeXoScreen;
         stage.setResizable(false);
+        scene = new Scene(root, 700, 500);
         stage.setScene(scene);
         stage.show();
     }
-
-    public void goToIpScreen(ActionEvent event) {
-        Parent root = ipScreen;
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setResizable(false);
-        stage.setScene(scene);
-        stage.show();
-    }
-    public void goToWelcomScreen(ActionEvent event) {
-        Parent root = welcomeScreen;
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Scene scene = new Scene(root);
-        stage.setResizable(false);
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    
 
 }

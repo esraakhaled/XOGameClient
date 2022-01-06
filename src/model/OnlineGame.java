@@ -5,11 +5,19 @@
  */
 package model;
 
+import serialize.models.Player;
+
 /**
  *
  * @author ahmed
  */
 public class OnlineGame extends Game {
+    public OnlineGame(Player playerA,Player playerB){
+        this.playerA=playerA;
+        this.playerB=playerB;
+        
+    
+    }
 
     @Override
     public void actionPlayerA(String cellPostion) {
