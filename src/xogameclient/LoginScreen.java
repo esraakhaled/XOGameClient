@@ -17,6 +17,7 @@ import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -65,6 +66,7 @@ public class LoginScreen extends GridPane {
     protected final BorderPane borderPane3;
     protected final AnchorPane anchorPane3;
     protected final Button sign_btn;
+    protected final Button backBtn;
     private Socket socket;
     private InputStream inputStream;
     private OutputStream outputStream;
@@ -94,6 +96,7 @@ public class LoginScreen extends GridPane {
         borderPane3 = new BorderPane();
         anchorPane3 = new AnchorPane();
         sign_btn = new Button();
+        backBtn = new Button();
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
         setMinHeight(USE_PREF_SIZE);
@@ -195,7 +198,12 @@ public class LoginScreen extends GridPane {
         GridPane.setRowIndex(borderPane3, 4);
         borderPane3.setPrefHeight(200.0);
         borderPane3.setPrefWidth(200.0);
-
+        
+        GridPane.setRowIndex(backBtn, 5);
+        backBtn.setMnemonicParsing(false);
+        backBtn.setText("Go Back To Home Screen");
+        GridPane.setMargin(backBtn, new Insets(0.0, 0.0, 0.0, 10.0));
+        
         BorderPane.setAlignment(anchorPane3, javafx.geometry.Pos.CENTER);
         anchorPane3.setPrefHeight(200.0);
         anchorPane3.setPrefWidth(200.0);
@@ -225,6 +233,7 @@ public class LoginScreen extends GridPane {
         getChildren().add(borderPane2);
         anchorPane3.getChildren().add(sign_btn);
         getChildren().add(borderPane3);
+        getChildren().add(backBtn);
         user_text.setBorder(new Border(new BorderStroke(Color.CADETBLUE, 
                     BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         password_field.setBorder(new Border(new BorderStroke(Color.CADETBLUE, 

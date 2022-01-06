@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -60,12 +61,13 @@ public class SignUpBase extends GridPane {
     protected final BorderPane borderPane4;
     protected final AnchorPane anchorPane4;
     protected final Button login_btn;
+    protected final Button backBtn;
     private Socket socket;
     private InputStream inputStream;
     private OutputStream outputStream;
     private ObjectInputStream objectInputStream;
     private ObjectOutputStream objectOutputStream;
-
+    
     public SignUpBase(String ip) {
 
         columnConstraints = new ColumnConstraints();
@@ -95,7 +97,7 @@ public class SignUpBase extends GridPane {
         borderPane4 = new BorderPane();
         anchorPane4 = new AnchorPane();
         login_btn = new Button();
-
+        backBtn = new Button();
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
         setMinHeight(USE_PREF_SIZE);
@@ -154,7 +156,12 @@ public class SignUpBase extends GridPane {
         GridPane.setRowIndex(borderPane0, 1);
         borderPane0.setPrefHeight(200.0);
         borderPane0.setPrefWidth(200.0);
-
+        
+        GridPane.setRowIndex(backBtn, 6);
+        backBtn.setMnemonicParsing(false);
+        backBtn.setText("Go Back To Home");
+        GridPane.setMargin(backBtn, new Insets(0.0, 0.0, 0.0, 10.0));
+        
         BorderPane.setAlignment(anchorPane0, javafx.geometry.Pos.CENTER);
         anchorPane0.setPrefHeight(200.0);
         anchorPane0.setPrefWidth(200.0);
@@ -252,7 +259,8 @@ public class SignUpBase extends GridPane {
         getChildren().add(borderPane3);
         anchorPane4.getChildren().add(login_btn);
         getChildren().add(borderPane4);
-       socket = SocketSingleton.getInstanceOf(ip);
+        getChildren().add(backBtn);
+        socket = SocketSingleton.getInstanceOf(ip);
         Navigation nav = new Navigation();
 
         try {
