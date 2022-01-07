@@ -434,7 +434,8 @@ public class playerProfileScreen extends BorderPane {
                             }
 
                             for (Player p : requestProfileBase.getOnlinePlayer()) {
-                                availablePlayer.add(new String(p.getUserName()));
+                                if(! p.getUserName().equals(player.getUserName()))
+                                    availablePlayer.add(new String(p.getUserName()));
                             }
                         } else if (obj instanceof RequestGame) {
                             requestGame = (RequestGame) obj;
