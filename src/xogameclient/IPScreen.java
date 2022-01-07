@@ -93,6 +93,7 @@ public class IPScreen extends AnchorPane {
         getChildren().add(text);
 
         connectButton.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
+            this.setDisable(true);
             if (isValidIPAddress(ipTextField.getText())) {
                 text.setText("");
                 socket = SocketSingleton.getInstanceOf(ipTextField.getText());
@@ -115,6 +116,7 @@ public class IPScreen extends AnchorPane {
                             Navigation.goToLoginScreen();
                             
                         }
+                        this.setDisable(false);
 
                     } catch (SocketException ex) {
                         text.setText("Not Found, Error 404!");

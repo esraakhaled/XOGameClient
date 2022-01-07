@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 
 import javafx.beans.value.ChangeListener;
@@ -17,6 +18,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -32,6 +34,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import model.Game;
 import model.OnlineGame;
 import model.SocketSingleton;
@@ -461,6 +464,7 @@ public class playerProfileScreen extends BorderPane {
                                         waittingStatge.close();
                                     });
                                     break;
+                                   
                                 default:
                                     break;
                             }
@@ -623,7 +627,16 @@ public class playerProfileScreen extends BorderPane {
             acceptanceStage.setTitle("acceptance...");
             acceptanceStage.setScene(scene);
             acceptanceStage.showAndWait();
+           
         });
+         PauseTransition pauseTransition =new PauseTransition(Duration.seconds(10));
+        pauseTransition.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                acceptanceStage.close();
+            }
+        });
+        pauseTransition.play();
 
     }
 
@@ -634,13 +647,7 @@ public class playerProfileScreen extends BorderPane {
         });
 
         Text message = new Text(waiting);
-        Button sureButton = new Button("cancel");
-
-        sureButton.setOnAction(e -> {
-            Platform.runLater(() -> {
-                waittingStatge.close();
-            });
-        });
+        
         Platform.runLater(() -> {
             GridPane layout = new GridPane();
             GridPane subLayout = new GridPane();
@@ -651,13 +658,21 @@ public class playerProfileScreen extends BorderPane {
             subLayout.setVgap(5);
             subLayout.setHgap(5);
             layout.add(message, 0, 0);
-            subLayout.add(sureButton, 1, 0);
             layout.add(subLayout, 0, 1);
             Scene scene = new Scene(layout, 250, 90);
             waittingStatge.setTitle("waitting...");
             waittingStatge.setScene(scene);
             waittingStatge.showAndWait();
+         
         });
+           PauseTransition pauseTransition =new PauseTransition(Duration.seconds(10));
+        pauseTransition.setOnFinished(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                waittingStatge.close();
+            }
+        });
+        pauseTransition.play();
     }
 
     public void getStreams() {
