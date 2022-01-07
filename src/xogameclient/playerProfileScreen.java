@@ -390,20 +390,16 @@ public class playerProfileScreen extends BorderPane {
             }
 
         });
-        RequestProfileBase playersData = new RequestProfileBase(player.getUserName(), null, null);
         try {
-            objectOutputStream.writeObject(playersData);
+            objectOutputStream.writeObject(new RequestProfileBase(player.getUserName(), null, null));
         } catch (IOException ex) {
-            ex.printStackTrace();
+            Logger.getLogger(playerProfileScreen.class.getName()).log(Level.SEVERE, null, ex);
         }
         thread = new Thread() {
             @Override
             public void run() {
-
                 while (true) {
-                    System.out.println("1");
                     try {
-                        //   objectInputStream = new ObjectInputStream(inputStream);
                         Object obj = objectInputStream.readObject();
                         if (obj instanceof LogOut) {
                             LogOut logOutDB = (LogOut) obj;
@@ -424,14 +420,14 @@ public class playerProfileScreen extends BorderPane {
                             RequestProfileBase requestProfileBase;
                             requestProfileBase = (RequestProfileBase) obj;
                             topPlayersNames.clear();
-                            availablePlayer.clear();
-//                                    System.out.println(playersData.getOnlinePlayer().size());
                             for (Player p : requestProfileBase.getTopPlayers()) {
                                 topPlayersNames.add(new listItemBase(p.getUserName(), String.valueOf(p.getScore())));
                             }
-
+                            availablePlayer.clear();
                             for (Player p : requestProfileBase.getOnlinePlayer()) {
-                                availablePlayer.add(new String(p.getUserName()));
+                                if(! p.getUserName().equals(player.getUserName())){
+                                    availablePlayer.add(new String(p.getUserName()));
+                                }
                             }
                         } else if (obj instanceof RequestGame) {
                             requestGame = (RequestGame) obj;
