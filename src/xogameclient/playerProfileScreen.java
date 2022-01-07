@@ -437,12 +437,14 @@ public class playerProfileScreen extends BorderPane {
                             requestGame = (RequestGame) obj;
                             switch (requestGame.getGameResponse()) {
                                 case 0:
-                                    System.out.println("request from server to client");
+                                    System.out.println("request from server to client"  + requestGame.getGameRoom());
                                     acceptRequest(requestGame.getRequstedUserName() + "want to play with you !");
 
                                     break;
                                 case 1:
                                     initiatePlayers();
+                                    System.out.println("accept from server to client" + requestGame.getGameRoom());
+
                                     Platform.runLater(() -> {
                                         Platform.runLater(() -> {
                                             Navigation.goToGameScreen(g);
@@ -500,6 +502,7 @@ public class playerProfileScreen extends BorderPane {
                         playerOne = player.getUserName();
                         System.out.println(playerOne);
                         requestGame = new RequestGame(playerOne, newValue, 0);
+                        requestGame.setGameRoom(acceptance);
                         System.out.println("requst from client to server" + newValue);
                         try {
 //                outputStream = socket.getOutputStream();
