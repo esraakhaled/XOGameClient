@@ -79,6 +79,7 @@
             <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <children>
                   <Button fx:id="sign_btn" layoutX="263.0" layoutY="28.0" mnemonicParsing="false" onAction="#signUp" prefHeight="25.0" prefWidth="114.0" text="Sign Up" />
+                  <Button fx:id="backButton" layoutX="32.0" layoutY="28.0" mnemonicParsing="false" text="Back" />
                </children>
             </AnchorPane>
          </center>

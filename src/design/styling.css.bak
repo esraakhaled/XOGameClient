@@ -1,0 +1,61 @@
+.play_online, .play_local , .play_computer{
+-fx-padding:4px;
+-fx-background-radius: 10px;
+-fx-font-size:18px;
+-fx-font-family: "Lucida Console", "Courier New",monospace;
+-fx-font-weight:700;
+-fx-color:#f2d600;
+-fx-box-shadow: 45px;
+-fx-height:50px;
+}.play_online:hover, .play_local:hover , .play_computer:hover{
+	-fx-border:1px solid ;
+}
+.text{-fx-color:#2e423e;-fx-box-shadow: 45px;-fx-padding:4px;-fx-background-radius: 10px;}
+.backButton ,.connectBtn{-fx-color:#fff;-fx-padding:4px;-fx-background-radius: 10px;-fx-box-shadow: 45px;}
+.screen{-Fx-background-image:url("Tic-Tac-XO-1.png");
+-Fx-background-repeat:no-repeat;
+-fx-background-position: center;
+-fx-position:relative;
+-fx-top:2px;
+-fx-background-size:300px 300px;}
+.text_field{-fx-padding:4px;-fx-background-radius: 10px;-fx-border-color:#2e423e;}
+.game_btn{
+	-fx-font-size:20px;
+	-fx-font-weight:700;
+	
+}
+.title{
+	-fx-font-color:#404040;
+	-fx-font-size:18px;
+	-fx-font-family: "Lucida Console", "Courier New", monospace;
+	
+}
+.fullscreen{
+ -fx-background-color: #f2d600;
+}
+.TitlesStyle{
+	-fx-text-color: #ffffff;
+	-fx-font-size:25px;
+	-fx-font-family: "Lucida Console", "Courier New", monospace;
+    -fx-padding:4px;-fx-background-radius: 10px;-fx-box-shadow: 45px;
+}
+.titleStyles{
+	-fx-text-color: #ffffff;
+	-fx-font-size:16px;
+	-fx-font-family: "Lucida Console", "Courier New", monospace;
+	-fx-padding:4px;-fx-background-radius: 10px;-fx-box-shadow: 45px;
+}
+.cellStyles{
+	-fx-background-color:#ffffff;
+	-fx-text-color:#f2d600;
+	-fx-padding:4px;-fx-background-radius: 10px;-fx-box-shadow: 45px;
+}.cellStyles:hover{
+	-fx-border:1px solid;
+}
+.buttonRestart,.buttonBack{
+	-fx-color:#ffffff;
+	-fx-padding:4px;-fx-background-radius: 10px;-fx-box-shadow: 45px;
+    
+}.buttonRestart:hover,.buttonBack:hover{
+	-fx-border:1px solid ;
+}

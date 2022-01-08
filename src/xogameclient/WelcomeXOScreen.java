@@ -1,61 +1,41 @@
 package xogameclient;
 
-import model.PcGame;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import model.PcGame;
 
-public class WelcomeXOScreen extends GridPane {
+public  class WelcomeXOScreen extends BorderPane {
 
-    protected final ColumnConstraints columnConstraints;
-    protected final RowConstraints rowConstraints;
-    protected final RowConstraints rowConstraints0;
-    protected final RowConstraints rowConstraints1;
-    protected final BorderPane borderPane;
-    protected final Text txt_name;
     protected final AnchorPane anchorPane;
-    protected final Button button_local;
-    protected final GridPane gridPane;
-    protected final ColumnConstraints columnConstraints0;
-    protected final ColumnConstraints columnConstraints1;
-    protected final RowConstraints rowConstraints2;
-    protected final BorderPane borderPane0;
+    protected final ImageView xoImage;
+    protected final HBox hBox;
+    protected final BorderPane borderPane;
     protected final AnchorPane anchorPane0;
-    protected final Button button_computer;
-    protected final BorderPane borderPane1;
+    protected final Button play_local;
     protected final AnchorPane anchorPane1;
-    protected final Button button_online;
+    protected final Button playWithPc;
+    protected final AnchorPane anchorPane2;
+    protected final Button play_online;
 
     public WelcomeXOScreen(Stage stage) {
-        // initage stage
+        stage.setResizable(false);
         Navigation.stage=stage;
-        columnConstraints = new ColumnConstraints();
-        rowConstraints = new RowConstraints();
-        rowConstraints0 = new RowConstraints();
-        rowConstraints1 = new RowConstraints();
-        borderPane = new BorderPane();
-        txt_name = new Text();
         anchorPane = new AnchorPane();
-        button_local = new Button();
-        gridPane = new GridPane();
-        columnConstraints0 = new ColumnConstraints();
-        columnConstraints1 = new ColumnConstraints();
-        rowConstraints2 = new RowConstraints();
-        borderPane0 = new BorderPane();
+        xoImage = new ImageView();
+        hBox = new HBox();
+        borderPane = new BorderPane();
         anchorPane0 = new AnchorPane();
-        button_computer = new Button();
-        borderPane1 = new BorderPane();
+        play_local = new Button();
         anchorPane1 = new AnchorPane();
-        button_online = new Button();
+        playWithPc = new Button();
+        anchorPane2 = new AnchorPane();
+        play_online = new Button();
 
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
@@ -64,123 +44,78 @@ public class WelcomeXOScreen extends GridPane {
         setPrefHeight(400.0);
         setPrefWidth(600.0);
 
-        columnConstraints.setHgrow(javafx.scene.layout.Priority.SOMETIMES);
-        columnConstraints.setMinWidth(10.0);
-        columnConstraints.setPrefWidth(100.0);
-
-        rowConstraints.setMinHeight(10.0);
-        rowConstraints.setPrefHeight(30.0);
-        rowConstraints.setVgrow(javafx.scene.layout.Priority.SOMETIMES);
-
-        rowConstraints0.setMinHeight(10.0);
-        rowConstraints0.setPrefHeight(30.0);
-        rowConstraints0.setVgrow(javafx.scene.layout.Priority.SOMETIMES);
-
-        rowConstraints1.setMinHeight(10.0);
-        rowConstraints1.setPrefHeight(30.0);
-        rowConstraints1.setVgrow(javafx.scene.layout.Priority.SOMETIMES);
-
-        borderPane.setPrefHeight(200.0);
-        borderPane.setPrefWidth(200.0);
-
-        BorderPane.setAlignment(txt_name, javafx.geometry.Pos.CENTER);
-        txt_name.setStrokeType(javafx.scene.shape.StrokeType.OUTSIDE);
-        txt_name.setStrokeWidth(0.0);
-        txt_name.setText("XO Game");
-        txt_name.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
-        txt_name.setWrappingWidth(214.13671875);
-        txt_name.setFont(new Font("System Bold", 27.0));
-        borderPane.setCenter(txt_name);
-
-        GridPane.setRowIndex(anchorPane, 2);
+        BorderPane.setAlignment(anchorPane, javafx.geometry.Pos.CENTER);
         anchorPane.setPrefHeight(200.0);
         anchorPane.setPrefWidth(200.0);
 
-        AnchorPane.setBottomAnchor(button_local, 51.0);
-        AnchorPane.setLeftAnchor(button_local, 212.0);
-        AnchorPane.setRightAnchor(button_local, 212.0);
-        AnchorPane.setTopAnchor(button_local, 51.0);
-        button_local.setLayoutX(212.0);
-        button_local.setLayoutY(51.0);
-        button_local.setMnemonicParsing(false);
-        button_local.setPrefHeight(31.0);
-        button_local.setPrefWidth(153.0);
-        button_local.setText("Play Local");
-        button_local.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
-        button_local.setFont(new Font(15.0));
-        button_local.setPadding(new Insets(25.0));
-       
-        
-         button_local.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-            AlertDialog.display("JavaFX Custom Dialog Demo");
-                    }
-        });
-        GridPane.setRowIndex(gridPane, 1);
+        xoImage.setFitHeight(301.0);
+        xoImage.setFitWidth(329.0);
+        xoImage.setLayoutX(126.0);
+        xoImage.setLayoutY(1.0);
+        xoImage.setPickOnBounds(true);
+        xoImage.setPreserveRatio(true);
+        setCenter(anchorPane);
 
-        columnConstraints0.setHgrow(javafx.scene.layout.Priority.SOMETIMES);
-        columnConstraints0.setMinWidth(10.0);
-        columnConstraints0.setPrefWidth(100.0);
+        BorderPane.setAlignment(hBox, javafx.geometry.Pos.CENTER);
+        hBox.setPrefHeight(100.0);
+        hBox.setPrefWidth(200.0);
 
-        columnConstraints1.setHgrow(javafx.scene.layout.Priority.SOMETIMES);
-        columnConstraints1.setMinWidth(10.0);
-        columnConstraints1.setPrefWidth(100.0);
-
-        rowConstraints2.setMinHeight(10.0);
-        rowConstraints2.setPrefHeight(30.0);
-        rowConstraints2.setVgrow(javafx.scene.layout.Priority.SOMETIMES);
-
-        GridPane.setColumnIndex(borderPane0, 1);
-        borderPane0.setPrefHeight(200.0);
-        borderPane0.setPrefWidth(200.0);
+        borderPane.setPrefHeight(200.0);
+        borderPane.setPrefWidth(200.0);
 
         BorderPane.setAlignment(anchorPane0, javafx.geometry.Pos.CENTER);
         anchorPane0.setPrefHeight(200.0);
         anchorPane0.setPrefWidth(200.0);
 
-        AnchorPane.setBottomAnchor(button_computer, 31.0);
-        AnchorPane.setLeftAnchor(button_computer, 58.0);
-        AnchorPane.setRightAnchor(button_computer, 58.0);
-        AnchorPane.setTopAnchor(button_computer, 31.0);
-        button_computer.setAlignment(javafx.geometry.Pos.CENTER);
-        button_computer.setLayoutX(58.0);
-        button_computer.setLayoutY(31.0);
-        button_computer.setMnemonicParsing(false);
-        button_computer.setPrefHeight(31.0);
-        button_computer.setPrefWidth(184.0);
-        button_computer.setText("Play with computer");
-        button_computer.setFont(new Font(15.0));
-        button_computer.setPadding(new Insets(25.0));
-        button_computer.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
+        play_local.setAlignment(javafx.geometry.Pos.CENTER);
+        play_local.setLayoutX(27.0);
+        play_local.setLayoutY(25.0);
+        play_local.setMnemonicParsing(false);
+        play_local.setPrefHeight(50.0);
+        play_local.setPrefWidth(146.0);
+        play_local.setText("play local");
+        play_local.setWrapText(true);
+         play_local.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Navigation.goToGameScreen( new PcGame());
-            }
+            AlertDialog.display("JavaFX Custom Dialog Demo");
+                    }
         });
-        borderPane0.setCenter(anchorPane0);
-
-        borderPane1.setPrefHeight(200.0);
-        borderPane1.setPrefWidth(200.0);
+        borderPane.setLeft(anchorPane0);
 
         BorderPane.setAlignment(anchorPane1, javafx.geometry.Pos.CENTER);
         anchorPane1.setPrefHeight(200.0);
         anchorPane1.setPrefWidth(200.0);
 
-        AnchorPane.setBottomAnchor(button_online, 31.0);
-        AnchorPane.setLeftAnchor(button_online, 58.0);
-        AnchorPane.setRightAnchor(button_online, 58.0);
-        AnchorPane.setTopAnchor(button_online, 31.0);
-        button_online.setAlignment(javafx.geometry.Pos.CENTER);
-        button_online.setLayoutX(58.0);
-        button_online.setLayoutY(31.0);
-        button_online.setMnemonicParsing(false);
-        button_online.setPrefHeight(31.0);
-        button_online.setPrefWidth(184.0);
-        button_online.setText("Play Online");
-        button_online.setFont(new Font(15.0));
-        button_online.setPadding(new Insets(25.0));
-        button_online.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
+        playWithPc.setAlignment(javafx.geometry.Pos.CENTER);
+        playWithPc.setLayoutX(19.0);
+        playWithPc.setLayoutY(25.0);
+        playWithPc.setMnemonicParsing(false);
+        playWithPc.setPrefHeight(50.0);
+        playWithPc.setPrefWidth(146.0);
+        playWithPc.setText("play with pc");
+        playWithPc.setWrapText(true);
+        playWithPc.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Navigation.goToGameScreen( new PcGame());
+            }
+        });
+        borderPane.setCenter(anchorPane1);
+
+        BorderPane.setAlignment(anchorPane2, javafx.geometry.Pos.CENTER);
+        anchorPane2.setPrefHeight(200.0);
+        anchorPane2.setPrefWidth(200.0);
+
+        play_online.setAlignment(javafx.geometry.Pos.CENTER);
+        play_online.setLayoutX(27.0);
+        play_online.setLayoutY(25.0);
+        play_online.setMnemonicParsing(false);
+        play_online.setPrefHeight(50.0);
+        play_online.setPrefWidth(146.0);
+        play_online.setText("play online");
+        play_online.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
+        play_online.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
 
@@ -188,24 +123,20 @@ public class WelcomeXOScreen extends GridPane {
 
             }
         });
-        borderPane1.setCenter(anchorPane1);
+        borderPane.setRight(anchorPane2);
+        setBottom(hBox);
 
-        getColumnConstraints().add(columnConstraints);
-        getRowConstraints().add(rowConstraints);
-        getRowConstraints().add(rowConstraints0);
-        getRowConstraints().add(rowConstraints1);
-        getChildren().add(borderPane);
-        anchorPane.getChildren().add(button_local);
-        getChildren().add(anchorPane);
-        gridPane.getColumnConstraints().add(columnConstraints0);
-        gridPane.getColumnConstraints().add(columnConstraints1);
-        gridPane.getRowConstraints().add(rowConstraints2);
-        anchorPane0.getChildren().add(button_computer);
-        gridPane.getChildren().add(borderPane0);
-        anchorPane1.getChildren().add(button_online);
-        gridPane.getChildren().add(borderPane1);
-        getChildren().add(gridPane);
+        anchorPane.getChildren().add(xoImage);
+        anchorPane0.getChildren().add(play_local);
+        anchorPane1.getChildren().add(playWithPc);
+        anchorPane2.getChildren().add(play_online);
+        hBox.getChildren().add(borderPane);
+         getStylesheets().add("design/styling.css");
+        getStyleClass().add("screen");
+        play_online.getStyleClass().add("play_online");
+        play_local.getStyleClass().add("play_local");
+        playWithPc.getStyleClass().add("play_computer");
+    }
 
     }
 
-}

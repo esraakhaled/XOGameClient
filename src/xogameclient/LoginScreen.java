@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.SocketException;
 import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -45,6 +46,7 @@ public class LoginScreen extends GridPane {
     protected final BorderPane borderPane3;
     protected final AnchorPane anchorPane3;
     protected final Button sign_btn;
+   protected final Button backButton;
     private InputStream inputStream;
     private OutputStream outputStream;
     private ObjectInputStream objectInputStream;
@@ -53,7 +55,6 @@ public class LoginScreen extends GridPane {
     public LoginScreen() {
         this.objectInputStream = SocketSingleton.getObjectInputStream();
         this.objectOutputStream = SocketSingleton.getObjectOutputStream();
-        //
         columnConstraints = new ColumnConstraints();
         rowConstraints = new RowConstraints();
         rowConstraints0 = new RowConstraints();
@@ -63,6 +64,7 @@ public class LoginScreen extends GridPane {
         borderPane = new BorderPane();
         anchorPane = new AnchorPane();
         login_text = new Text();
+        backButton = new Button();
         borderPane0 = new BorderPane();
         anchorPane0 = new AnchorPane();
         user_text = new TextField();
@@ -138,7 +140,8 @@ public class LoginScreen extends GridPane {
         user_text.setPrefWidth(292.0);
         user_text.setFont(new Font(14.0));
         borderPane0.setCenter(anchorPane0);
-
+        
+        
         GridPane.setRowIndex(borderPane1, 2);
         borderPane1.setPrefHeight(200.0);
         borderPane1.setPrefWidth(200.0);
@@ -176,7 +179,6 @@ public class LoginScreen extends GridPane {
         GridPane.setRowIndex(borderPane3, 4);
         borderPane3.setPrefHeight(200.0);
         borderPane3.setPrefWidth(200.0);
-
         BorderPane.setAlignment(anchorPane3, javafx.geometry.Pos.CENTER);
         anchorPane3.setPrefHeight(200.0);
         anchorPane3.setPrefWidth(200.0);
@@ -188,6 +190,12 @@ public class LoginScreen extends GridPane {
         sign_btn.setPrefHeight(25.0);
         sign_btn.setPrefWidth(114.0);
         sign_btn.setText("Sign Up");
+        borderPane3.setCenter(anchorPane3);
+        
+        backButton.setLayoutX(32.0);
+        backButton.setLayoutY(28.0);
+        backButton.setMnemonicParsing(false);
+        backButton.setText("Back");
         borderPane3.setCenter(anchorPane3);
 
         getColumnConstraints().add(columnConstraints);
@@ -205,8 +213,10 @@ public class LoginScreen extends GridPane {
         anchorPane2.getChildren().add(login_btn);
         getChildren().add(borderPane2);
         anchorPane3.getChildren().add(sign_btn);
+        anchorPane3.getChildren().add(backButton);
         getChildren().add(borderPane3);
-
+        
+       
         login_btn.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
             //must validate first
             Login login = new Login(user_text.getText(), password_field.getText());
@@ -249,6 +259,17 @@ public class LoginScreen extends GridPane {
         sign_btn.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
             Navigation.goToSignupScreen();
         });
+        backButton.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
+            SocketSingleton.closeStreams();
+            SocketSingleton.closeSocket();
+            Navigation.goToWelcomScreen();
+            
+        });
+        
+       getStylesheets().add("design/styling.css");
+        getStyleClass().add("fullscreen");
+        login_btn.getStyleClass().add("buttonLogin");
+        sign_btn.getStyleClass().add("buttonSignup");
 
     }
 

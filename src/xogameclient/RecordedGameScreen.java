@@ -352,11 +352,36 @@ public  class RecordedGameScreen extends BorderPane {
         BackButton.setPrefHeight(25.0);
         BackButton.setPrefWidth(110.0);
         BackButton.setText("Back");
+        
+         getStylesheets().add("design/styling.css");
+        getStyleClass().add("fullscreen");
+        cell_0_0.getStyleClass().add("cellStyles");
+        cell_0_0.getStyleClass().add("titleStyles");
+        cell_0_1.getStyleClass().add("cellStyles");
+        cell_0_1.getStyleClass().add("titleStyles");
+        cell_0_2.getStyleClass().add("cellStyles");
+        cell_0_2.getStyleClass().add("titleStyles");
+        cell_1_0.getStyleClass().add("cellStyles");
+        cell_1_0.getStyleClass().add("titleStyles");
+         cell_1_1.getStyleClass().add("cellStyles");
+        cell_1_1.getStyleClass().add("titleStyles");
+        cell_1_2.getStyleClass().add("cellStyles");
+        cell_1_2.getStyleClass().add("titleStyles");
+        cell_2_0.getStyleClass().add("cellStyles");
+        cell_2_0.getStyleClass().add("titleStyles");
+         cell_2_1.getStyleClass().add("cellStyles");
+        cell_2_1.getStyleClass().add("titleStyles");
+         cell_2_2.getStyleClass().add("cellStyles");
+        cell_2_2.getStyleClass().add("titleStyles");
+        TitleOFScreen.getStyleClass().add("titleStyles");
+        secondPlayerName.getStyleClass().add("titleStyles");
+        firstPlayerName.getStyleClass().add("titleStyles");
+        secondPlayerName.getStyleClass().add("titleStyles");
+        BackButton.getStyleClass().add("titleStyles");
         BackButton.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Navigation nav = new Navigation();
-                nav.goToWelcomeXoScreen();
+                Navigation.goToWelcomScreen();
                     }
         });
         setBottom(anchorPane11);

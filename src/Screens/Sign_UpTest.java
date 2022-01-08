@@ -1,11 +1,5 @@
-package xogameclient;
+package Screens;
 
-import java.io.EOFException;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.SocketException;
-import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -15,11 +9,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import model.SocketSingleton;
-import serialize.models.Player;
-import serialize.models.Register;
 
-public class SignUpScreen extends GridPane {
+public abstract class Sign_UpTest extends GridPane {
 
     protected final ColumnConstraints columnConstraints;
     protected final RowConstraints rowConstraints;
@@ -47,13 +38,8 @@ public class SignUpScreen extends GridPane {
     protected final AnchorPane anchorPane4;
     protected final Button login_btn;
     protected final Button backButton;
-    private ObjectInputStream objectInputStream;
-    private ObjectOutputStream objectOutputStream;
 
-    public SignUpScreen() {
-        //
-        this.objectInputStream = SocketSingleton.getObjectInputStream();
-        this.objectOutputStream = SocketSingleton.getObjectOutputStream();
+    public Sign_UpTest() {
 
         columnConstraints = new ColumnConstraints();
         rowConstraints = new RowConstraints();
@@ -68,11 +54,9 @@ public class SignUpScreen extends GridPane {
         borderPane0 = new BorderPane();
         anchorPane0 = new AnchorPane();
         user_field = new TextField();
-        user_field.setPromptText("enter your user name");
         borderPane1 = new BorderPane();
         anchorPane1 = new AnchorPane();
         password_field = new TextField();
-        password_field.setPromptText("enter your password");
         borderPane2 = new BorderPane();
         anchorPane2 = new AnchorPane();
         signup_btn = new Button();
@@ -83,7 +67,6 @@ public class SignUpScreen extends GridPane {
         anchorPane4 = new AnchorPane();
         login_btn = new Button();
         backButton = new Button();
-
 
         setMaxHeight(USE_PREF_SIZE);
         setMaxWidth(USE_PREF_SIZE);
@@ -183,7 +166,6 @@ public class SignUpScreen extends GridPane {
         signup_btn.setPrefWidth(301.0);
         signup_btn.setText("Sign Up");
         signup_btn.setFont(new Font(14.0));
-
         borderPane2.setCenter(anchorPane2);
 
         GridPane.setRowIndex(borderPane3, 4);
@@ -219,13 +201,11 @@ public class SignUpScreen extends GridPane {
         login_btn.setPrefHeight(25.0);
         login_btn.setPrefWidth(112.0);
         login_btn.setText("Login");
-        
-        
-         backButton.setLayoutX(30.0);
+
+        backButton.setLayoutX(30.0);
         backButton.setLayoutY(23.0);
         backButton.setMnemonicParsing(false);
         backButton.setText("Back");
-
         borderPane4.setCenter(anchorPane4);
 
         getColumnConstraints().add(columnConstraints);
@@ -248,58 +228,6 @@ public class SignUpScreen extends GridPane {
         anchorPane4.getChildren().add(login_btn);
         anchorPane4.getChildren().add(backButton);
         getChildren().add(borderPane4);
-
-        signup_btn.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            //must validate first
-            Register register = new Register(user_field.getText(), password_field.getText());
-
-            try {
-                objectOutputStream.writeObject(register);
-                objectOutputStream.flush();
-                //get response
-                //      objectInputStream = new ObjectInputStream(inputStream);
-                Player playerDB = (Player) objectInputStream.readObject();
-
-                if (playerDB != null) {
-
-                    Navigation.goToProfileScreen(playerDB);
-
-                } else {
-                    CustomPopup.display(" Invalid registeration ");
-                }
-
-            } catch (EOFException ex) {
-                SocketSingleton.closeStreams();
-                CustomPopup.display(" 404 NotFound ");
-                Navigation.goToIpScreen();
-
-            } catch (SocketException ex) {
-                SocketSingleton.closeSocket();
-                CustomPopup.display(" 404 NotFound ");
-                Navigation.goToIpScreen();
-            } catch (IOException ex) {
-                SocketSingleton.closeStreams();
-                SocketSingleton.closeSocket();
-                CustomPopup.display(" 404 NotFound ");
-                Navigation.goToIpScreen();;
-            } catch (ClassNotFoundException ex) {
-                ex.printStackTrace();
-            }
-        });
-        login_btn.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            Navigation.goToLoginScreen();
-        });
-        backButton.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            SocketSingleton.closeStreams();
-            SocketSingleton.closeSocket();
-            Navigation.goToWelcomScreen();
-        });
-        
-        getStylesheets().add("design/styling.css");
-        getStyleClass().add("fullscreen");
-        login_btn.getStyleClass().add("buttonLogin");
-        signup_btn.getStyleClass().add("buttonSignup");
-
 
     }
 }

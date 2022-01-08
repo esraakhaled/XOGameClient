@@ -91,21 +91,24 @@ public class IPScreen extends AnchorPane {
         getChildren().add(connectButton);
         getChildren().add(backButton);
         getChildren().add(text);
+        getStylesheets().add("design/styling.css");
+        getStyleClass().add("fullscreen");
+        connectButton.getStyleClass().add("connectBtn");
+        backButton.getStyleClass().add("backButton");
 
         connectButton.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            this.setDisable(true);
+            
             if (isValidIPAddress(ipTextField.getText())) {
                 text.setText("");
                 socket = SocketSingleton.getInstanceOf(ipTextField.getText());
                 
-                if (socket != null) {
+                if (socket != null&& !socket.isClosed()) {
                     try {
                         Connection connection = new Connection(0, 0);
                         
                         
                         objectOutputStream = SocketSingleton.getObjectOutputStream();
                         objectOutputStream.writeObject(connection);
-                        //nav.goToLoginScreen(event,ipTextField.getText());
                         objectInputStream = SocketSingleton.getObjectInputStream();
                         
                         connection = (Connection) objectInputStream.readObject();
@@ -116,7 +119,6 @@ public class IPScreen extends AnchorPane {
                             Navigation.goToLoginScreen();
                             
                         }
-                        this.setDisable(false);
 
                     } catch (SocketException ex) {
                         text.setText("Not Found, Error 404!");

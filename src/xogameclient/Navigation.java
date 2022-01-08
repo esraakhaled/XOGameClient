@@ -53,7 +53,7 @@ public class Navigation {
         welcomeXoScreen = new WelcomeXOScreen(stage);
         root = welcomeXoScreen;
         stage.setResizable(false);
-        scene = new Scene(root, 700, 500);
+        scene = new Scene(root);
 
         stage.setScene(scene);
         stage.show();
@@ -73,7 +73,7 @@ public class Navigation {
         signUpScreen = new SignUpScreen();
         root = signUpScreen;
         stage.setResizable(false);
-        scene = new Scene(root, 700, 500);
+        scene = new Scene(root);
 
         stage.setScene(scene);
         stage.show();
@@ -83,7 +83,7 @@ public class Navigation {
         loginScreen = new LoginScreen();
         root = loginScreen;
         stage.setResizable(false);
-        scene = new Scene(root, 700, 500);
+        scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
@@ -101,9 +101,10 @@ public class Navigation {
         welcomeXoScreen=new WelcomeXOScreen(stage);
         root = welcomeXoScreen;
         stage.setResizable(false);
-        scene = new Scene(root, 700, 500);
+        scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
+    
 
 }

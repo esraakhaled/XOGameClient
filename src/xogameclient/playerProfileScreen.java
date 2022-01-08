@@ -34,6 +34,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import model.Game;
 import model.OnlineGame;
@@ -349,7 +350,7 @@ public class playerProfileScreen extends BorderPane {
         recorderGameButton.setMnemonicParsing(false);
         recorderGameButton.setText("recorded game");
         recorderGameButton.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-//                nav.signupProfile(event);
+            Navigation.goToRecordGameScreen();
         });
         setBottom(anchorPane3);
 
@@ -379,10 +380,14 @@ public class playerProfileScreen extends BorderPane {
         anchorPane3.getChildren().add(signOutButton);
         anchorPane3.getChildren().add(recorderGameButton);
 
+        getStylesheets().add("design/styling.css");
+        getStyleClass().add("fullscreen");
+        backButton.getStyleClass().add("buttonBack");
+        signOutButton.getStyleClass().add("buttonSignout");
+
         signOutButton.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
 
             eventAction = event;
-            System.out.println(eventAction + "esraa Navigation");
             LogOut logOut = new LogOut(player.getUserName(), 0);
             try {
                 //     objectOutputStream = new ObjectOutputStream(outputStream);
@@ -393,19 +398,20 @@ public class playerProfileScreen extends BorderPane {
             }
 
         });
-        RequestProfileBase playersData = new RequestProfileBase(player.getUserName(), null, null);
-        try {
-            objectOutputStream.writeObject(playersData);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+
         thread = new Thread() {
             @Override
             public void run() {
+                RequestProfileBase playersData = new RequestProfileBase(player.getUserName(), null, null);
 
+                try {
+                    objectOutputStream.writeObject(playersData);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
                 while (true) {
-                    System.out.println("1");
                     try {
+
                         //   objectInputStream = new ObjectInputStream(inputStream);
                         Object obj = objectInputStream.readObject();
                         if (obj instanceof LogOut) {
@@ -426,22 +432,26 @@ public class playerProfileScreen extends BorderPane {
                         } else if (obj instanceof RequestProfileBase) {
                             RequestProfileBase requestProfileBase;
                             requestProfileBase = (RequestProfileBase) obj;
-                            topPlayersNames.clear();
-                            availablePlayer.clear();
-//                                    System.out.println(playersData.getOnlinePlayer().size());
-                            for (Player p : requestProfileBase.getTopPlayers()) {
-                                topPlayersNames.add(new listItemBase(p.getUserName(), String.valueOf(p.getScore())));
-                            }
+                            Platform.runLater(() -> {
+                                topPlayersNames.clear();
+                                availablePlayer.clear();
+                                for (Player p : requestProfileBase.getTopPlayers()) {
+                                    topPlayersNames.add(new listItemBase(p.getUserName(), String.valueOf(p.getScore())));
+                                }
 
-                            for (Player p : requestProfileBase.getOnlinePlayer()) {
-                                if(! p.getUserName().equals(player.getUserName()))
-                                    availablePlayer.add(new String(p.getUserName()));
-                            }
+                                for (Player p : requestProfileBase.getOnlinePlayer()) {
+                                    if (!p.getUserName().equals(player.getUserName())) {
+                                        availablePlayer.add(new String(p.getUserName()));
+                                    }
+                                }
+                            });
+
+//                                    System.out.println(playersData.getOnlinePlayer().size());
                         } else if (obj instanceof RequestGame) {
                             requestGame = (RequestGame) obj;
                             switch (requestGame.getGameResponse()) {
                                 case 0:
-                                    System.out.println("request from server to client"  + requestGame.getGameRoom());
+                                    System.out.println("request from server to client" + requestGame.getGameRoom());
                                     acceptRequest(requestGame.getRequstedUserName() + "want to play with you !");
 
                                     break;
@@ -465,7 +475,7 @@ public class playerProfileScreen extends BorderPane {
                                         waittingStatge.close();
                                     });
                                     break;
-                                   
+
                                 default:
                                     break;
                             }
@@ -546,6 +556,12 @@ public class playerProfileScreen extends BorderPane {
         Platform.runLater(() -> {
             acceptanceStage = new Stage();
             acceptanceStage.initModality(Modality.APPLICATION_MODAL);
+            acceptanceStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                @Override
+                public void handle(WindowEvent event) {
+                    event.consume();
+                }
+            });
         });
 
         Text message = new Text(waiting);
@@ -628,9 +644,9 @@ public class playerProfileScreen extends BorderPane {
             acceptanceStage.setTitle("acceptance...");
             acceptanceStage.setScene(scene);
             acceptanceStage.showAndWait();
-           
+
         });
-         PauseTransition pauseTransition =new PauseTransition(Duration.seconds(10));
+        PauseTransition pauseTransition = new PauseTransition(Duration.seconds(10));
         pauseTransition.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -645,10 +661,16 @@ public class playerProfileScreen extends BorderPane {
         Platform.runLater(() -> {
             waittingStatge = new Stage();
             waittingStatge.initModality(Modality.APPLICATION_MODAL);
+            waittingStatge.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+                public void handle(WindowEvent event) {
+                    event.consume();
+                }
+            });
         });
 
         Text message = new Text(waiting);
-        
+
         Platform.runLater(() -> {
             GridPane layout = new GridPane();
             GridPane subLayout = new GridPane();
@@ -664,9 +686,9 @@ public class playerProfileScreen extends BorderPane {
             waittingStatge.setTitle("waitting...");
             waittingStatge.setScene(scene);
             waittingStatge.showAndWait();
-         
+
         });
-           PauseTransition pauseTransition =new PauseTransition(Duration.seconds(10));
+        PauseTransition pauseTransition = new PauseTransition(Duration.seconds(10));
         pauseTransition.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {

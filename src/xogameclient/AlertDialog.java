@@ -40,7 +40,7 @@ public class AlertDialog {
             player1Name = player1.getText();
             player2Name = player2.getText();
             Navigation.goToGameScreen(new LocalGame(player1Name, player2Name));
-            //stage.close();
+            stage.close();
         });
         GridPane layout = new GridPane();
 
@@ -53,6 +53,11 @@ public class AlertDialog {
         layout.add(button, 1, 3);
 
         Scene scene = new Scene(layout, 250, 150);
+        scene.getStylesheets().add("design/styling.css");
+        layout.getStyleClass().add("fullscreen");
+        player1.getStyleClass().add("text_field");
+        player2.getStyleClass().add("text_field");
+        button.getStyleClass().add("play_button");
 
         stage.setTitle("Dialog");
         stage.setScene(scene);

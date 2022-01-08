@@ -74,7 +74,7 @@ public class GameScreen extends BorderPane {
     protected final Button recordButton;
     protected final Button restartButton;
     protected final Button backButton;
-
+    
     //
     protected final Game game;
     private String cellPostion = "";
@@ -138,6 +138,38 @@ public class GameScreen extends BorderPane {
         recordButton = new Button();
         restartButton = new Button();
         backButton = new Button();
+        getStylesheets().add("design/styling.css");
+        getStyleClass().add("fullscreen");
+        cell_0_0.getStyleClass().add("cellStyles");
+        cell_0_0.getStyleClass().add("titleStyles");
+        cell_0_1.getStyleClass().add("cellStyles");
+        cell_0_1.getStyleClass().add("titleStyles");
+        cell_0_2.getStyleClass().add("cellStyles");
+        cell_0_2.getStyleClass().add("titleStyles");
+        cell_1_0.getStyleClass().add("cellStyles");
+        cell_1_0.getStyleClass().add("titleStyles");
+         cell_1_1.getStyleClass().add("cellStyles");
+        cell_1_1.getStyleClass().add("titleStyles");
+        cell_1_2.getStyleClass().add("cellStyles");
+        cell_1_2.getStyleClass().add("titleStyles");
+        cell_2_0.getStyleClass().add("cellStyles");
+        cell_2_0.getStyleClass().add("titleStyles");
+         cell_2_1.getStyleClass().add("cellStyles");
+        cell_2_1.getStyleClass().add("titleStyles");
+         cell_2_2.getStyleClass().add("cellStyles");
+        cell_2_2.getStyleClass().add("titleStyles");
+        TitleOFScreen.getStyleClass().add("titleStyles");
+        playerBSymbol.getStyleClass().add("titleStyles");
+        playerASymbol.getStyleClass().add("titleStyles");
+        secondPlayerScore.getStyleClass().add("titleStyles");
+        firstPlayerScore.getStyleClass().add("titleStyles");
+        firstPlayerName.getStyleClass().add("titleStyles");
+        secondPlayerName.getStyleClass().add("titleStyles");
+        scoreA.getStyleClass().add("titleStyles");
+        scoreB.getStyleClass().add("titleStyles");
+        recordButton.getStyleClass().add("titleStyles");
+        restartButton.getStyleClass().add("buttonRestart");
+        backButton.getStyleClass().add("backButton");
 
         setMaxHeight(Double.MAX_VALUE);
         setMaxWidth(Double.MAX_VALUE);
@@ -464,8 +496,7 @@ public class GameScreen extends BorderPane {
           backButton.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                Navigation nav = new Navigation();
-                nav.goToWelcomeXoScreen();
+               Navigation.goToWelcomScreen();
                     }
         });
 

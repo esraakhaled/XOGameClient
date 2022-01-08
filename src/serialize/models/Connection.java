@@ -20,7 +20,7 @@ public class Connection implements Serializable{
         this.ack = ack;
     }
 
-   
+
 
     public int getSignal() {
         return signal;
