@@ -50,7 +50,9 @@ public class SocketSingleton {
     }
 
     public static ObjectInputStream getObjectInputStream() {
+     
         return objectInputStream;
+        
     }
 
     public static ObjectOutputStream getObjectOutputStream() {

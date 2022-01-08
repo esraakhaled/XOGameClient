@@ -19,6 +19,7 @@ import model.SocketSingleton;
 import serialize.models.Player;
 import serialize.models.Register;
 
+
 public class SignUpScreen extends GridPane {
 
     protected final ColumnConstraints columnConstraints;
@@ -258,15 +259,20 @@ public class SignUpScreen extends GridPane {
                 objectOutputStream.flush();
                 //get response
                 //      objectInputStream = new ObjectInputStream(inputStream);
-                Player playerDB = (Player) objectInputStream.readObject();
-
-                if (playerDB != null) {
+                Object obj =objectInputStream.readObject();
+                if(obj instanceof Player){
+                    Player playerDB = (Player) obj;
+                    if (playerDB != null) {
 
                     Navigation.goToProfileScreen(playerDB);
 
                 } else {
                     CustomPopup.display(" Invalid registeration ");
                 }
+                }
+                
+
+                
 
             } catch (EOFException ex) {
                 SocketSingleton.closeStreams();

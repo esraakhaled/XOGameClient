@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package model;
+package models;
 
 
 import java.util.Random;
@@ -139,4 +139,3 @@ public class PcGame extends LocalGame{
 
 
   
-

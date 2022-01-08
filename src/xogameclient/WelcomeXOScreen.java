@@ -1,5 +1,7 @@
 package xogameclient;
 
+
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -8,7 +10,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import model.PcGame;
+import models.PcGame;
 
 public  class WelcomeXOScreen extends BorderPane {
 
@@ -23,9 +25,18 @@ public  class WelcomeXOScreen extends BorderPane {
     protected final AnchorPane anchorPane2;
     protected final Button play_online;
 
-    public WelcomeXOScreen(Stage stage) {
-        stage.setResizable(false);
-        Navigation.stage=stage;
+
+    public WelcomeXOScreen() {
+      
+
+       
+//        columnConstraints = new ColumnConstraints();
+//        rowConstraints = new RowConstraints();
+//        rowConstraints0 = new RowConstraints();
+//        rowConstraints1 = new RowConstraints();
+//        borderPane = new BorderPane();
+//        txt_name = new Text();
+
         anchorPane = new AnchorPane();
         xoImage = new ImageView();
         hBox = new HBox();

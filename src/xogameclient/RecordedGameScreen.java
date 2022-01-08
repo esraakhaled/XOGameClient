@@ -382,6 +382,7 @@ public  class RecordedGameScreen extends BorderPane {
             @Override
             public void handle(ActionEvent event) {
                 Navigation.goToWelcomScreen();
+
                     }
         });
         setBottom(anchorPane11);

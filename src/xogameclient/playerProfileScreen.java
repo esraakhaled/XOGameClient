@@ -36,15 +36,15 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
-import model.Game;
-import model.OnlineGame;
-import model.SocketSingleton;
-import serialize.models.LogOut;
-import serialize.models.Player;
 
-import serialize.models.RequestGame;
+import models.Game;
+import models.OnlineGame;
+import model.SocketSingleton;
 
 import serialize.models.RequestProfileBase;
+import serialize.models.LogOut;
+import serialize.models.Player;
+import serialize.models.RequestGame;
 
 public class playerProfileScreen extends BorderPane {
 
@@ -406,98 +406,103 @@ public class playerProfileScreen extends BorderPane {
 
                 try {
                     objectOutputStream.writeObject(playersData);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-                while (true) {
-                    try {
 
-                        //   objectInputStream = new ObjectInputStream(inputStream);
-                        Object obj = objectInputStream.readObject();
-                        if (obj instanceof LogOut) {
-                            LogOut logOutDB = (LogOut) obj;
-                            if (logOutDB.getAck() == 1) {
+                    while (true) {
+                        try {
 
-                                SocketSingleton.closeStreams();
-                                SocketSingleton.closeSocket();
+                            //   objectInputStream = new ObjectInputStream(inputStream);
+                            Object obj = objectInputStream.readObject();
+                            if (obj instanceof LogOut) {
+                                LogOut logOutDB = (LogOut) obj;
+                                if (logOutDB.getAck() == 1) {
+
+                                    SocketSingleton.closeStreams();
+                                    SocketSingleton.closeSocket();
+                                    Platform.runLater(() -> {
+                                        Navigation.goToWelcomScreen();
+                                    });
+                                    thread.stop();
+
+                                } else {
+                                    System.out.println("fail");
+                                }
+
+                            } else if (obj instanceof RequestProfileBase) {
+                                RequestProfileBase requestProfileBase;
+                                requestProfileBase = (RequestProfileBase) obj;
                                 Platform.runLater(() -> {
-                                    Navigation.goToWelcomScreen();
-                                });
-                                thread.stop();
-
-                            } else {
-                                System.out.println("fail");
-                            }
-
-                        } else if (obj instanceof RequestProfileBase) {
-                            RequestProfileBase requestProfileBase;
-                            requestProfileBase = (RequestProfileBase) obj;
-                            Platform.runLater(() -> {
-                                topPlayersNames.clear();
-                                availablePlayer.clear();
-                                for (Player p : requestProfileBase.getTopPlayers()) {
-                                    topPlayersNames.add(new listItemBase(p.getUserName(), String.valueOf(p.getScore())));
-                                }
-
-                                for (Player p : requestProfileBase.getOnlinePlayer()) {
-                                    if (!p.getUserName().equals(player.getUserName())) {
-                                        availablePlayer.add(new String(p.getUserName()));
+                                    topPlayersNames.clear();
+                                    availablePlayer.clear();
+                                    for (Player p : requestProfileBase.getTopPlayers()) {
+                                        topPlayersNames.add(new listItemBase(p.getUserName(), String.valueOf(p.getScore())));
                                     }
-                                }
-                            });
+
+                                    for (Player p : requestProfileBase.getOnlinePlayer()) {
+                                        if (!p.getUserName().equals(player.getUserName())) {
+                                            availablePlayer.add(new String(p.getUserName()));
+                                        }
+                                    }
+                                });
 
 //                                    System.out.println(playersData.getOnlinePlayer().size());
-                        } else if (obj instanceof RequestGame) {
-                            requestGame = (RequestGame) obj;
-                            switch (requestGame.getGameResponse()) {
-                                case 0:
-                                    System.out.println("request from server to client" + requestGame.getGameRoom());
-                                    acceptRequest(requestGame.getRequstedUserName() + "want to play with you !");
+                            } else if (obj instanceof RequestGame) {
+                                requestGame = (RequestGame) obj;
+                                switch (requestGame.getGameResponse()) {
+                                    case 0:
+                                        System.out.println("request from server to client" + requestGame.getGameRoom());
+                                        acceptRequest(requestGame.getRequstedUserName() + "want to play with you !");
 
-                                    break;
-                                case 1:
-                                    initiatePlayers();
-                                    System.out.println("accept from server to client" + requestGame.getGameRoom());
+                                        break;
+                                    case 1:
+                                        initiatePlayers(requestGame.getGameRoom());
+                                        System.out.println("accept from server to client" + requestGame.getGameRoom());
 
-                                    Platform.runLater(() -> {
                                         Platform.runLater(() -> {
-                                            Navigation.goToGameScreen(g);
+                                            Platform.runLater(() -> {
+                                                Navigation.goToGameScreen(g);
+                                                waittingStatge.close();
+
+                                            });
+
+                                            thread.stop();
 
                                         });
-                                        waittingStatge.close();
+                                        break;
+                                    case 2:
+                                        Platform.runLater(() -> {
+                                            waittingStatge.close();
+                                        });
+                                        break;
 
-                                        thread.stop();
-
-                                    });
-                                    break;
-                                case 2:
-                                    Platform.runLater(() -> {
-                                        waittingStatge.close();
-                                    });
-                                    break;
-
-                                default:
-                                    break;
+                                }
                             }
+
+                        } catch (EOFException ex) {
+                            SocketSingleton.closeStreams();
+                            Platform.runLater(() -> {
+                                CustomPopup.display(" 404 NotFound ");
+                                Navigation.goToIpScreen();
+                            });
+
+                        } catch (SocketException ex) {
+                            SocketSingleton.closeSocket();
+                            Platform.runLater(() -> {
+                                CustomPopup.display(" 404 NotFound ");
+                                Navigation.goToIpScreen();
+                            });
+                        } catch (IOException ex) {
+                            SocketSingleton.closeStreams();
+                            SocketSingleton.closeSocket();
+                            Platform.runLater(() -> {
+                                CustomPopup.display(" 404 NotFound ");
+                                Navigation.goToIpScreen();
+                            });
+                        } catch (ClassNotFoundException ex) {
+                            ex.printStackTrace();
                         }
-
-                    } catch (EOFException ex) {
-                        SocketSingleton.closeStreams();
-                        CustomPopup.display(" 404 NotFound ");
-                        Navigation.goToIpScreen();
-
-                    } catch (SocketException ex) {
-                        SocketSingleton.closeSocket();
-                        CustomPopup.display(" 404 NotFound ");
-                        Navigation.goToIpScreen();
-                    } catch (IOException ex) {
-                        SocketSingleton.closeStreams();
-                        SocketSingleton.closeSocket();
-                        CustomPopup.display(" 404 NotFound ");
-                        Navigation.goToIpScreen();;
-                    } catch (ClassNotFoundException ex) {
-                        ex.printStackTrace();
                     }
+                } catch (IOException ex) {
+                    ex.printStackTrace();
                 }
 
             }
@@ -508,43 +513,85 @@ public class playerProfileScreen extends BorderPane {
 
         initiatePlayerProfile(player);
 
+//        availablePlayerList.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent event) {
+//                
+//                String newValue = availablePlayerList.getSelectionModel().getSelectedItem();
+//
+//                playerOne = player.getUserName();
+//                System.out.println(playerOne);
+//
+//                requestGame = new RequestGame(playerOne, availablePlayerList.getSelectionModel().getSelectedItem(), 0);
+//                requestGame.setGameRoom(-1);
+//                System.out.println("requst from client to server" + newValue);
+//                try {
+//                    objectOutputStream.writeObject(requestGame);
+//                    objectOutputStream.flush();
+//                    waitingResponse("waiting response from " + " " + newValue);
+//
+//                } catch (EOFException ex) {
+//                    SocketSingleton.closeStreams();
+//                    CustomPopup.display(" 404 NotFound ");
+//                    Navigation.goToIpScreen();
+//
+//                } catch (SocketException ex) {
+//                    SocketSingleton.closeSocket();
+//                    CustomPopup.display(" 404 NotFound ");
+//                    Navigation.goToIpScreen();
+//                } catch (IOException ex) {
+//                    SocketSingleton.closeStreams();
+//                    SocketSingleton.closeSocket();
+//                    CustomPopup.display(" 404 NotFound ");
+//                    Navigation.goToIpScreen();;
+//                }
+//
+//            }
+//
+//        
+//    }
+//
+//    );
+///////////
         availablePlayerList.getSelectionModel()
                 .selectedItemProperty().addListener(new ChangeListener<String>() {
+
                     @Override
                     public void changed(ObservableValue<? extends String> observable, String oldValue,
                             String newValue
                     ) {
-                        playerOne = player.getUserName();
-                        System.out.println(playerOne);
-                        requestGame = new RequestGame(playerOne, newValue, 0);
-                        requestGame.setGameRoom(acceptance);
-                        System.out.println("requst from client to server" + newValue);
-                        try {
-//                outputStream = socket.getOutputStream();
-                            //               objectOutputStream = new ObjectOutputStream(outputStream);
-                            objectOutputStream.writeObject(requestGame);
-                            objectOutputStream.flush();
-                            waitingResponse("waiting response from " + " " + newValue);
+                        String selectedIteem = availablePlayerList.getSelectionModel().getSelectedItem();
+                        if (selectedIteem != null) {
+                            playerOne = player.getUserName();
+                            System.out.println("Selected Item: " + selectedIteem);
+                            requestGame = new RequestGame(playerOne, selectedIteem, 0);
+                            requestGame.setGameRoom(-1);
+                            System.out.println("requst from client to server" + selectedIteem);
+                            try {
+                                objectOutputStream.writeObject(requestGame);
+                                objectOutputStream.flush();
+                                waitingResponse("waiting response from " + " " + selectedIteem);
 
-                        } catch (EOFException ex) {
-                            SocketSingleton.closeStreams();
-                            CustomPopup.display(" 404 NotFound ");
-                            Navigation.goToIpScreen();
+                            } catch (EOFException ex) {
+                                SocketSingleton.closeStreams();
+                                CustomPopup.display(" 404 NotFound ");
+                                Navigation.goToIpScreen();
 
-                        } catch (SocketException ex) {
-                            SocketSingleton.closeSocket();
-                            CustomPopup.display(" 404 NotFound ");
-                            Navigation.goToIpScreen();
-                        } catch (IOException ex) {
-                            SocketSingleton.closeStreams();
-                            SocketSingleton.closeSocket();
-                            CustomPopup.display(" 404 NotFound ");
-                            Navigation.goToIpScreen();;
+                            } catch (SocketException ex) {
+                                SocketSingleton.closeSocket();
+                                CustomPopup.display(" 404 NotFound ");
+                                Navigation.goToIpScreen();
+                            } catch (IOException ex) {
+                                SocketSingleton.closeStreams();
+                                SocketSingleton.closeSocket();
+                                CustomPopup.display(" 404 NotFound ");
+                                Navigation.goToIpScreen();;
+                            }
+
                         }
-
                     }
                 }
-                );
+            );
 
     }
 
@@ -568,11 +615,10 @@ public class playerProfileScreen extends BorderPane {
         Button sureButton = new Button("accept");
 
         sureButton.setOnAction(e -> {
-
+            requestGame.setGameResponse(RequestGame.acceptChallenge);
             try {
-                requestGame.setGameResponse(RequestGame.acceptChallenge);
-                //       objectOutputStream = new ObjectOutputStream(outputStream);
                 objectOutputStream.writeObject(requestGame);
+                thread.stop();
 
             } catch (EOFException ex) {
                 SocketSingleton.closeStreams();
@@ -589,7 +635,7 @@ public class playerProfileScreen extends BorderPane {
                 CustomPopup.display(" 404 NotFound ");
                 Navigation.goToIpScreen();;
             }
-            initiatePlayers();
+            initiatePlayers(requestGame.getGameRoom());
 
             Platform.runLater(() -> {
                 acceptanceStage.close();
@@ -704,11 +750,11 @@ public class playerProfileScreen extends BorderPane {
 
     }
 
-    public void initiatePlayers() {
+    public void initiatePlayers(int roomID) {
         playerA = new Player(requestGame.getRequstedUserName());
         playerA.setScore(0);
         playerB = new Player(requestGame.getChoosePlayerUserName());
         playerB.setScore(0);
-        g = new OnlineGame(playerA, playerB);
+        g = new OnlineGame(playerA, playerB, roomID);
     }
 }

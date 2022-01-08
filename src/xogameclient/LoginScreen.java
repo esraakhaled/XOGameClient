@@ -23,6 +23,7 @@ import model.SocketSingleton;
 import serialize.models.Login;
 import serialize.models.Player;
 
+
 public class LoginScreen extends GridPane {
 
     protected final ColumnConstraints columnConstraints;
@@ -228,7 +229,10 @@ public class LoginScreen extends GridPane {
                 objectOutputStream.flush();
                 //get response
                 //    objectInputStream = new ObjectInputStream(inputStream);
-                Player playerDB = (Player) objectInputStream.readObject();
+                  Object obj = objectInputStream.readObject();
+                  if(obj instanceof Player)
+                  {
+                      Player playerDB = (Player) obj;
 
                 if (playerDB != null) {
                     Navigation.goToProfileScreen(playerDB);
@@ -236,6 +240,8 @@ public class LoginScreen extends GridPane {
                 } else {
                     CustomPopup.display(" Invalid Login ");
                 }
+                  }
+                
 
             } catch (EOFException ex) {
                 SocketSingleton.closeStreams();

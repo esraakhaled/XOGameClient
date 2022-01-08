@@ -10,11 +10,12 @@ public class RequestGame implements Serializable{
     public static final int requestGame = 0;
     public static final int acceptChallenge = 1;
     public static final int refuseChallenge = 2;
+    public static final int cancelChallenge =3;
     String player1 , player2;
     int gameResponse;
     int gameRoom=-1;
 
-    public int getGameRoom() {
+  public int getGameRoom() {
         return gameRoom;
     }
 

@@ -1,11 +1,7 @@
 package xogameclient;
 
 
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import model.Game;
-import model.LocalGame;
-import model.OnlineGame;
+
 
 import java.util.Vector;
 import javafx.event.ActionEvent;
@@ -20,6 +16,8 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import model.SocketSingleton;
+import models.Game;
+import models.OnlineGame;
 
 public class GameScreen extends BorderPane {
 
@@ -79,13 +77,11 @@ public class GameScreen extends BorderPane {
     protected final Game game;
     private String cellPostion = "";
     private Vector<Button> buttons = new Vector<>();
-    private ObjectInputStream objectInputStream;
-    private ObjectOutputStream objectOutputStream;
+  
     public GameScreen(Game g) {
 
         // check for online only
         game = g;
-
 
         gridPane = new GridPane();
         columnConstraints = new ColumnConstraints();
@@ -459,12 +455,12 @@ public class GameScreen extends BorderPane {
         recordButton.setPrefHeight(25.0);
         recordButton.setPrefWidth(110.0);
         recordButton.setText("Record Game");
-         recordButton.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
+        recordButton.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 Navigation nav = new Navigation();
                 nav.goToRecordGameScreen();
-                    }
+            }
         });
 
         AnchorPane.setBottomAnchor(restartButton, 12.0);
@@ -482,7 +478,7 @@ public class GameScreen extends BorderPane {
                 nav.restartGame(event);
                     }
         });
-*/
+         */
         AnchorPane.setBottomAnchor(backButton, 12.0);
         AnchorPane.setRightAnchor(backButton, 20.0);
         AnchorPane.setTopAnchor(backButton, 22.0);
@@ -493,11 +489,13 @@ public class GameScreen extends BorderPane {
         backButton.setPrefWidth(54.0);
         backButton.setText("Back");
         setBottom(anchorPane10);
-          backButton.addEventHandler(ActionEvent.ACTION,new EventHandler<ActionEvent>() {
+        backButton.addEventHandler(ActionEvent.ACTION, new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
+
                Navigation.goToWelcomScreen();
                     }
+
         });
 
         gridPane.getColumnConstraints().add(columnConstraints);
@@ -540,16 +538,14 @@ public class GameScreen extends BorderPane {
         gridPane1.getChildren().add(firstPlayerScore);
         gridPane1.getChildren().add(playerASymbol);
         gridPane1.getChildren().add(scoreA);
-        
+
         if ((g instanceof OnlineGame)) {
             anchorPane10.getChildren().add(recordButton);
-        this.objectInputStream = SocketSingleton.getObjectInputStream();
-        this.objectOutputStream = SocketSingleton.getObjectOutputStream();
+            ((OnlineGame) g).GameSession();
         }
         anchorPane10.getChildren().add(restartButton);
 
         anchorPane10.getChildren().add(backButton);
-       
 
         //
         intialGame();
@@ -560,42 +556,67 @@ public class GameScreen extends BorderPane {
         g.addBack(backButton);
         // setDiable for back
         g.addRestart(restartButton);
+        
 
         cell_0_0.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
 
-                        g.handleButton(cell_0_0);
-
-            
-
+            g.handleButton(cell_0_0);
+            if (game instanceof OnlineGame) {
+                g.sendModel(cell_0_0);
+                System.out.println("seending from client to servr");
+            }
 
         });
         cell_0_1.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
-            
 
             g.handleButton(cell_0_1);
+            if (game instanceof OnlineGame) {
+                g.sendModel(cell_0_1);
+            }
 
         });
         cell_0_2.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
             g.handleButton(cell_0_2);
+            if (game instanceof OnlineGame) {
+                g.sendModel(cell_0_2);
+            }
 
         });
         cell_1_0.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
             g.handleButton(cell_1_0);
+            if (game instanceof OnlineGame) {
+                g.sendModel(cell_1_0);
+            }
         });
         cell_1_1.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
             g.handleButton(cell_1_1);
+            if (game instanceof OnlineGame) {
+                g.sendModel(cell_1_1);
+            }
         });
         cell_1_2.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
             g.handleButton(cell_1_2);
+            if (game instanceof OnlineGame) {
+                g.sendModel(cell_1_2);
+            }
         });
         cell_2_0.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
             g.handleButton(cell_2_0);
+            if (game instanceof OnlineGame) {
+                g.sendModel(cell_2_0);
+            }
         });
         cell_2_1.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
             g.handleButton(cell_2_1);
+            if (game instanceof OnlineGame) {
+                g.sendModel(cell_2_1);
+            }
         });
         cell_2_2.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
             g.handleButton(cell_2_2);
+            if (game instanceof OnlineGame) {
+                g.sendModel(cell_2_2);
+            }
         });
 
         restartButton.addEventHandler(ActionEvent.ACTION, (ActionEvent event) -> {
@@ -603,7 +624,6 @@ public class GameScreen extends BorderPane {
             restartButton.setDisable(true);
             backButton.setDisable(true);
         });
-
 
     }
 
@@ -621,7 +641,6 @@ public class GameScreen extends BorderPane {
         backButton.setDisable(true);
 
     }
-
 
     public void setButtonID() {
         cell_0_0.setId("cell_0_0");

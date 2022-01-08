@@ -42,6 +42,7 @@ public class IPScreen extends AnchorPane {
     private OutputStream outputStream;
 
     public IPScreen() {
+        
         // make socket equal null when navigate to ip screen
       
         ipImage = new ImageView();
@@ -144,7 +145,7 @@ public class IPScreen extends AnchorPane {
             public void handle(ActionEvent event) {
 
                 //  Navigation nav = new Navigation();
-                Navigation.goToWelcomeXoScreen();
+                Navigation.goToWelcomScreen();
             }
 
         });
