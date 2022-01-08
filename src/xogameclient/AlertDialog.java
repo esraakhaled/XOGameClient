@@ -5,7 +5,6 @@
  */
 package xogameclient;
 
-import model.LocalGame;
 
 import javafx.geometry.Insets;
 
@@ -16,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import models.LocalGame;
 
 /**
  *

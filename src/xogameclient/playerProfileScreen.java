@@ -32,15 +32,15 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import model.Game;
-import model.OnlineGame;
+import models.Game;
+import models.OnlineGame;
 import model.SocketSingleton;
-import serialize.models.LogOut;
-import serialize.models.Player;
 
-import serialize.models.RequestGame;
 
 import serialize.models.RequestProfileBase;
+import serialize.models.LogOut;
+import serialize.models.Player;
+import serialize.models.RequestGame;
 
 public class playerProfileScreen extends BorderPane {
 
@@ -401,7 +401,6 @@ public class playerProfileScreen extends BorderPane {
             public void run() {
 
                 while (true) {
-                    System.out.println("1");
                     try {
                         //   objectInputStream = new ObjectInputStream(inputStream);
                         Object obj = objectInputStream.readObject();
@@ -437,12 +436,12 @@ public class playerProfileScreen extends BorderPane {
                             requestGame = (RequestGame) obj;
                             switch (requestGame.getGameResponse()) {
                                 case 0:
-                                    System.out.println("request from server to client"  + requestGame.getGameRoom());
+                                    System.out.println("request from server to client" + requestGame.getGameRoom());
                                     acceptRequest(requestGame.getRequstedUserName() + "want to play with you !");
 
                                     break;
                                 case 1:
-                                    initiatePlayers();
+                                    initiatePlayers(requestGame.getGameRoom());
                                     System.out.println("accept from server to client" + requestGame.getGameRoom());
 
                                     Platform.runLater(() -> {
@@ -459,6 +458,11 @@ public class playerProfileScreen extends BorderPane {
                                 case 2:
                                     Platform.runLater(() -> {
                                         waittingStatge.close();
+                                    });
+                                    break;
+                                case 3:
+                                    Platform.runLater(() -> {
+                                        acceptanceStage.close();
                                     });
                                     break;
                                 default:
@@ -547,11 +551,10 @@ public class playerProfileScreen extends BorderPane {
         Button sureButton = new Button("accept");
 
         sureButton.setOnAction(e -> {
-
+            requestGame.setGameResponse(RequestGame.acceptChallenge);
             try {
-                requestGame.setGameResponse(RequestGame.acceptChallenge);
-                //       objectOutputStream = new ObjectOutputStream(outputStream);
                 objectOutputStream.writeObject(requestGame);
+                thread.stop();
 
             } catch (EOFException ex) {
                 SocketSingleton.closeStreams();
@@ -568,7 +571,7 @@ public class playerProfileScreen extends BorderPane {
                 CustomPopup.display(" 404 NotFound ");
                 Navigation.goToIpScreen();;
             }
-            initiatePlayers();
+            initiatePlayers(requestGame.getGameRoom());
 
             Platform.runLater(() -> {
                 acceptanceStage.close();
@@ -637,6 +640,14 @@ public class playerProfileScreen extends BorderPane {
         Button sureButton = new Button("cancel");
 
         sureButton.setOnAction(e -> {
+            RequestGame cancelRequestGame=requestGame;
+            requestGame.setGameResponse(RequestGame.cancelChallenge);
+            try {
+                objectOutputStream.writeObject(requestGame);
+                System.out.println("d5l eltryyyyyyy");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
             Platform.runLater(() -> {
                 waittingStatge.close();
             });
@@ -666,11 +677,11 @@ public class playerProfileScreen extends BorderPane {
 
     }
 
-    public void initiatePlayers() {
+    public void initiatePlayers(int roomID) {
         playerA = new Player(requestGame.getRequstedUserName());
         playerA.setScore(0);
         playerB = new Player(requestGame.getChoosePlayerUserName());
         playerB.setScore(0);
-        g = new OnlineGame(playerA, playerB);
+        g = new OnlineGame(playerA, playerB,roomID);
     }
 }

@@ -5,7 +5,7 @@
  */
 package xogameclient;
 
-import model.Game;
+import models.Game;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -30,6 +30,12 @@ public class Navigation {
     protected static Parent root;
     protected static Scene scene;
     protected static Stage stage;
+
+    public static void setStage(Stage stage) {
+        Navigation.stage = stage;
+    }
+    
+    
     public static void goToGameScreen(Game g) {
         gameScreen = new GameScreen(g);
         root = gameScreen;
@@ -49,8 +55,8 @@ public class Navigation {
         stage.show();
     }
 
-    public static void goToWelcomeXoScreen() {
-        welcomeXoScreen = new WelcomeXOScreen(stage);
+    public static void goToWelcomScreen() {
+        welcomeXoScreen = new WelcomeXOScreen();
         root = welcomeXoScreen;
         stage.setResizable(false);
         scene = new Scene(root, 700, 500);
@@ -97,13 +103,5 @@ public class Navigation {
         stage.show();
     }
 
-    public static void goToWelcomScreen() {
-        welcomeXoScreen=new WelcomeXOScreen(stage);
-        root = welcomeXoScreen;
-        stage.setResizable(false);
-        scene = new Scene(root, 700, 500);
-        stage.setScene(scene);
-        stage.show();
-    }
 
 }

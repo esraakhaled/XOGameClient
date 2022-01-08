@@ -19,6 +19,7 @@ import model.SocketSingleton;
 import serialize.models.Player;
 import serialize.models.Register;
 
+
 public class SignUpScreen extends GridPane {
 
     protected final ColumnConstraints columnConstraints;

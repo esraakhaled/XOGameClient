@@ -3,12 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package models;
 
-import serialize.models.Player;
 import javafx.scene.control.Button;
-import static model.Game.O;
-import static model.Game.X;
+import serialize.models.Player;
+
 
 /**
  *
@@ -20,22 +19,13 @@ import static model.Game.X;
  */
 public class LocalGame extends Game {
 
-    private static final String CELL00 = "cell_0_0";
-    private static final String CELL01 = "cell_0_1";
-    private static final String CELL02 = "cell_0_2";
-    private static final String CELL10 = "cell_1_0";
-    private static final String CELL11 = "cell_1_1";
-    private static final String CELL12 = "cell_1_2";
-    private static final String CELL20 = "cell_2_0";
-    private static final String CELL21 = "cell_2_1";
-    private static final String CELL22 = "cell_2_2";
+    
 
     public LocalGame(String playerNameA, String playerNameB) {
         playerA = new Player(playerNameA);
         playerB = new Player(playerNameB);
     }
 
-    @Override
     public void actionPlayerA(String cellPostion) {
         int x = 0, y = 0;
         switch (cellPostion) {
@@ -104,7 +94,6 @@ public class LocalGame extends Game {
 
     }
 
-    @Override
     public void actionPlayerB(String cellPostion) {
         int x = 0, y = 0;
         switch (cellPostion) {

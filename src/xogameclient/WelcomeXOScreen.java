@@ -1,6 +1,6 @@
 package xogameclient;
 
-import model.PcGame;
+import models.PcGame;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -35,9 +35,8 @@ public class WelcomeXOScreen extends GridPane {
     protected final AnchorPane anchorPane1;
     protected final Button button_online;
 
-    public WelcomeXOScreen(Stage stage) {
-        // initage stage
-        Navigation.stage=stage;
+    public WelcomeXOScreen() {
+       
         columnConstraints = new ColumnConstraints();
         rowConstraints = new RowConstraints();
         rowConstraints0 = new RowConstraints();

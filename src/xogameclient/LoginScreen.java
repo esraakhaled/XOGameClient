@@ -22,6 +22,7 @@ import model.SocketSingleton;
 import serialize.models.Login;
 import serialize.models.Player;
 
+
 public class LoginScreen extends GridPane {
 
     protected final ColumnConstraints columnConstraints;
